@@ -1,0 +1,762 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"TIN",
+				"TINTEGER"
+			],
+			[
+				"ev",
+				"ev3_speaker_play_tone"
+			],
+			[
+				"digit",
+				"digitalWrite	Arduino digitalWrite"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "symdivine.md",
+			"settings":
+			{
+				"buffer_size": 13789,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/bcthesis.sublime-build",
+			"settings":
+			{
+				"buffer_size": 128,
+				"line_ending": "Unix",
+				"name": "untitled.sublime-build"
+			}
+		},
+		{
+			"contents": "Package Control Messages\n========================\n\nGlue\n----\n\n          __\n   .-----|  .--.--.-----.\n   |  _  |  |  |  |  -__|\n   |___  |__|_____|_____|\n   |_____|\n  \n  Copyright 2014 Christopher Simpkins | MIT License\n  \n  Glue joins your shell to Sublime Text in quasi-perfect harmony.\n  \n  \n  POST-INSTALL TASKS\n  \n  Important! Please take a couple of minutes to read and follow these post-install instructions in order to get up and running without a hitch.\n  \n  \n  Confirm Your PATH Settings\n  --------------------------\n  \n  Please make sure that your PATH settings are correct.  Glue will attempt to use your environment's PATH variable as the default PATH string. In most cases it nails it, but occasionally the PATH string requires a bit of tinkering.\n  \n  Open Glue with the right click menu in a project sidebar or with the Command Palette (type 'glue') and run the command `glue path` in the input panel that is displayed at the bottom of your editor.  The PATH that Glue will use by default is displayed in the editor view.  If this is not the correct PATH string, please follow the instructions below to set your PATH in the Glue settings file.\n  \n  Linux/Unix (including Mac OSX) Users\n  \n  1. Open the `Glue Settings - User` file and add a \"glue_userpath\" key to the JSON file.  Enter your system colon delimited PATH string as the value for this setting. You can view your PATH string by entering 'echo $PATH' in your terminal.  Save the file.\n  2. Restart Sublime Text\n  \n  Windows Users\n  \n  1. Open the `Glue Settings - User` file and add a `glue_userpath` key to the JSON file.  Enter your semicolon delimited system PATH string as the value for this setting. Windows users should escape every backslash character in the PATH (i.e. every '\\' should be changed to '\\\\'). You can view your PATH string by entering 'ECHO %PATH%' in your cmd.exe terminal.  Save the file.\n  2. Restart Sublime Text\n  \n  \n  Choose Your Shell\n  -----------------\n  This is an optional step.  If you would like to change your default shell, here's how you do it:\n  \n  Linux/Unix/Windows\n  \n  1. Open the `Glue Settings - User` file and add a \"glue_shellpath\" key to the JSON file.  Enter the path to your shell executable as the value for this setting.  Windows users should escape every backslash character in the PATH (i.e. every '\\' should be changed to '\\\\').  Save the file.\n  2. Restart Sublime Text\n  \n  \n  Once this is complete, you are all set... Check out the instructions below to learn more about how to use Glue in Sublime Text.\n  \n  See the Install documentation at http://gluedocs.readthedocs.org/en/latest/install.html if you need a more detailed description of the install process.\n  \n  Detailed help documentation is available at http://gluedocs.readthedocs.org\n  \n  \n  USAGE\n  \n    <command> [option(s)]\n  \n    Enter a system command in the input panel at the bottom of your editor using the same syntax that you use in your terminal.  The standard output stream from the executable is printed in the active view of your editor after it returns.\n  \n    To quit Glue, submit the command 'exit'.\n  \n  \n  COMMANDS\n  \n    Glue provides the following additional commands:\n  \n      glue browse <url,path>    Open default browser to <url> or local <path>\n      glue clear                Clear the text in the Glue view\n      glue finder [path]        Reveal current directory (default) or [path] directory in finder\n      glue goto <query>         Sublime Text Goto Anything search for <query>\n      glue help                 Glue help\n      glue localhost [port]     Open browser to localhost:8000 or optional localhost:[port]\n      glue new                  Create a new Sublime Text buffer\n      glue open <path>          Open a file at <path> in the editor. Accepts multiple <path>\n      glue path                 View your PATH settings\n      glue user                 View your Glue extensions (if present)\n      glue wco <pattern>        Open file(s) with wildcard <pattern> in the editor\n  \n  \n  USER COMMANDS\n  \n    Create a `Glue-Commands` directory inside your Sublime Text `Packages` directory.  Create a `glue.json` file inside the `Glue-Commands` directory.  Then map your JSON key:value as \"command-name\": \"system command string\".\n  \n    You have the option to include the following replacement tags in your system command string:\n  \n      {{args}}              additional arguments that you include on the command line\n      {{clipboard}}         the contents of the clipboard\n      {{pwd}}               the current working directory path\n  \n    Launch Glue and run your command extension(s) with the following syntax:\n  \n       glue <command-name> [args]\n  \n    Your command is executed from your current working directory. Please see the documentation for additional details.\n  \n  \n  NAVIGATION\n  \n    The working directory is initially set to the directory containing the buffer in which you are using Glue (when you open from sidebar right click menu or with a project file open in the editor).\n  \n    Change directories with the 'cd' command:\n  \n    cd <directory path>        Make `directory path` the working directory\n    cd ..                      Make parent directory the working directory\n    cd ~                       Make user home directory the working directory\n  \n    Note that your working directory defaults to the system User directory if you launch Glue from the Command Palette without having an open project file in the editor (or in a clean editor window without an open project).\n  \n  \n  ISSUES\n  \n    Please submit bug reports on the GitHub repository @ https://github.com/chrissimpkins/glue/issues\n",
+			"settings":
+			{
+				"buffer_size": 5652,
+				"line_ending": "Unix",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+			"settings":
+			{
+				"buffer_size": 60,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "build_sublime.sh",
+			"settings":
+			{
+				"buffer_size": 80,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/D/Users/email.HONZA-NTB/Documents/presentations/spin2016/pres.md",
+			"settings":
+			{
+				"buffer_size": 20264,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/D/Users/email.HONZA-NTB/AppData/Local/Temp/Temp1_spin2016.zip/main.tex",
+			"settings":
+			{
+				"buffer_size": 24574,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "thesis.tex",
+			"settings":
+			{
+				"buffer_size": 7238,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "latexwrap",
+			"settings":
+			{
+				"buffer_size": 1505,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/bcthesis.sublime-build",
+	"command_palette":
+	{
+		"height": 104.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"googl",
+				"Google Spell Check"
+			],
+			[
+				"table",
+				"Table Cleaner: Align Table"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"goo",
+				"Google Spell Check"
+			],
+			[
+				"google",
+				"Google Spell Check"
+			],
+			[
+				"goog",
+				"Google Spell Check"
+			],
+			[
+				"spell",
+				"Google Spell Check"
+			],
+			[
+				"",
+				"Package Control: Add Repository"
+			]
+		],
+		"width": 408.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Walker.cpp",
+		"/D/Users/email.HONZA-NTB/Documents/bcthesis/preliminaries.md",
+		"/D/xampp/htdocs/vyveska.txt",
+		"/D/xampp/htdocs/aakce.txt",
+		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Markdown.sublime-settings",
+		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Walker.hpp",
+		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/app.cfg",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/include/svc_call.h",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/include/kernel.h",
+		"/D/Users/email.HONZA-NTB/Documents/bcthesis/thesis.tex",
+		"/D/Users/email.HONZA-NTB/Documents/bcthesis/intro.md",
+		"/D/Users/email.HONZA-NTB/.zshrc",
+		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/app.cpp",
+		"/D/Users/email.HONZA-NTB/Documents/bcthesis/symdivine.md",
+		"/D/Users/email.HONZA-NTB/Documents/MobaXterm/slash/usr/share/terminfo/74/teraterm",
+		"/C/cygwin64/etc/passwd",
+		"/D/Users/email.HONZA-NTB/AppData/Roaming/ConEmu.xml",
+		"/D/xampp/htdocs/doporucujeme.txt",
+		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/src/parsers/ltl_tokens.l",
+		"/D/Users/email/Documents/bcthesis/Makefile",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/CMakeLists.txt",
+		"/D/Users/email/AppData/Local/Temp/brick-types-1.h",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/src/parsers/ltl_parser.y",
+		"/D/Users/email/.cache/dconf/user",
+		"/D/Users/email.HONZA-NTB/Documents/bcthesis/README.tex",
+		"/D/tmp/parsers/parser.hpp",
+		"/D/tmp/parsers/parser.cpp",
+		"/D/tmp/parsers/ltl_parser.y",
+		"/D/tmp/parsers/ltl_tokens.l",
+		"/D/tmp/parsers/tokens.cpp",
+		"/D/Users/email/AppData/Roaming/Skype/My Skype Received Files/exkurze.md",
+		"/D/Users/email/Desktop/vysledky/c_sub_base.csv",
+		"/D/Users/email/Documents/bcthesis/thesis.tex",
+		"/D/Users/email/Documents/bcthesis/conclusion.md",
+		"/D/Users/email/Documents/bcthesis/appendix.md",
+		"/D/Users/email/Documents/bcthesis/README.md",
+		"/D/Users/email/Documents/bcthesis/intro.md",
+		"/D/Users/email/Documents/bcthesis/out.txt",
+		"/D/Users/email/Documents/bcthesis/latexwrap",
+		"/D/Users/email/Desktop/vysledky/s_sub_cache_2.csv",
+		"/D/Users/email/Desktop/vysledky/ltl_base.csv",
+		"/D/Users/email/Documents/Škola/IB016 - Seminář z funkcionálního programování/HW04/Weather-task.hs",
+		"/D/Users/email/Desktop/vysledky/c_sub_cache_2.csv",
+		"/D/Users/email/Documents/Paradise/benchmarks/caching/independent.c",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/cmake/FindLLVM.cmake",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/configure",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/readme.md",
+		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/985284_2_2/ltl_base.csv",
+		"/D/Users/email/Desktop/vysledky/c_sub_cache.csv",
+		"/D/Users/email/Documents/Paradise/benchmarks/weird_cases/safe036_power.oepc_true-unreach-call_o0.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks - kopie/weird_cases/safe036_power.oepc_true-unreach-call_o0.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1.c",
+		"/D/Users/email/AppData/Local/Temp/7zO0A3295F3/CMakeLists.txt",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/app.cpp",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/ev3way-cpp/app.cpp",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/ev3way-cpp/Makefile.inc",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.cfg",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.cpp",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.h",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/Makefile.inc",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/app.h",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/cli_sensor.c",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.c",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/cli_motor.c",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/Makefile.inc",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/app.cfg",
+		"/D/Users/email/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/scripts/preprocess.py",
+		"/D/Users/email/Desktop/concurrency_base.csv",
+		"/D/Users/email/Desktop/rem.txt",
+		"/D/Users/email/Desktop/vysledky/concurrency_base_cache.csv",
+		"/D/Users/email/Desktop/vysledky/concurrency_base.csv",
+		"/D/Users/email/Desktop/vysledky/c_sub_simple_cache.csv",
+		"/D/Users/email/Documents/Paradise/benchmarks/ltl/pgdropbuf/model_noop.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/ltl/pgdropbuf/pgdropbuf.c",
+		"/D/Users/email/Documents/utility/llvm/llvm2cfg",
+		"/D/Users/email/cv.txt",
+		"/D/Users/email/Documents/Projekty/led_lightning/constant_current_ac_hv/constant_current_ac_hv.kicad_pcb",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2.c",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle3.c",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle4.c",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle5.c",
+		"/D/Users/email/Documents/Paradise/benchmarks/ltl/apache/apache.c",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/.gitignore",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle6.c",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle5_o0.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle5_o2.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle6_o2.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle6_os.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2_o0.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle4_o0.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle4_o2.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle3_o0.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle3_o2.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2_os.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2_o2.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1_o0.ll",
+		"/D/Users/email/AppData/Local/Temp/Temp1_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/app.cfg",
+		"/D/Users/email/AppData/Local/Temp/Temp1_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/cppapi.cfg",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/common/ev3api/src/ev3api_sensor.c",
+		"/D/Users/email/AppData/Local/Temp/Temp2_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/Makefile.inc",
+		"/D/Users/email/AppData/Local/Temp/Temp2_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/Makefile.app",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1_o2.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1_os.ll",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/gyroboy2/Makefile.inc",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/gyroboy2/app.cfg",
+		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/gyroboy2/app.c",
+		"/D/Users/email/Documents/Paradise/benchmarks/ltl/acqrel/Makefile",
+		"/D/Users/email/Documents/Vyuka/course/slidy/01_intro.md",
+		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/1967334_3_3/pthread.csv",
+		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/1967334_3_2/test.csv",
+		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/1967334_3_1/pthread.csv",
+		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/1967334_3_0/test.csv",
+		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/scripts/test.csv",
+		"/D/Users/email/Documents/Paradise/benchmarks/caching/independent_o0.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/caching/independent_o2.ll",
+		"/D/Users/email/Documents/presentations/spin2016/pres.md",
+		"/D/xampp/htdocs/akce.txt",
+		"/D/tmp/juliet/Makefile_all",
+		"/D/xampp/htdocs/darci.txt",
+		"/D/Users/email/Documents/Paradise/benchmarks/caching/independent_os.ll",
+		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/test.dot",
+		"/D/Users/email/Documents/Paradise/benchmarks/ltl/acqrel/model_op.ll",
+		"/D/Users/email/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/D/Users/email/AppData/Local/Temp/7zOCD7120F4/readme.txt"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"alt",
+			"2^{32}",
+			"32",
+			"tikz",
+			"graphicx",
+			"smt",
+			"email",
+			"yylex",
+			"error",
+			"lualatex",
+			"lua",
+			"seg10_off0",
+			"=,\n",
+			"seg1_off0",
+			" seg_10_off_0",
+			"seg_1_off_0",
+			"seg_9_off_0",
+			"seg_7_off_20",
+			"seg_6_off_20",
+			"seg_3_off_0",
+			"seg_0_off_7",
+			"seg_1_off_7",
+			"seg_0_off_6",
+			"seg_1_off_6",
+			"seg_0_off_5",
+			"seg_1_off_5",
+			"seg_0_off_4",
+			"seg_1_off_4",
+			"seg_0_off_3",
+			"seg_1_off_3",
+			"seg_0_off_2",
+			"seg_1_off_2",
+			"seg_0_off_1",
+			"seg_1_off_1_gen_0",
+			"3.5",
+			"istemp",
+			"\\n",
+			".",
+			"\\n",
+			" ",
+			"_os.ll",
+			"_o2.ll",
+			"_o0.ll",
+			"\\n",
+			"dot-",
+			" to 'dot' file",
+			"to 'dot' ",
+			"babi",
+			"State Equ",
+			"Conclusion",
+			";  (set-info :status unknown) (declare-fun b_seg9_off0_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off2_gen1 () (_ BitVec 32)) (declare-fun b_seg8_off0_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off17_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off16_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off15_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off10_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off8_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off7_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off5_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off4_gen1 () (_ BitVec 32)) (declare-fun b_seg3_off0_gen1 () (_ BitVec 32)) (declare-fun b_seg4_off0_gen0 () (_ BitVec 64)) (declare-fun b_seg2_off8_gen1 () (_ BitVec 64)) (declare-fun b_seg1_off2_gen2 () (_ BitVec 32)) (declare-fun b_seg1_off3_gen2 () (_ BitVec 32)) (declare-fun b_seg7_off19_gen1 () (_ BitVec 32)) (declare-fun b_seg1_off1_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off19_gen1 () (_ BitVec 32)) (declare-fun b_seg1_off0_gen2 () (_ BitVec 32)) (declare-fun b_seg0_off3_gen1 () (_ BitVec 64)) (declare-fun b_seg0_off2_gen1 () (_ BitVec 64)) (declare-fun b_seg0_off1_gen1 () (_ BitVec 64)) (declare-fun b_seg0_off0_gen1 () (_ BitVec 64)) (declare-fun b_seg7_off2_gen1 () (_ BitVec 32)) (assert  (let (($x31 (and (not (bvsle b_seg6_off4_gen1 (_ bv0 32))) (not (bvsle (_ bv2 32) b_seg6_off7_gen1)))))  (let (($x38 (and (and $x31 (= b_seg7_off2_gen1 (_ bv1 32))) (not (= (_ bv0 32) b_seg6_off16_gen1)))))  (let (($x112 (and (and (and true $x38) (= b_seg0_off0_gen1 (_ bv4294967296 64))) (= b_seg0_off1_gen1 (_ bv4294967297 64)))))  (let (($x118 (and (and $x112 (= b_seg0_off2_gen1 (_ bv4294967298 64))) (= b_seg0_off3_gen1 (_ bv4294967299 64)))))  (let (($x125 (and (and $x118 (= b_seg1_off0_gen2 b_seg6_off19_gen1)) (= b_seg1_off1_gen1 (_ bv0 32)))))  (let (($x133 (and (and $x125 (= b_seg1_off2_gen2 b_seg7_off19_gen1)) (= b_seg1_off3_gen2 (bvadd (_ bv0 32) b_seg1_off2_gen2)))))  (let (($x140 (and (and $x133 (= b_seg2_off8_gen1 b_seg4_off0_gen0)) (= b_seg3_off0_gen1 (_ bv0 32)))))  (let (($x146 (and (and $x140 (= b_seg6_off4_gen1 b_seg8_off0_gen1)) (= b_seg6_off5_gen1 (_ bv1 1)))))  (let (($x151 (and (and $x146 (= b_seg6_off7_gen1 b_seg8_off0_gen1)) (= b_seg6_off8_gen1 (_ bv1 1)))))  (let (($x158 (and (and $x151 (= b_seg6_off10_gen1 (_ bv1 1))) (= b_seg6_off15_gen1 b_seg9_off0_gen1))))  (let (($x163 (and (and $x158 (= b_seg6_off16_gen1 b_seg8_off0_gen1)) (= b_seg6_off17_gen1 (_ bv1 1)))))  (and (and $x163 (= b_seg8_off0_gen1 b_seg6_off2_gen1)) (= b_seg9_off0_gen1 (_ bv0 32))))))))))))))) (assert  (forall ((a_seg6_off4_gen1 (_ BitVec 32)) (a_seg6_off7_gen1 (_ BitVec 32)) (a_seg6_off16_gen1 (_ BitVec 32)) (a_seg7_off2_gen1 (_ BitVec 32)) (a_seg0_off0_gen1 (_ BitVec 64)) (a_seg0_off1_gen1 (_ BitVec 64)) (a_seg0_off2_gen1 (_ BitVec 64)) (a_seg0_off3_gen1 (_ BitVec 64)) (a_seg1_off0_gen2 (_ BitVec 32)) (a_seg6_off19_gen1 (_ BitVec 32)) (a_seg1_off1_gen1 (_ BitVec 32)) (a_seg1_off2_gen2 (_ BitVec 32)) (a_seg7_off19_gen1 (_ BitVec 32)) (a_seg1_off3_gen2 (_ BitVec 32)) (a_seg1_off2_gen2 (_ BitVec 32)) (a_seg2_off8_gen1 (_ BitVec 64)) (a_seg4_off0_gen0 (_ BitVec 64)) (a_seg3_off0_gen1 (_ BitVec 32)) (a_seg6_off4_gen1 (_ BitVec 32)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off5_gen1 (_ BitVec 1)) (a_seg6_off7_gen1 (_ BitVec 32)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off8_gen1 (_ BitVec 1)) (a_seg6_off10_gen1 (_ BitVec 1)) (a_seg6_off15_gen1 (_ BitVec 32)) (a_seg9_off0_gen1 (_ BitVec 32)) (a_seg6_off16_gen1 (_ BitVec 32)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off17_gen1 (_ BitVec 1)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off2_gen1 (_ BitVec 32)) (a_seg9_off0_gen1 (_ BitVec 32)) )(let (($x293 (or (or false (and (distinct a_seg0_off0_gen1 b_seg0_off0_gen1) true)) (and (distinct a_seg0_off1_gen1 b_seg0_off1_gen1) true)))) (let (($x295 (or (or $x293 (and (distinct a_seg0_off2_gen1 b_seg0_off2_gen1) true)) (and (distinct a_seg0_off3_gen1 b_seg0_off3_gen1) true)))) (let (($x297 (or (or $x295 (and (distinct a_seg1_off0_gen2 b_seg1_off0_gen2) true)) (and (distinct a_seg1_off1_gen1 b_seg1_off1_gen1) true)))) (let (($x299 (or (or $x297 (and (distinct a_seg1_off2_gen2 b_seg1_off2_gen2) true)) (and (distinct a_seg1_off3_gen2 b_seg1_off3_gen2) true)))) (let (($x301 (or (or $x299 (and (distinct a_seg2_off8_gen1 b_seg2_off8_gen1) true)) (and (distinct a_seg3_off0_gen1 b_seg3_off0_gen1) true)))) (let (($x303 (or (or $x301 (and (distinct a_seg4_off0_gen0 b_seg4_off0_gen0) true)) (and (distinct a_seg6_off2_gen1 b_seg6_off2_gen1) true)))) (let (($x305 (or (or $x303 (and (distinct a_seg6_off4_gen1 b_seg6_off4_gen1) true)) (and (distinct a_seg6_off5_gen1 b_seg6_off5_gen1) true)))) (let (($x307 (or (or $x305 (and (distinct a_seg6_off7_gen1 b_seg6_off7_gen1) true)) (and (distinct a_seg6_off8_gen1 b_seg6_off8_gen1) true)))) (let (($x309 (or (or $x307 (and (distinct a_seg6_off10_gen1 b_seg6_off10_gen1) true)) (and (distinct a_seg6_off15_gen1 b_seg6_off15_gen1) true)))) (let (($x311 (or (or $x309 (and (distinct a_seg6_off16_gen1 b_seg6_off16_gen1) true)) (and (distinct a_seg6_off17_gen1 b_seg6_off17_gen1) true)))) (let (($x313 (or (or $x311 (and (distinct a_seg6_off19_gen1 b_seg6_off19_gen1) true)) (and (distinct a_seg8_off0_gen1 b_seg8_off0_gen1) true)))) (let (($x344 (and (and (not (bvsle a_seg6_off4_gen1 (_ bv0 32))) (not (bvsle (_ bv2 32) a_seg6_off7_gen1))) (not (= a_seg6_off16_gen1 (_ bv0 32)))))) (let (($x348 (and (and (and true (and $x344 (= a_seg7_off2_gen1 (_ bv1 32)))) (= a_seg0_off0_gen1 (_ bv4294967296 64))) (= a_seg0_off1_gen1 (_ bv4294967297 64))))) (let (($x352 (and (and (and (and $x348 (= a_seg0_off2_gen1 (_ bv4294967298 64))) (= a_seg0_off3_gen1 (_ bv4294967299 64))) (= a_seg1_off0_gen2 a_seg6_off19_gen1)) (= a_seg1_off1_gen1 (_ bv0 32))))) (let (($x355 (and (and (and $x352 (= a_seg1_off2_gen2 a_seg7_off19_gen1)) (= a_seg1_off3_gen2 (bvadd (_ bv0 32) a_seg1_off2_gen2))) (= a_seg2_off8_gen1 a_seg4_off0_gen0)))) (let (($x359 (and (and (and (and $x355 (= a_seg3_off0_gen1 (_ bv0 32))) (= a_seg6_off4_gen1 a_seg8_off0_gen1)) (= a_seg6_off5_gen1 (_ bv1 1))) (= a_seg6_off7_gen1 a_seg8_off0_gen1)))) (let (($x363 (and (and (and (and $x359 (= a_seg6_off8_gen1 (_ bv1 1))) (= a_seg6_off10_gen1 (_ bv1 1))) (= a_seg6_off15_gen1 a_seg9_off0_gen1)) (= a_seg6_off16_gen1 a_seg8_off0_gen1)))) (let (($x367 (not (and (and (and $x363 (= a_seg6_off17_gen1 (_ bv1 1))) (= a_seg8_off0_gen1 a_seg6_off2_gen1)) (= a_seg9_off0_gen1 (_ bv0 32)))))) (or $x367 (or $x313 (and (distinct a_seg9_off0_gen1 b_seg9_off0_gen1) true)))))))))))))))))))))) ) (check-sat) ",
+			"xcolor",
+			"6",
+			"\\n\\n\\n",
+			",",
+			".",
+			"net 0",
+			"net 8",
+			"width 1.8",
+			"net 0",
+			"width 1.8",
+			"net 0",
+			"segment",
+			"spindle.stop",
+			"EXE",
+			"pncconf",
+			"seg_6_off_2, seg_8_off_0",
+			"seg8_off0_gen1",
+			"v",
+			"\\n",
+			"units",
+			"\\n\\n",
+			" ",
+			"trunc",
+			"rm",
+			"acqrel",
+			"tabul",
+			"tabl",
+			"export",
+			"Doučování",
+			"do_ACCEPT",
+			"die_now",
+			"runtime.tools.arm-none-eabi-gcc.path"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"email.HONZA-NTB",
+			"3.4",
+			" ",
+			"",
+			" ",
+			"\\n",
+			".*",
+			" ",
+			"",
+			" ",
+			"8",
+			".",
+			",",
+			"net 8",
+			"v ",
+			"\\nv",
+			"\\n"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "symdivine.md",
+					"settings":
+					{
+						"buffer_size": 13789,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13789,
+								13789
+							]
+						],
+						"settings":
+						{
+							"auto_wrap": true,
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 4214.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/bcthesis.sublime-build",
+					"settings":
+					{
+						"buffer_size": 128,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								128,
+								128
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 5652,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1940,
+								1940
+							]
+						],
+						"settings":
+						{
+							"auto_indent": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_width": 2,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1710.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+					"settings":
+					{
+						"buffer_size": 60,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								25
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "build_sublime.sh",
+					"settings":
+					{
+						"buffer_size": 80,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								80,
+								80
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/D/Users/email.HONZA-NTB/Documents/presentations/spin2016/pres.md",
+					"settings":
+					{
+						"buffer_size": 20264,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7343,
+								7333
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5613.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/D/Users/email.HONZA-NTB/AppData/Local/Temp/Temp1_spin2016.zip/main.tex",
+					"settings":
+					{
+						"buffer_size": 24574,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4377,
+								10955
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4008.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "thesis.tex",
+					"settings":
+					{
+						"buffer_size": 7238,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1189,
+								1189
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 288.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "latexwrap",
+					"settings":
+					{
+						"buffer_size": 1505,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								722,
+								722
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.1456405610.16":
+	{
+		"height": 100.0
+	},
+	"output.build|D:\\Users\\email\\Documents\\Arduino\\test|1456405771.94":
+	{
+		"height": 124.0
+	},
+	"output.build|D:\\tmp\\ArduPlane|1456408812.93":
+	{
+		"height": 299.0
+	},
+	"output.exec":
+	{
+		"height": 279.0
+	},
+	"output.upload|D:\\Users\\email\\Documents\\Arduino\\test|1456405658.4":
+	{
+		"height": 100.0
+	},
+	"output.upload|D:\\Users\\email\\Documents\\Arduino\\test|1456405719.06":
+	{
+		"height": 283.0
+	},
+	"output.upload|D:\\Users\\email\\Documents\\Arduino\\test|1456405783.93":
+	{
+		"height": 124.0
+	},
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 165.0,
+	"status_bar_visible": true
+}

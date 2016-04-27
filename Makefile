@@ -34,9 +34,6 @@ thesis-print.tex : thesis.tex
 		-e 's/\\Split/\\end{minipage}\\hfill\\begin{minipage}[t]{0.48\\textwidth}/' \
 		-e 's/\\endSplit/\\end{minipage}/'
 
-exvis.ll : exvis.cpp
-	clang++ -std=c++14 -S -emit-llvm $< -O2
-
 watch :
 	while true; do inotifywait -e close_write,moved_to,create .; sleep 1; make; done
 
@@ -58,37 +55,3 @@ txt: $(ALL:.md=.txt)
 	sed -e ':a;N;$$!ba;s/\n\n/@NL@/g' $< | \
 		sed -e ':a;N;$$!ba;s/\n/ /g' -e 's/@NL@/\n\n/g' \
 			-e 's/\\autoref{[^}]*}//g' -e 's/\\//g' > $@
-
-rawdata :
-	mkdir -p rawdata/antea rawdata/aura rawdata/local
-	rsync -avc --progress antea:/home/xstill/DiVinE/next/benchmark/ rawdata/antea/
-	rsync -avc --progress aura:/home/xstill/DiVinE/next/benchmark/ rawdata/aura/
-	rsync -avc --progress /home/xstill/DiVinE/mainline/benchmark/ rawdata/local/
-
-.PHONY: rawdata
-
-
-archive : thesis.pdf thesis-print.pdf
-	rm archive llvmtrans -rf
-	# make sure all links really link...
-	make -B thesis.pdf thesis-print.pdf
-	make -B thesis.pdf thesis-print.pdf
-	mkdir archive
-	cp thesis.pdf archive/
-	mkdir llvmtrans
-	cp README.md llvmtrans/
-	cd llvmtrans && darcs get /home/xstill/DiVinE/next divine
-	cp archive_README.md llvmtrans/divine/README.md
-	cd llvmtrans && git clone https://github.com/vlstill/mgrthesis.git thesis
-	cp thesis.pdf llvmtrans/thesis/
-	rm llvmtrans/thesis/.git* -rf
-	tar cavf llvmtrans.tar.gz llvmtrans
-	mv llvmtrans.tar.gz archive
-
-check :
-	rm llvmtrans -rf
-	tar xafv archive/llvmtrans.tar.gz
-	cd llvmtrans/thesis && make
-	cd llvmtrans/divine && chmod +x configure && ./configure && make lart divine
-
-.PHONY: archive check
