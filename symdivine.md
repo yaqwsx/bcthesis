@@ -287,7 +287,7 @@ br i1 %b, label %5, label %6
     \divine and in the control-explicit data-symbolic  approach of \symdivine on
     \llvm program example. From \texttt{init} state \divine explores states for
     every possible value of \texttt{a} ($2^{32}$ values), hence exponentially
-    expands state space. In contrast \symdivine approach of symbolic
+    expands the state space. In contrast \symdivine approach of symbolic
     representation generates only two different states. One where the condition
     on branching ($a \geq 65535$) is satisfied and the other one where the
     condition is violated. }
@@ -305,8 +305,8 @@ benchmarking programs containing no advanced arithmetic. \smt representation
 significantly outperformed the previous one on the real-world programs with more
 arithmetic. Support for \bdd representation was dropped in the current version
 and the \smt representation is the only one shipped. We describe this
-representation in detail in section todo as it an essential preliminary for our
-work presented in this thesis.
+representation in detail in \autoref{sec:symdivine:smtstore} as it an essential
+preliminary for our work presented in this thesis.
 
 # Internal architecture
 
@@ -372,7 +372,7 @@ modules in \symdivine:
                 ;
     \end{tikzpicture}
     }
-    \caption{High-level overview of \symdivine architecture. ToDo}
+    \caption{High-level overview of \symdivine architecture. Nested boxes correspond to interfaces and their concrete implementations.}
     \label{fig:architecture}
 \end{center}
 \end{figure}
@@ -397,7 +397,8 @@ multi-state to the working copy and use the interface of the interpreter to
 modify it and examine it. Following functions are available:
 
 * `initial` function constructs an initial multi-state in the working copy -- a
-  multi-state of a program just after the call of the `main` function.
+  multi-state of a program just after the start of the main thread and the call
+  of the `main` function.
 
 * `advance` function sequentially constructs all possible successors of the
   working copy, caller is notified by a callback function about newly produced
@@ -463,11 +464,10 @@ segment and a offset. Array of size $n$ are represented as $n$ independent
 variables. Since the arrays are strongly typed (`bitcast` instruction is not
 supported by \symdivine), pointer arithmetic for arrays can be implemented by
 offset manipulation. Similarly structures are implemented as several independent
-variables. Since there are no requirements for offset numbering, memory layout
-layer, implemented by a data store, allows the interpreter to map variables from
-currently executed function to correct offset. To see example of a memory layout
-layer, follow
-\autoref{sec:symdivine:smtstore}.
+variables. Since there are no requirements for the offset numbering, memory
+layout layer, implemented by a data store, allows the interpreter to map
+variables from currently executed function to correct offset. To see example of
+a memory layout layer, follow \autoref{sec:symdivine:smtstore}.
 
 Since the set of possible data valuations in a multi-state can be expressed in
 many ways, the interpreter relies on the interface provided by the data store.
@@ -492,13 +492,193 @@ spaces equivalent with the original one (for safety properties and \ltl formulae
 with no next operator). For details of implementation we kindly refer to todo
 citatce vojta
 
+To illustrate the interpreter operation, we present \autoref{fig:codegeneration}
+and \autoref{fig:generation}. The first figure shows an example of a simple C
+code and corresponding \llvm bit-code. The second figure shows a multi-state
+space graph, that is produced by the interpreter if the bit-code from
+\autoref{fig:codegeneration} is supplied as an input.
+
+
+\begin{figure}[!ht]
+    \begin{minted}[xleftmargin=1.5em,linenos=true]{C}
+volatile int a;
+int main() {
+    a = __VERIFIER_nondet_int();
+    while(1) {
+        int b = __VERIFIER_nondet_int();
+        if (b < a) { a = b; }
+        if (a == 42) { break; }
+    }
+    return 0;
+}
+    \end{minted}
+    \begin{minted}[xleftmargin=1.5em,linenos=true]{llvm}
+@a = common global i32 0, align 4
+; Function Attrs: nounwind uwtable
+define i32 @main() #0 {
+  %1 = tail call i32 (...)* @__VERIFIER_nondet_int() #2
+  store volatile i32 %1, i32* @a, align 4, !tbaa !1
+  br label %2
+
+; <label>:2                                ; preds = %7, %0
+  %3 = tail call i32 (...)* @__VERIFIER_nondet_int() #2
+  %4 = load volatile i32* @a, align 4, !tbaa !1
+  %5 = icmp slt i32 %3, %4
+  br i1 %5, label %6, label %7
+
+; <label>:6                                ; preds = %2
+  store volatile i32 %3, i32* @a, align 4, !tbaa !1
+  br label %7
+
+; <label>:7                                ; preds = %6, %2
+  %8 = load volatile i32* @a, align 4, !tbaa !1
+  %9 = icmp eq i32 %8, 42
+  br i1 %9, label %10, label %2
+
+; <label>:10                               ; preds = %7
+  ret i32 0
+}
+    \end{minted}  
+  
+    \caption{Example of a very simple C code and a corresponding \llvm bit-code
+    obtained as a result of a compilation with \clang with O2 optimizations.
+    Produced bit-code should be simple enough to be understandable even without
+    a deep knowledge of \llvm. Note that variable \texttt{a} was marked as
+    \texttt{volatile} and thus compiler cannot optimize out any load or store
+    operations to/from this variable. See \autoref{fig:generation} for
+    corresponding multi-state space. }
+    
+    \label{fig:codegeneration}
+\end{figure}
+
+\begin{figure}[!ht]
+\begin{center}
+\resizebox{0.9\textwidth}{!}{
+    \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=3cm
+                       , semithick
+                       , scale=0.7
+                       , state/.style={ rectangle, draw=black, very thick,
+                         minimum height=2em, minimum width = 13em, inner
+                         sep=6pt, text centered, node distance = 2em, align = left,  rounded corners }
+                       , font=\sffamily
+                       ]
+
+      \node[state, label = initial] (initial)
+            {PC: 4 \\
+             @a  $\in \{-2^{32},\dots, 2^{32}-1\}$\\
+             \%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%3 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%4 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%5 $\in$ \{$0,1$\}\\
+             \%8 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%9 $\in$ \{$0,1$\}};
+
+      \node[state, right = 6em of initial] (2)
+            {PC: 6 \\
+             @a  = \%1\\
+             {\color{red}\%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}}\\
+             \%3 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%4 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%5 $\in$ \{$0,1$\}\\
+             \%8 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%9 $\in$ \{$0,1$\}};
+
+      \node[state, below = 1.5 em of 2] (3)
+            {PC: 11 \\
+             {\color{red}@a  = \%1}\\
+             \%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             {\color{red}\%3 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}}\\
+             {\color{red}\%4 = @a}\\
+             \%5 $\in$ \{$0,1$\}\\
+             \%8 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%9 $\in$ \{$0,1$\}};
+
+      \node[state, below = of 3] (4)
+            {PC: 20 \\
+             @a  = \%1\\
+             \%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             {\color{red}\%3 $\in$ \{@a$,\dots, 2^{32}-1$\}}\\
+             \%4 = @a\\
+             {\color{red}\%5 = 0}\\
+             {\color{red}\%8 = @a}\\
+             \%9 $\in$ \{$0,1$\}};
+
+      \node[state, left = 6em of 3] (5)
+            {PC: 16 \\
+             {\color{red}@a  = \%3}\\
+             \%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             {\color{red}\%3 $\in$ \{$-2^{32},\dots, $@a$_{prev}-1$\}}\\
+             {\color{red}\%4 = @a}\\
+             {\color{red}\%5 = 1}\\
+             \%8 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%9 $\in$ \{$0,1$\}};
+
+      \node[state, below = of 5] (6)
+            {PC: 20 \\
+             @a  = \%3\\
+             \%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%3 $\in$ \{$-2^{32},\dots, $@a$_{prev}-1$\}\\
+             \%4 = @a\\
+             \%5 = 1\\
+             {\color{red}\%8 = @a}\\
+             \%9 $\in$ \{$0,1$\}};
+
+      \node[state, below = of 4] (7)
+            {PC: end \\
+             @a  = \%1\\
+             \%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%3 $\in$ \{@a$,\dots, -2^{32}-1$\}\\
+             \%4 = @a\\
+             \%5 = 0\\
+             \%8 = @a\\
+             {\color{red}\%9 $=1$}};
+
+      \node[state, below = of 6] (8)
+            {PC: end \\
+             @a   =\%3\\
+             \%1 $\in$ \{$-2^{32},\dots, 2^{32}-1$\}\\
+             \%3 $\in$ \{$-2^{32},\dots, $@a$_{prev}-1$\}\\
+             \%4 = @a\\
+             \%5 = 1\\
+             \%8 = @a\\
+             {\color{red}\%9 $=1$}};
+
+      \path[->] (initial) edge (2)
+                (2) edge (3)
+                (3) edge node [midway, above=0pt] {$\%3<\%4$} (5)
+                (3) edge node [midway, right=0pt] {$\%3\geq \%4$} (4)
+                (4.east) edge[bend right] node [right=0pt] {$\%8\neq 42$} (3.east)
+                (5) edge (6)
+                (6) edge node [midway, right=0pt] {$\%8=42$} (8)
+                (4) edge node [midway, right=0pt] {$\%8=42$} (7)
+                (6) edge node [midway, right=0pt] {$\%8\neq 42$} (3)
+                ;
+    \end{tikzpicture}
+    }
+    \caption{Multi-state space corresponding to the code from
+    \autoref{fig:codegeneration}. As there are no nested function calls, we used
+    simple naming according to variable and registers names in the \llvm bit-
+    code. Program counter (PC) is expressed as a line number of instructions
+    that is going to be interpreted next to make the scheme easier to read. Note
+    the $\tau$-reduction in action, where multiple globally invisible actions
+    are squashed together. To make the schematic even more easy to read, we
+    highlighted fields, that have been modified by a transition and we also
+    added labels to edges, to make clear which action caused given transition.
+    If multiple threads were involved, all possible context switches would occur
+    on every transition. Also please note, to express the valuations set, it was
+    necessary to refer to an value of \texttt{a} from previous state. We marked
+    it as a$_{prev}$. }
+    \label{fig:generation}
+\end{center}
+\end{figure}
+
 
 ## Data store \label{sec:symdivine:arch:datastore}
 
 In this subsection we describe an interface of data store, that is used by the
 \llvm interpreter to analyse and transform multi-states. To see an example of
 possible implementation of this interface, please see
-\label{sec:symdivine:smtstore}, where we provide in-depth description of \smt
+\autoref{sec:symdivine:smtstore}, where we provide in-depth description of \smt
 Store. The interface can be split into following categories: memory layout
 layer, transformations and analysis.
 
@@ -534,15 +714,122 @@ required:
   second one points to a global scope or a memory allocated by `alloca`) and
   either stores a value from register or loads a value to a register.
 
-Last category of functions are analysis functions:
+Last category are analysis functions used mainly by exploration algorithms to
+construct a set of known multi-states and produce a product with an automaton:
 
 * `empty` -- returns true iff the set of possible valuations is empty
 
 * `equal` -- given an another multi-state, returns true iff the set of possible
-  valuations is empty. Note that there might representations, which equality
-  cannot be checked purely by syntactic or memory equality.
-  
-## Exploration algorithm
+  valuations is empty. Note that there might be representations, which equality
+  cannot be checked purely by syntactic or memory equality, as we show an
+  example in \autoref{sec:symdivine:smtstore}.
+
+* `get_explicit_part` -- returns an encoded explicitly represented part of the
+  multi-state in form of a binary blob. If two multi-states are equal to each
+  other, both blobs from the multi-states has to be the same.
+
+* `less_than` -- if there is an ordering defined on the multi-state
+  representation, this function can be provided (and thus an algorithm can use a
+  tree set to represent a set of multi-states)
+
+There were several implementations of data store developed and short summary of
+them follows. Note that not all of them are distributed in current release of
+\symdivine as they were replaced by a more efficient one, or their development
+and support was discontinued.
+
+* explicit store -- represents only a single possible memory valuation, not a
+  set of valuations. Usage of this store "degrades" \symdivine to a purely
+  explicit-state model checker. This store is used for implementation of the
+  explication optimization to reduce number of multi-state equality test during
+  state space exploration. As this optimization is not important for our thesis,
+  we kindly refer to citace vota for further detail.
+
+* \bdd store -- \bdd are be used to represent a set of possible memory
+  valuations. There are algorithms for computing binary arithmetic and logic
+  operations for \bdd todo citace bdd, so implementation of store is
+  straightforward -- for every program's variable there is a single \bdd.
+  Equality check of two \bdd s is cheap operation as they feature canonical
+  representation. However construction of \bdd for arithmetic operations (e.g.
+  multiplication) are quite expensive. This kind of store failed to verify even
+  small examples due to the high complexity todo citace vojta. Thus development
+  of this store was discontinued
+
+* \smt store -- uses \smt formula to represent a set of possible memory
+  valuations. To decide whether two representations describe the same set of
+  valuations, an \smt solver for quantified bit-vector theory is used. For
+  further description of this store, follow \autoref{sec:symdivine:smtstore},
+  where we describe this store in detail. This store is used as a primary one in
+  current release of \symdivine.
+
+* empty store -- does not represent any memory valuations and only collects
+  sequence of transformations applied to the store. This is not useful for any
+  verification technique, however it can be used to translate \llvm bit-code
+  into different kind of formalism. See next section where we describe this
+  process in more detail.
+
+## Exploration algorithms
+
+On top the \llvm interpreter and a data store it is easy to implement an
+algorithm for state space exploration. Algorithm is usually the only thing user
+interacts with. Taken all inputs from the user (\llvm bit-code, property,
+exploration strategy etc.) it usually instantiates an interpreter, asks for an
+initial state and using the `advance` function of the interpreter it builds a
+set of known multi-states or even full multi-state space graph.
+
+As a multi-state is required to provide a procedure for equality of two multi-
+states, is possible to represent a set of multi-states. Set representation using
+only a an equal operation would not scale well to real-world program sizes for
+obvious reasons. Note that a traditional hash-set used in explicit-state model
+checker cannot be used as there can be a multi-state representation that doesn't
+have a canonical form (e.g. \smt store). Thus \symdivine tries to benefit from
+having an explicit control flow is mandatory for every data store
+implementation. Typical set of multi-states is implemented as follow. There is a
+hash map containing list of symbolic parts of the multi-states for every
+explicit part of the multi-states. When a new element is inserted to the set,
+list of the symbolic parts corresponding to the explicit part is recalled and
+then every symbolic part from the list tested for equality. If an equal symbolic
+part is found, procedure ends, otherwise new symbolic part is put at the end of
+the list. This optimization significantly reduces number of calls to the
+equality procedure, however it still possible to obtain a significant number of
+symbolic parts per control flow location.
+
+If a multi-state representation allows to implement `less_than` procedure, it is
+possible to replace a linear search by binary search and thus further optimize
+the set representation.
+
+Using various combinations of algorithms and data stores, \symdivine can serve
+as a multi-purpose tool. During development of \symdivine, experiments with
+following combinations were performed:
+
+* an \smt or a \bdd store combined with algorithm for reachability. This
+  combination produces a model-checker for safety properties that can handle
+  input values. This approach was originally introduced in todo citatce vojta
+
+* an \smt or a \bdd store combined with a standard algorithm for automata-based
+  \ltl model-checking. During the verification, negation of verified \ltl
+  property is converted to an \buchi automaton and during successors generation
+  procedure a product with the automaton is produces. Test for atomic
+  propositions, that can refer to global variables of the program, is
+  implemented using the `prune` operation of the store. It filters-out memory
+  valuations that violate the atomic proposition. This approach was originally
+  implemented in citatce vilik and further improved in citace spin.
+
+* an explicit store combined with reachability or \ltl algorithm on input
+  programs with no non-deterministic input produces a standard explicit-state
+  model checker.
+
+* an \smt or a \bdd store combined with simple exploration without tracking the
+  set of known multi-states yields in symbolic execution.
+
+* an empty store in combination with reachability can be used to convert \llvm
+  bit-code to an artificial modelling language. Thus tool like nuXmv todo
+  citace, that does not support \llvm as an input formalism, can be used to
+  verify properties of \llvm bit-code. When running the reachability, empty
+  store produces one state per each reachable control flow location and collects
+  sequence of transformations applied to the state and transition guard --
+  constructs a guarded transition system. After exploration, this transition
+  system is translated to desired modelling language. This usage of \symdivine
+  was introduced in citace vilik
 
 
 # \smt Store \label{sec:symdivine:smtstore}
