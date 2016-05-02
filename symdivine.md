@@ -28,7 +28,7 @@ execution or some kind of hybrid technique. Over the years \symdivine
 transformed from a generic platform to "out-of-box ready" verification tool by
 providing predefined \smt -based state representation and implementation of
 algorithms for assertion safety and \ltl properties checking. See
-\autoref{fig:workflow} for typical verification work flow of current releases.
+\autoref{fig:workflow} for typical verification work flow in current release.
 Algorithms and store implementation provided in current release were tested in
 practise and provide quite good performance. Nevertheless, internal modular
 architecture was preserved, so \symdivine can still be used as a platform for
@@ -90,12 +90,13 @@ instruction set. In the current version ToDo \symdivine supports almost all
 
 To verify program using \symdivine it is necessary that the input \llvm bit-code
 is self-contained -- there must not be any call to a function that is not
-defined in the bit-code, because behaviour of such functions is unknown to the
+defined in the bit-code, because behaviour of sucha  function is unknown to the
 tool. This also includes system calls to the underlying operating system. There
-are however few exceptions as \symdivine provides intrinsic implementation of
-the subset of Pthread library to support multi-threading and also the subset of
-functions defined in SV-COMP competition rules ToDo to implement notation for
-non- deterministic input.
+are however few exceptions as \symdivine provides intrinsic
+implementation\footnote{Behaviour of these function is hard-coded in the
+interpreter and follows their specification.} of the subset of Pthread library
+to support multi-threading and also the subset of functions defined in SV-COMP
+competition rules ToDo to implement notation for non-deterministic input.
 
 Following functions from Pthread library are supported:
 
@@ -138,19 +139,20 @@ a single so called *multi-state* is produced. Produced multi-state is composed
 of an explicit control flow location and a set of program's memory valuation.
 
 Single multi-state can be viewed as set of purely explicit states (so called
-set-based reduction). Thus multi-state space can bring up to exponential size
-(and memory) reduction compared to the explicit state-space of the same program
-with inputs. The model-checking algorithms present in \symdivine operate on
-multi-states. As the multi state-space is up to exponentially smaller and a
-single operation application to a multi-state corresponds to an application of
-the same operation to a set of explicit states, these algorithms can be much
-faster, even though handling multi-states is computational more demanding. This
-is the key differentiation compared to the purely explicit approaches. To
-illustrate the effect of the set-based reduction, see example of a bit-code and
-a corresponding explicit-state space and a multi-state space in
+set-based reduction, we kindly refer to ToDo citatce vojta for formal
+definition). Thus multi-state space can bring up to exponential size (and
+memory) reduction compared to the explicit state-space of the same program with
+inputs. The model-checking algorithms present in \symdivine operate on multi-
+states. As the multi state-space is up to exponentially smaller and a single
+operation application to a multi-state corresponds to an application of the same
+operation to a set of explicit states, these algorithms can be much faster, even
+though handling multi-states is computational more demanding. This is the key
+differentiation compared to the purely explicit approaches. To illustrate the
+effect of the set-based reduction, see example of a bit-code and a corresponding
+explicit-state space and a multi-state space in
 \autoref{fig:statespace}.
 
-Moreover if provide a decision procedures for multi-state equality, it is
+Moreover if we provide a decision procedures for multi-state equality, it is
 possible to adopt existing explicit-state model checking algorithms. This allows
 to easily implement standard automata-based \ltl model-checking or perform
 safety analysis for non-terminating programs (provided that the multi-state
@@ -297,26 +299,27 @@ br i1 %b, label %5, label %6
 To verify a real-world program an efficient representation of the multi-states
 is needed. \symdivine is not linked to a given fixed format of multi-states and
 users can supply their own implementation (as is described in detail in the
-architecture overview in the section todo). During development of \symdivine
-several representations of multi-states were implemented and tested. This
-includes representation using binary decisions diagrams (\bdd) or representation
-using \smt formulae. \bdd representation performs quite well on artificial
-benchmarking programs containing no advanced arithmetic. \smt representation
-significantly outperformed the previous one on the real-world programs with more
-arithmetic. Support for \bdd representation was dropped in the current version
-and the \smt representation is the only one shipped. We describe this
-representation in detail in \autoref{sec:symdivine:smtstore} as it an essential
-preliminary for our work presented in this thesis.
+architecture overview in the section \autoref{sec:architecture}). During
+development of \symdivine several representations of multi-states were
+implemented and tested. This includes representation using binary decisions
+diagrams (\bdd) or representation using \smt formulae. \bdd representation
+performs quite well on artificial benchmarking programs containing no advanced
+arithmetic. \smt representation significantly outperformed the previous one on
+the real-world programs with more arithmetic. Support for \bdd representation
+was dropped in the current version and the \smt representation is the only one
+shipped. We describe this representation in detail in
+\autoref{sec:symdivine:smtstore} as it an essential preliminary for our work
+presented in this thesis.
 
-# Internal architecture
+# Internal architecture\label{sec:architecture}
 
 As we mentioned in the previous section, \symdivine was originally developed as
-a platform for creating custom tools for the control-explicit approach. Thus the
-internal structure is split into clearly separated modules with fixed interface
-and each module can easily be replaced by another implementation. The whole tool
-is implemented in C++. Each module is represented by a single class. \autoref
-{fig:architecture} illustrates components interaction. There are following main
-modules in \symdivine:
+a platform for creating custom tools for the control-explicit data-symbolic
+approach. Thus the internal structure is split into clearly separated modules
+with fixed interface and each module can easily be replaced by another
+implementation. The whole tool is implemented in C++. Each module is represented
+by a class. \autoref {fig:architecture} illustrates components
+interaction. There are following main modules in \symdivine:
 
 * \llvm interpreter (responsible for multi-state generation from \llvm bit-code)
 
@@ -389,7 +392,7 @@ understanding the interaction is essential for our work.
 
 Interpreter is represented by the `Evaluator` class in the source code and
 provides a similar interface to the state generators of explicit-state model
-checking tools like \divine. After initialization of the interpreter with the
+checking tools like \divine. After initialization of the interpreter with an
 input \llvm bit-code, it provides a reference to so-called working multi-state
 (we will refer it as "working copy") and provides several functions that can be
 used to modify this working copy. Exploration algorithm then can write a
@@ -429,19 +432,18 @@ assumptions about the state representation are made:
 
 * set of functions for data manipulation is provided
 
-We will now discuss each of these assumptions in detail.
+\noindent We will now discuss each of these assumptions in detail.
 
 The interpreter expects the control flow location in following straightforward
 form following the instruction identification in an \llvm bit-code. Each
 instruction in an \llvm bit-code can be uniquely identified by a triplet $(f_
-{idx}, bb_{idx}, i_{idx})$, where $f_{idx}$ is an index of function in the \llvm
-bit-code, $bb_{idx}$ is an index of a basic block in the function and $i_{idx}$
-represents index of the instruction in the basic block. As \symdivine supports
-multi-threaded programs, a control flow location is kept for each thread. There
-is an unique integral identifier assigned to each thread upon its execution.
-When the \llvm interpreter needs to reference a thread, it uses this identifier.
-When a reference to an instruction is needed, a tuple $(t_{id}, f_{idx}, bb_
-{idx}, i_{idx})$ is used, where $t_{id}$ identifies a thread.
+{idx}, bb_{idx}, i_{idx})$, where $f_{idx}$, $bb_{idx} and $i_{idx}$ are indices
+of function in the \llvm bit-code, a basic block in the function and the
+instruction in a basic block respectively. As \symdivine supports multi-threaded
+programs, a control flow location is kept for each thread. There is an unique
+integral identifier assigned to each thread upon its execution. To represent
+control flow state of a multi-thread program with function calls, \symdivine
+keeps a stack of instructions identifiers for every thread.
 
 To interpret the verified program, unique identification of program's variables
 needs to be established. Identification in a similar way as instructions are
@@ -451,16 +453,15 @@ the same function. As \symdivine does not support dynamic memory allocation,
 inspiration for variables identification was taken from classical call stack.
 When a new block of memory is allocated in an \llvm program (function is called
 or an `alloca` instruction is interpreted), new memory segment is created and
-assigned to a given function call in a thread or an `alloca` instruction.
-Variables are then identified by an index (in source code and in further text
-referred as "offset") in this segment. Every instance of a live variable then
-can be identified by its segment and offset. Note that the first segment is
-reserved for global variables.
+assigned to a the operation (function call or `alloca` instruction). Each automatic variable in the function body or element of array (in case of the `alloca` instruction) is then assigned an index (in source code and in further text referred as
+"offset") in this segment. Every instance of a live variable then can be
+identified by its segment and offset. Note that the first segment is reserved
+for global variables.
 
 Variables naming using segment and offset is required by the interpreter as this
 fixed naming allows straightforward implementation of strongly typed pointers,
 arrays and structures. Pointers are simply implemented as a pair containing a
-segment and a offset. Array of size $n$ are represented as $n$ independent
+segment and a offset. Array of size $n$ is represented as $n$ independent
 variables. Since the arrays are strongly typed (`bitcast` instruction is not
 supported by \symdivine), pointer arithmetic for arrays can be implemented by
 offset manipulation. Similarly structures are implemented as several independent
@@ -472,7 +473,7 @@ a memory layout layer, follow \autoref{sec:symdivine:smtstore}.
 Since the set of possible data valuations in a multi-state can be expressed in
 many ways, the interpreter relies on the interface provided by the data store.
 This interface is designed in a way, that effect of every \llvm instruction and
-every intrinsic function definition on given multi-state can be expressed as a
+every intrinsic function definition on a given multi-state can be expressed as a
 sequence of function application from the interface. The interface is further
 described in \autoref{sec:symdivine:arch:datastore}.
 
@@ -487,10 +488,10 @@ successor, but keeps traversing the multi-state space graph until a visible
 action is performed (`load` or `store` on a globally visible variable is
 interpreted or an safety property is violated). It effectively squashes effect
 of multiple instruction with no visible action to single transition and thus
-hides remove unnecessary thread interleaving and produces smaller multi-state
-spaces equivalent with the original one (for safety properties and \ltl formulae
-with no next operator). For details of implementation we kindly refer to todo
-citatce vojta
+remove unnecessary thread interleaving and produces smaller multi-state spaces
+equivalent with the original one (for safety properties and \ltl formulae with
+no next operator). For details of implementation we kindly refer to todo citatce
+vojta
 
 To illustrate the interpreter operation, we present \autoref{fig:codegeneration}
 and \autoref{fig:generation}. The first figure shows an example of a simple C
@@ -679,50 +680,77 @@ In this subsection we describe an interface of data store, that is used by the
 \llvm interpreter to analyse and transform multi-states. To see an example of
 possible implementation of this interface, please see
 \autoref{sec:symdivine:smtstore}, where we provide in-depth description of \smt
-Store. The interface can be split into following categories: memory layout
-layer, transformations and analysis.
+Store. Each data store keeps the explicit part of a state and the symbolic
+(data) part. We omit description of the explicit part of state as it
+implementation is trivial. The interface can be split into following categories:
+memory layout layer, transformations and analysis.
+
+To present the interface formally, we define a set of possible memory valuations
+as a function $v: V \rightarrow 2^B$, where $V$ is a finite set of programs
+variables and $B$ is a set of all bit-vectors. $v$ also follows that for all $y
+\in v(x), x \in V$ the bit-width of $y$ matches the bit width of $x$ declared in
+\llvm bit-code.
 
 The memory layout layer is invoked when the interpreter needs to allocate new
 memory or dereference a register or a pointer. Following functions are required:
 
-* `add_segment` function -- given a thread identifier and a list of bit widths,
-  constructs a new stack segment and returns segment identifier
+* `add_segment(bws)` function -- given a thread identifier and a list of bit
+  widths `bws`, constructs a new stack segment for these variables and returns
+  its identifier. Formally speaking, the set of variables $V$ is extended, $v(x)$ for newly added $x$ is undefined.
 
-* `erase_segment` function -- erases segment and guaranties that values from
-  other segments are not affected
+* `erase_segment(id)` function -- erases segment and guaranties that values from
+  other segments are not affected. Formally, the set of variables $V$ is
+  reduced. Also value of $v(x)$ for all $x$ that were not in the removed
+  segment, stays the same.
 
-* `deref` -- given a thread identifier and a register identifier returns
-  identifier of variable in form of segment and offset. If the identifier was a
-  pointer, returns identifier to a location pointed by that pointer.
+* `deref(tid, id)` -- given a thread identifier and a register identifier from
+  \llvm bit- code, returns identifier of variable in form of segment and offset.
+  If the identifier was a pointer, returns an identifier to a location pointed
+  by that pointer. Only values from global scope or the currently called
+  function in given thread are allowed as arguments.
 
-Transformation functions are invoked when the interpreter needs to perform an
-arithmetic operation or store value to a memory. Following functions are
-required:
+\noindent Transformation functions are invoked when the interpreter needs to
+perform an arithmetic operation or store value to a memory. Following functions
+are required:
 
-* `implement_{op}` -- set of functions, that given three memory locations
-  obtained by call to MML, implement a given binary operation (arithmetic,
-  bitwise, etc.) using the first two arguments and stores result to the last
-  argument.
+* `implement_{op}(a, b, c)` -- set of functions, that given three memory
+  location obtained by call to MML, implement a given binary operation
+  (arithmetic, bitwise, etc.) using `a` and `b` as arguments and stores the
+  result to `c`. Formally, `implement_{op}` changes $v$ to $v'$ such that $v'(x)
+  = \{ x \texttt{ op } y \mid x \in v(\texttt{a}), y \in(\texttt{b})\}$ if
+  $x=\texttt{c}$, otherwise $v'(x) = v(x)$.
 
-* `implement_input` -- stores a non-deterministic value to given memory location
+* `implement_input(a)` -- stores a non-deterministic value to given memory
+  location. Formally, `implement_input` changes $v$ to $v'$ such that $v'(x) =
+  \{ b \mid b \mbox{ is a bit-vector of bit-with corresponding to bit-width of }
+  x \}$ if $x=\texttt{a}$, otherwise $v'(x) = v(x)$
 
-* `prune_{op}` -- given a simple relation operator (grater, smaller that, equal
-  to, etc.) and two memory locations, removes memory valuations in which the
-  relation does not hold.
+* `prune_{op}(a, b)` -- given a simple relation operator (grater, smaller that,
+  equal to, etc.) and two memory locations, removes memory valuations in which
+  the relation does not hold. Formally, it changes
 
-* `store` and `load` -- takes two memory locations (one points to a pointer,
-  second one points to a global scope or a memory allocated by `alloca`) and
-  either stores a value from register or loads a value to a register.
+* `store(r, p)` and `load(r, p)` -- given a register and a pointer\footnote{Note
+  that store can also take an constant instead of register. As it is a technical
+  detail, we omit this variant in following text}, either stores a value from
+  register to memory pointed by the pointer or loads a value to a register from
+  memory pointed by the pointer. Formally, `store` changes $v$ to $v'$ such that
+  $v'(x) = v(r)$ if `p` points to $x$, otherwise $v'(x) = v(x)$. `load`
+  operation is defined symmetrically.
 
-Last category are analysis functions used mainly by exploration algorithms to
-construct a set of known multi-states and produce a product with an automaton:
+\noindent Last category are analysis functions used mainly by exploration
+algorithms to construct a set of known multi-states and produce a product with
+an automaton:
 
-* `empty` -- returns true iff the set of possible valuations is empty
+* `empty(a)` -- returns true if the set of possible valuations of `a` is empty.
+  Formally, returns true iff there is a $x$ such that $v_a(x)=\emptyset$.
 
-* `equal` -- given an another multi-state, returns true iff the set of possible
-  valuations is empty. Note that there might be representations, which equality
-  cannot be checked purely by syntactic or memory equality, as we show an
-  example in \autoref{sec:symdivine:smtstore}.
+* `equal(A, B)` -- given two multi-states, returns true if the program counter
+  of both states is the same and the sets of possible valuations are the same.
+  Formally, returns $v_A=v_B$. Note that the sets of programs variables $V_A$
+  and $V_B$ are are the same, as \symdivine does not support heap allocation and
+  the program counters are equal. Also note that there might be representations,
+  which equality cannot be checked purely by syntactic or memory equality, as we
+  show an example in \autoref{sec:symdivine:smtstore}.
 
 * `get_explicit_part` -- returns an encoded explicitly represented part of the
   multi-state in form of a binary blob. If two multi-states are equal to each
@@ -732,12 +760,12 @@ construct a set of known multi-states and produce a product with an automaton:
   representation, this function can be provided (and thus an algorithm can use a
   tree set to represent a set of multi-states)
 
-There were several implementations of data store developed and short summary of
-them follows. Note that not all of them are distributed in current release of
-\symdivine as they were replaced by a more efficient one, or their development
-and support was discontinued.
+\noindent There were several implementations of data store developed and short
+summary of them follows. Note that not all of them are distributed in current
+release of \symdivine as they were replaced by a more efficient one, or their
+development and support was discontinued.
 
-* explicit store -- represents only a single possible memory valuation, not a
+* Explicit store -- represents only a single possible memory valuation, not a
   set of valuations. Usage of this store "degrades" \symdivine to a purely
   explicit-state model checker. This store is used for implementation of the
   explication optimization to reduce number of multi-state equality test during
@@ -761,7 +789,7 @@ and support was discontinued.
   where we describe this store in detail. This store is used as a primary one in
   current release of \symdivine.
 
-* empty store -- does not represent any memory valuations and only collects
+* Empty store -- does not represent any memory valuations and only collects
   sequence of transformations applied to the store. This is not useful for any
   verification technique, however it can be used to translate \llvm bit-code
   into different kind of formalism. See next section where we describe this
@@ -801,13 +829,13 @@ Using various combinations of algorithms and data stores, \symdivine can serve
 as a multi-purpose tool. During development of \symdivine, experiments with
 following combinations were performed:
 
-* an \smt or a \bdd store combined with algorithm for reachability. This
+* \smt or \bdd store combined with algorithm for reachability. This
   combination produces a model-checker for safety properties that can handle
   input values. This approach was originally introduced in todo citatce vojta
 
-* an \smt or a \bdd store combined with a standard algorithm for automata-based
-  \ltl model-checking. During the verification, negation of verified \ltl
-  property is converted to an \buchi automaton and during successors generation
+* \smt or \bdd store combined with a standard algorithm for automata-based
+  \ltl model-checking. During the verification, negation of specification \ltl
+  formula is converted to an \buchi automaton and during successors generation
   procedure a product with the automaton is produces. Test for atomic
   propositions, that can refer to global variables of the program, is
   implemented using the `prune` operation of the store. It filters-out memory
@@ -815,14 +843,14 @@ following combinations were performed:
   approach was originally implemented in citatce vilik and further improved in
   citace spin.
 
-* an explicit store combined with reachability or \ltl algorithm on input
+* Explicit store combined with reachability or \ltl algorithm on input
   programs with no non-deterministic input produces a standard explicit-state
   model checker.
 
-* an \smt or a \bdd store combined with simple exploration without tracking the
+* \smt or a \bdd store combined with simple exploration without tracking the
   set of known multi-states yields in symbolic execution.
 
-* an empty store in combination with reachability can be used to convert \llvm
+* Empty store in combination with reachability can be used to convert \llvm
   bit-code to an artificial modelling language. Thus tool like nuXmv todo
   citace, that does not support \llvm as an input formalism, can be used to
   verify properties of \llvm bit-code. When running the reachability, empty
@@ -891,16 +919,114 @@ following combinations were performed:
 
 # \smt Store \label{sec:symdivine:smtstore}
 
-In this section we closely at the implementation of \smt Store, as understanding
-of its internals is essential for our work. First we describe the store from a
-theoretical point of view and then we closely look at the actual implementation
-which features several optimization and thus slightly differ from the
-theoretical model.
+In this section we closely look at the implementation of \smt Store, as
+understanding of its internals is essential for our work. First we describe the
+store from a theoretical point of view and then we closely look at the actual
+implementation which features several optimization and thus slightly differ from
+the theoretical model.
 
 ## Theoretical model
 
-Every data store in \symdivine should represent a set of possible memory data valuations and needs to implement interface described in \autoref{sec:symdivine:arch:datastore} to modify and analyse this set. 
+\smt store uses a representation described in ToDo citatce vilik. A quantifier-
+free first-order bit-vector \smt formula $\varphi$ called *path condition* is
+used for description of the possible memory valuations set defined in
+\autoref{sec:symdivine:arch:datastore}. The set of program variables $V$
+(defined in \autoref{sec:symdivine:arch:datastore}) can be mapped to the set of
+free variables in the path condition (in a way we describe later in the text).
+Program variables can be sequentially assigned different values during a single
+program run. To distinguish different values assigned to a variable, so-called
+*variable's generation* is used. For each assignment to a program variable, a
+new variable in formula is created (with incremented generation number). Thus
+the set of variables in formula is a subset of $V \times \mathbb{N}$ and we can
+denote formula variable as a pair $(v, g)$, were $v$ is a program variable from
+$V$ and $g$ is its generation. The mapping from formula variables to programs
+variables is easy -- every program variable $v$ maps to formula variable $(v,
+g)$ with the maximum generation $g$. The set of all models of path condition
+defines the valuation function $v$.
+
+Implementing data store interface using path condition is performed in the
+following way (as described in ToDo citace vojta). When we refer to a formula
+variable, we refer to the latest generation. We also assume implicit mapping of
+program variables to formula variables (when we use program variable in formula,
+we assume it is translated to formula variable with maximum generation).
+
+* `add_segment(bws)` and `erase_segment(id)` functions does not modify path
+  condition, only meta information used for implementation is modified.
+
+* `implement_{op}(a, b, c)` on state with path condition $\varphi$ leads to a
+  new path condition: $\varphi \wedge \left((\texttt{c}, g + 1) = \texttt{a op
+  b}\right)$.
+
+* `implement_input(a)` increases generation of `a` and does not modify path
+  condition, as a variable with no constrain models non-deterministic value.
+
+* `prune_{op}(a, b)` on state with path condition $\varphi$ leads to a new path
+  condition: $\varphi \wedge \left(\texttt{a op b}\right)$.
+
+* `store(r, p)` and `load(r, p)` on state with path condition $\varphi$ leads to
+  a new path condition: $\varphi \wedge \left((\texttt{p}, g + 1) =
+  \texttt{r}\right)$ in case of `store` instruction, `load` instruction is
+  defined in symmetrical manner.
+
+* `empty` returns true if and only if the path condition is not satisfiable.
+  Satisfiability is decided using an \smt solver.
+
+* `equal(A, B)` returns true if and only if the path conditions $\varphi$ of `A`
+  and `B` path condition $\psi$ represent the same set of possible valuations.
+  There is no canonical form of \smt formulae, thus two different formulae can
+  describe the same set and it is not possible to decide equality using purely
+  simple syntactic equality. Note that there also cannot be no `less_than`
+  function implemented for this data store. An quantified bit-vector \smt query
+  is made to a solver in order to decide the equality. `equal(A, B)`, returns
+  true if and only if:
+  \begin{equation}
+    \neg \operatorname{notsubseteq}(\texttt{A}, \texttt{B}) \wedge
+        \neg\operatorname{notsubseteq}(\texttt{B}, \texttt{A}) \nonumber
+  \end{equation}
+  is satisfiable. $\operatorname{notsubseteq}(\texttt{A}, \texttt{B})$ is a
+  short-cut for:
+  \begin{equation}
+    \varphi \wedge \forall a_0,\dots,a_n\ldotp \psi \implies
+        \left(
+            \bigvee \left(a_i \neq b_i\right)
+        \right) \nonumber
+  \end{equation}
+  where $a_0,\dots,a_n$ denotes the program variables in `A` and $b_0,\dots,b_n$
+  denotes the program variables in `B`. Intuitively, notsubseteq looks for a
+  valuation in `A` that is not present in `B`.
+
+Given the implementation of the operations, we can now easily illustrate the
+need for different variables generations. Consider following example of \llvm
+bit-code:
+
+\begin{minted}[xleftmargin=1.5em,linenos=true]{llvm}
+store i32 5, i32* %a, align 4
+%2 = load i32* %a, align 4
+store i32 %2, i32* %b, align 4
+store i32 42, i32* %a, align 4
+\end{minted}
+
+This piece of bit-code stores constant 5 to `%a`, then assigns value of `%a` to
+`%b`. The last operation stores constant 42 to `%a`. With no generations, the
+last store operation would change both values of `%a` and `%b`, So it is
+necessary to keep track of each variable's history.
 
 ## Implementation
 
-This data store use \smt formulae to describe the set of possible memory valuations. 
+To achieve a better performance of \smt store, several optimization to the
+purely theoretical approach are made. In this section we first describe the
+implementation of meta information that is needed to correctly build path
+condition. Then we describe the optimization of path condition building and the
+evaluations `empty` and `equal` operations.
+
+\symdivine uses Z3 \smt solver ToDo citace, to decide satisfiability of both
+quantifier-free and quantified \smt queries. In order to allow easy usage of
+other solvers, \smt store relies on internal formulae representation. Path
+condition is this internal representation. When an \smt query is needed,
+internal representation is translated to solver's specific format.
+
+To correctly and effectively build a path condition, keeping a set of program
+variables, their mapping to formula variables and their generations is needed.
+As the mandatory naming of program variables using segment of of is established,
+
+I hope you liked it, Martin! To be continued...

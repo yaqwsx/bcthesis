@@ -23,7 +23,7 @@
 			"file": "symdivine.md",
 			"settings":
 			{
-				"buffer_size": 13789,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -31,19 +31,18 @@
 			"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/bcthesis.sublime-build",
 			"settings":
 			{
-				"buffer_size": 128,
+				"buffer_size": 0,
 				"line_ending": "Unix",
 				"name": "untitled.sublime-build"
 			}
 		},
 		{
-			"contents": "Package Control Messages\n========================\n\nGlue\n----\n\n          __\n   .-----|  .--.--.-----.\n   |  _  |  |  |  |  -__|\n   |___  |__|_____|_____|\n   |_____|\n  \n  Copyright 2014 Christopher Simpkins | MIT License\n  \n  Glue joins your shell to Sublime Text in quasi-perfect harmony.\n  \n  \n  POST-INSTALL TASKS\n  \n  Important! Please take a couple of minutes to read and follow these post-install instructions in order to get up and running without a hitch.\n  \n  \n  Confirm Your PATH Settings\n  --------------------------\n  \n  Please make sure that your PATH settings are correct.  Glue will attempt to use your environment's PATH variable as the default PATH string. In most cases it nails it, but occasionally the PATH string requires a bit of tinkering.\n  \n  Open Glue with the right click menu in a project sidebar or with the Command Palette (type 'glue') and run the command `glue path` in the input panel that is displayed at the bottom of your editor.  The PATH that Glue will use by default is displayed in the editor view.  If this is not the correct PATH string, please follow the instructions below to set your PATH in the Glue settings file.\n  \n  Linux/Unix (including Mac OSX) Users\n  \n  1. Open the `Glue Settings - User` file and add a \"glue_userpath\" key to the JSON file.  Enter your system colon delimited PATH string as the value for this setting. You can view your PATH string by entering 'echo $PATH' in your terminal.  Save the file.\n  2. Restart Sublime Text\n  \n  Windows Users\n  \n  1. Open the `Glue Settings - User` file and add a `glue_userpath` key to the JSON file.  Enter your semicolon delimited system PATH string as the value for this setting. Windows users should escape every backslash character in the PATH (i.e. every '\\' should be changed to '\\\\'). You can view your PATH string by entering 'ECHO %PATH%' in your cmd.exe terminal.  Save the file.\n  2. Restart Sublime Text\n  \n  \n  Choose Your Shell\n  -----------------\n  This is an optional step.  If you would like to change your default shell, here's how you do it:\n  \n  Linux/Unix/Windows\n  \n  1. Open the `Glue Settings - User` file and add a \"glue_shellpath\" key to the JSON file.  Enter the path to your shell executable as the value for this setting.  Windows users should escape every backslash character in the PATH (i.e. every '\\' should be changed to '\\\\').  Save the file.\n  2. Restart Sublime Text\n  \n  \n  Once this is complete, you are all set... Check out the instructions below to learn more about how to use Glue in Sublime Text.\n  \n  See the Install documentation at http://gluedocs.readthedocs.org/en/latest/install.html if you need a more detailed description of the install process.\n  \n  Detailed help documentation is available at http://gluedocs.readthedocs.org\n  \n  \n  USAGE\n  \n    <command> [option(s)]\n  \n    Enter a system command in the input panel at the bottom of your editor using the same syntax that you use in your terminal.  The standard output stream from the executable is printed in the active view of your editor after it returns.\n  \n    To quit Glue, submit the command 'exit'.\n  \n  \n  COMMANDS\n  \n    Glue provides the following additional commands:\n  \n      glue browse <url,path>    Open default browser to <url> or local <path>\n      glue clear                Clear the text in the Glue view\n      glue finder [path]        Reveal current directory (default) or [path] directory in finder\n      glue goto <query>         Sublime Text Goto Anything search for <query>\n      glue help                 Glue help\n      glue localhost [port]     Open browser to localhost:8000 or optional localhost:[port]\n      glue new                  Create a new Sublime Text buffer\n      glue open <path>          Open a file at <path> in the editor. Accepts multiple <path>\n      glue path                 View your PATH settings\n      glue user                 View your Glue extensions (if present)\n      glue wco <pattern>        Open file(s) with wildcard <pattern> in the editor\n  \n  \n  USER COMMANDS\n  \n    Create a `Glue-Commands` directory inside your Sublime Text `Packages` directory.  Create a `glue.json` file inside the `Glue-Commands` directory.  Then map your JSON key:value as \"command-name\": \"system command string\".\n  \n    You have the option to include the following replacement tags in your system command string:\n  \n      {{args}}              additional arguments that you include on the command line\n      {{clipboard}}         the contents of the clipboard\n      {{pwd}}               the current working directory path\n  \n    Launch Glue and run your command extension(s) with the following syntax:\n  \n       glue <command-name> [args]\n  \n    Your command is executed from your current working directory. Please see the documentation for additional details.\n  \n  \n  NAVIGATION\n  \n    The working directory is initially set to the directory containing the buffer in which you are using Glue (when you open from sidebar right click menu or with a project file open in the editor).\n  \n    Change directories with the 'cd' command:\n  \n    cd <directory path>        Make `directory path` the working directory\n    cd ..                      Make parent directory the working directory\n    cd ~                       Make user home directory the working directory\n  \n    Note that your working directory defaults to the system User directory if you launch Glue from the Command Palette without having an open project file in the editor (or in a clean editor window without an open project).\n  \n  \n  ISSUES\n  \n    Please submit bug reports on the GitHub repository @ https://github.com/chrissimpkins/glue/issues\n",
+			"contents": "",
 			"settings":
 			{
-				"buffer_size": 5652,
+				"buffer_size": 0,
 				"line_ending": "Unix",
 				"name": "Package Control Messages",
-				"read_only": true,
 				"scratch": true
 			}
 		},
@@ -51,7 +50,7 @@
 			"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
 			"settings":
 			{
-				"buffer_size": 60,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -59,7 +58,7 @@
 			"file": "build_sublime.sh",
 			"settings":
 			{
-				"buffer_size": 80,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -67,7 +66,7 @@
 			"file": "/D/Users/email.HONZA-NTB/Documents/presentations/spin2016/pres.md",
 			"settings":
 			{
-				"buffer_size": 20264,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -75,7 +74,7 @@
 			"file": "/D/Users/email.HONZA-NTB/AppData/Local/Temp/Temp1_spin2016.zip/main.tex",
 			"settings":
 			{
-				"buffer_size": 24574,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -83,7 +82,7 @@
 			"file": "thesis.tex",
 			"settings":
 			{
-				"buffer_size": 7238,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -91,7 +90,7 @@
 			"file": "latexwrap",
 			"settings":
 			{
-				"buffer_size": 1505,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		}
@@ -430,15 +429,15 @@
 					"file": "symdivine.md",
 					"settings":
 					{
-						"buffer_size": 13789,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13789,
-								13789
+								0,
+								0
 							]
 						],
 						"settings":
@@ -447,7 +446,7 @@
 							"syntax": "Packages/Markdown/Markdown.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 4214.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -457,15 +456,15 @@
 					"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/bcthesis.sublime-build",
 					"settings":
 					{
-						"buffer_size": 128,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								128,
-								128
+								0,
+								0
 							]
 						],
 						"settings":
@@ -482,15 +481,15 @@
 					"buffer": 2,
 					"settings":
 					{
-						"buffer_size": 5652,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1940,
-								1940
+								0,
+								0
 							]
 						],
 						"settings":
@@ -501,7 +500,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1710.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -511,15 +510,15 @@
 					"file": "/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
 					"settings":
 					{
-						"buffer_size": 60,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								24,
-								25
+								0,
+								0
 							]
 						],
 						"settings":
@@ -537,15 +536,15 @@
 					"file": "build_sublime.sh",
 					"settings":
 					{
-						"buffer_size": 80,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								80,
-								80
+								0,
+								0
 							]
 						],
 						"settings":
@@ -563,15 +562,15 @@
 					"file": "/D/Users/email.HONZA-NTB/Documents/presentations/spin2016/pres.md",
 					"settings":
 					{
-						"buffer_size": 20264,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7343,
-								7333
+								0,
+								0
 							]
 						],
 						"settings":
@@ -581,7 +580,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5613.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -591,15 +590,15 @@
 					"file": "/D/Users/email.HONZA-NTB/AppData/Local/Temp/Temp1_spin2016.zip/main.tex",
 					"settings":
 					{
-						"buffer_size": 24574,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4377,
-								10955
+								0,
+								0
 							]
 						],
 						"settings":
@@ -609,7 +608,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4008.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -619,15 +618,15 @@
 					"file": "thesis.tex",
 					"settings":
 					{
-						"buffer_size": 7238,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1189,
-								1189
+								0,
+								0
 							]
 						],
 						"settings":
@@ -637,7 +636,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 288.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -647,15 +646,15 @@
 					"file": "latexwrap",
 					"settings":
 					{
-						"buffer_size": 1505,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								722,
-								722
+								0,
+								0
 							]
 						],
 						"settings":
