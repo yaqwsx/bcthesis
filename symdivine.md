@@ -453,10 +453,12 @@ the same function. As \symdivine does not support dynamic memory allocation,
 inspiration for variables identification was taken from classical call stack.
 When a new block of memory is allocated in an \llvm program (function is called
 or an `alloca` instruction is interpreted), new memory segment is created and
-assigned to a the operation (function call or `alloca` instruction). Each automatic variable in the function body or element of array (in case of the `alloca` instruction) is then assigned an index (in source code and in further text referred as
-"offset") in this segment. Every instance of a live variable then can be
-identified by its segment and offset. Note that the first segment is reserved
-for global variables.
+assigned to the operation (function call or `alloca` instruction). Each
+automatic variable in the function body or element of array (in case of the
+`alloca` instruction) is then assigned an index (in source code and in further
+text referred as "offset") in this segment. Every instance of a live variable
+then can be identified by its segment and offset. Note that the first segment is
+reserved for global variables.
 
 Variables naming using segment and offset is required by the interpreter as this
 fixed naming allows straightforward implementation of strongly typed pointers,
@@ -698,10 +700,10 @@ memory or dereference a register or a pointer. Following functions are required:
   widths `bws`, constructs a new stack segment for these variables and returns
   its identifier. Formally speaking, the set of variables $V$ is extended, $v(x)$ for newly added $x$ is undefined.
 
-* `erase_segment(id)` function -- erases segment and guaranties that values from
-  other segments are not affected. Formally, the set of variables $V$ is
-  reduced. Also value of $v(x)$ for all $x$ that were not in the removed
-  segment, stays the same.
+* `erase_segment(id)` function -- erases segment and guaranties that valuation
+  of variables from other segments is not changed. Formally, the set of
+  variables $V$ is reduced. Also value of $v(x)$ for all $x$ that were not in
+  the removed segment, stays the same.
 
 * `deref(tid, id)` -- given a thread identifier and a register identifier from
   \llvm bit- code, returns identifier of variable in form of segment and offset.
@@ -746,7 +748,7 @@ an automaton:
 
 * `equal(A, B)` -- given two multi-states, returns true if the program counter
   of both states is the same and the sets of possible valuations are the same.
-  Formally, returns $v_A=v_B$. Note that the sets of programs variables $V_A$
+  Formally, returns $v_A=v_B$. Note that the sets of program variables $V_A$
   and $V_B$ are are the same, as \symdivine does not support heap allocation and
   the program counters are equal. Also note that there might be representations,
   which equality cannot be checked purely by syntactic or memory equality, as we
@@ -1027,6 +1029,98 @@ internal representation is translated to solver's specific format.
 
 To correctly and effectively build a path condition, keeping a set of program
 variables, their mapping to formula variables and their generations is needed.
-As the mandatory naming of program variables using segment of of is established,
+Also, as we described in section todo, the interpreter requires that data store
+provides MML -- thus there needs to be established a mapping among variables in
+\llvm bit-code and program variables (where multiple calls of the same function
+are allowed). We remind, that program variables are required to be identified by
+an segment and offset.
 
-I hope you liked it, Martin! To be continued...
+Formula variables are mapped to program variables named using their segment,
+offset and generation (e.g. `seg8_off10_gen5). To map \llvm bit-code variables
+to program variables (distinguish between the same variable in multiple calls of
+the same functions), \smt data store keeps map between ToDo
+
+\autoref{fig:mapping}
+
+\begin{figure}[!ht]
+\begin{center}
+\resizebox{0.8\textwidth}{!}{
+    \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=1.5cm
+                       , semithick
+                       , scale=0.7
+                       , font=\sffamily
+                       , seg/.style = {
+                            rectangle,
+                            draw,
+                            minimum width = 3em,
+                            minimum height = 2em,
+                            fill=gray!60!white},
+                       , gen/.style = {
+                            rectangle,
+                            draw,
+                            minimum width = 2em,
+                            minimum height = 2em},
+                       , thread/.style = {
+                            rectangle,
+                            draw,
+                            minimum width = 5em,
+                            minimum height = 1.2em},
+                       ]
+
+    \node[seg, fill=white] (seg0) {segments};
+    \foreach \x [evaluate=\x as \prev using \x-1] in {1,...,8}  {
+        \node[seg, right = 0pt of seg\prev] (seg\x) {\x};
+    }
+
+    \pgfmathsetseed{1138}
+
+    \foreach \x in {1,...,8} {
+        \pgfmathsetmacro{\vars}{int(random(5))}
+
+        \pgfmathsetmacro{\geni}{int(random(0,4))}
+        \node[gen, below = 1em of seg\x] (gen\x 1) {\geni};
+        \path[->] (seg\x) edge (gen\x 1);
+        \foreach \prev [evaluate=\prev as \y using int(\prev+1)] in {1,...,\vars} {
+            \pgfmathsetmacro{\gen}{int(random(0,4))}
+            \node[gen, below = 0 cm of gen\x\prev] (gen\x\y) {\gen};
+        }        
+    }
+
+    \node[thread, fill=gray!60!white, above = 9 em of seg1] (t10) {Thread 1};
+    \node[thread, below = 0pt of t10] (t11) {foo1};
+    \node[thread, below = 0pt of t11] (t12) {foo2};
+
+    \node[thread, fill=gray!60!white, above = 9 em of seg4] (t20) {Thread 2};
+    \node[thread, below = 0pt of t20] (t21) {foo2};
+    \node[thread, below = 0pt of t21] (t22) {foo2};
+    \node[thread, below = 0pt of t22] (t23) {foo3};
+    \node[thread, below = 0pt of t23] (t24) {foo2};
+
+    \node[thread, fill=gray!60!white, above = 9 em of seg7] (t30) {Thread 3};
+    \node[thread, below = 0pt of t30] (t31) {foo3};
+    \node[thread, below = 0pt of t31] (t32) {foo4};
+
+    \path[->]
+        (t12.south) edge [in = 90, out = 270] (seg4.north)
+        (t11.west) edge [in = 90, out = 180] (seg1.north)
+        (t21.west) edge [in = 90, out = 180] (seg2.north)
+        (t22.west) edge [in = 90, out = 180] (seg3.north)
+        (t23.east) edge [in = 90, out = 0] (seg6.north)
+        (t24.east) edge [in = 90, out = 0] (seg7.north)
+        (t31.west) edge [in = 90, out = 180] (seg5.north)
+        (t32.south) edge [in = 90, out = 270] (seg8.north)
+        ;
+
+    \end{tikzpicture}
+    }
+    \caption{Illustration of meta information organisation in \smt store. Each
+    thread has its own call stack. When a new function is called,
+    \texttt{add\_segment} is called and a new segment is created. Each segment
+    points to a list of variables in the given segment and keeps track of
+    currently highest generation of each variable as shown in the picture.}
+    \label{fig:mapping}
+\end{center}
+\end{figure}
+
+
+I hope you liked it, Feshak! To be continued...
