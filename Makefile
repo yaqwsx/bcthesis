@@ -32,20 +32,14 @@ thesis-print.tex : thesis.tex
 		-e 's/\\begFigure/\\begin{figure}/' -e 's/\\endFigure/\\end{figure}/' \
 		-e 's/\\begSplit/\\begin{minipage}[t]{0.48\\textwidth}/' \
 		-e 's/\\Split/\\end{minipage}\\hfill\\begin{minipage}[t]{0.48\\textwidth}/' \
-		-e 's/\\endSplit/\\end{minipage}/'
+		-e 's/\\endSplit/\\end{minipage}/' \
+		-e 's/\\texorpdfstring\{\\llvm\}\{\}/\\texorpdfstring\{\\llvm\}\{LLVM\}/' \
+		-e 's/\\texorpdfstring\{\\llvm Interpreter\}\{Interpreter\}/\\texorpdfstring\{\\llvm Interpreter\}\{LLVM Interpreter\}/' \
 
 watch :
 	while true; do inotifywait -e close_write,moved_to,create .; sleep 1; make; done
 
 .PHONY: watch
-
-archive_README.md : appendix.md
-	sed $< -re 's/\\divine/DIVINE/g' -e 's/\\lart/LART/g' \
-		-e 's/\\darcs/darcs/g' -e 's/\\llvm/LLVM/g' \
-		-e 's/\\label\{[^}]*\}//g' > $@
-
-archive_README.pdf : archive_README.md
-	pandoc $< -o $@ -V geometry:a4paper,margin=2.5cm
 
 txt: $(ALL:.md=.txt)
 

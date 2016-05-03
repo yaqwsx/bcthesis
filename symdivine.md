@@ -380,7 +380,7 @@ interaction. There are following main modules in \symdivine:
 \end{center}
 \end{figure}
 
-## \llvm interpreter
+## \llvm Interpreter
 
 Interpreter in \symdivine operates between input \llvm bit-code and a multi-
 state space exploration algorithm. It acts as an abstraction layer that provides
@@ -919,7 +919,7 @@ following combinations were performed:
 \end{figure}
 
 
-# \smt Store \label{sec:symdivine:smtstore}
+# \smt Store\label{sec:symdivine:smtstore}
 
 In this section we closely look at the implementation of \smt Store, as
 understanding of its internals is essential for our work. First we describe the
