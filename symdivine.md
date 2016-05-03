@@ -907,7 +907,7 @@ following combinations were performed:
     }
     \caption{Illustration of multi-state space generation in automata based \ltl
     model checking. The \ltl exploration algorithm takes an \buchi automaton
-    (subset of such a automaton shown on the left). The generation procedure
+    (subset of such a automaton shown in the left). The generation procedure
     works as follow. State that is being explored is load into interpreter and
     new successor (state A) is produced. The state contains a program counter,
     \buchi automaton state and a set of possible data valuations. The product
@@ -1035,12 +1035,57 @@ provides MML -- thus there needs to be established a mapping among variables in
 are allowed). We remind, that program variables are required to be identified by
 an segment and offset.
 
-Formula variables are mapped to program variables named using their segment,
-offset and generation (e.g. `seg8_off10_gen5). To map \llvm bit-code variables
-to program variables (distinguish between the same variable in multiple calls of
-the same functions), \smt data store keeps map between ToDo
+To perform these mappings, \smt store takes advantage of the required segment--offset
+program variable identification and thus keeps a set of segments with
+variables and a mapping of call stack frames to these segments. Note that this
+mapping is not canonical -- different thread interleaving can lead to different
+mapping. Each segment contains a list of variables (information about the
+highest generation, bit-width, etc.). See \autoref{fig:mapping} for illustration
+of this mapping.
 
-\autoref{fig:mapping}
+As the set of segments is usually quite small, frequently accessed and changed,
+implementation using a dynamic-sized array and a free-list was chosen. Thus the
+segments identifiers are re-used and the same segment in two different states
+can be mapped to a different stack frame.
+
+On top of this set-up, implementation of the data store interface is
+straightforward. Note that during `equal` operation a set of variables pairs,
+that are compared during notsubsetq operation, needs to be computed, as the
+segments mapping is not canonical and we cannot directly compare variables from
+the same segment number in different states.
+
+This naive implementation does not scale well as path condition grows quickly
+(\llvm bit-code uses big number of registers, because \llvm is a static single
+assignment language) and enormous number of expensive quantified \smt queries is
+performed. Thus \smt store uses following optimizations:
+
+* Unused variables definitions -- path condition is split into two parts: list
+  of definitions in form $variable = expression$, and a list of path condition
+  clauses in form of $variable \operatorname{rel_{op}} variable$\footnote{also a
+  constant can figure such a clause}. Definitions are mainly collected during
+  arithmetic, `store` and `load` instructions. Path condition contains only
+  constrains collected during `prune` operation. This severance to two
+  independent pieces allows us to easily remove unused definitions when function
+  returns without complicated analysis. Return value can be easily expressed
+  using only function parameters through simple syntactic substitution and all
+  variables from the function segment can be removed from the definitions and
+  the path condition clauses. When a formula is needed a simple conjunction of
+  all definitions and path condition clauses is constructed. This optimization
+  significantly reduces size of path condition (and thus size of
+  \smt queries to a solver) and also keeps a set of programs segments small.
+
+* Syntactical equivalence checking -- as \symdivine aims for verification of
+  parallel programs, the same path conditions due to diamond-shapes in the
+  multi-state can be produces. An \smt query to a solver is expensive operation
+  even for simple queries todo citace vojta, \symdivine tries to perform simple
+  syntactic equality test of path conditions before executing this query. Non-
+  trivial number of solver calls can be saved in this way.
+
+* Simplification -- Z3 \smt solver offers several simplification strategies that
+  can be applied to a path condition. This strategies can be applied a to path
+  condition in order to produce smaller or easier forms of equivalent path
+  condition. Simplification is applied when a new formula with large number of
+  variables is produced.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -1078,11 +1123,11 @@ the same functions), \smt data store keeps map between ToDo
         \pgfmathsetmacro{\vars}{int(random(5))}
 
         \pgfmathsetmacro{\geni}{int(random(0,4))}
-        \node[gen, below = 1em of seg\x] (gen\x 1) {\geni};
+        \node[gen, below = 1em of seg\x] (gen\x 1) {g\geni};
         \path[->] (seg\x) edge (gen\x 1);
         \foreach \prev [evaluate=\prev as \y using int(\prev+1)] in {1,...,\vars} {
             \pgfmathsetmacro{\gen}{int(random(0,4))}
-            \node[gen, below = 0 cm of gen\x\prev] (gen\x\y) {\gen};
+            \node[gen, below = 0 cm of gen\x\prev] (gen\x\y) {g\gen};
         }        
     }
 
@@ -1113,14 +1158,13 @@ the same functions), \smt data store keeps map between ToDo
 
     \end{tikzpicture}
     }
-    \caption{Illustration of meta information organisation in \smt store. Each
-    thread has its own call stack. When a new function is called,
-    \texttt{add\_segment} is called and a new segment is created. Each segment
-    points to a list of variables in the given segment and keeps track of
-    currently highest generation of each variable as shown in the picture.}
+    \caption{Illustration of path condition meta information organisation in
+    \smt store. Each thread has its own call stack. When a function is
+    called, \texttt{add\_segment} is called on the \smt store and a new segment
+    is created. Each segment points to a list of variables in the given segment
+    that keeps track of currently highest generation of each variable as shown
+    in the picture. Note that the mapping call stack frames to segment is not
+    canonical and depending on thread interleaving it may vary.}
     \label{fig:mapping}
 \end{center}
 \end{figure}
-
-
-I hope you liked it, Feshak! To be continued...
