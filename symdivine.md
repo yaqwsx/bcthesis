@@ -1013,7 +1013,7 @@ This piece of bit-code stores constant 5 to `%a`, then assigns value of `%a` to
 last store operation would change both values of `%a` and `%b`, So it is
 necessary to keep track of each variable's history.
 
-## Implementation
+## Implementation\label{subsec:symdivine:smt:impl}
 
 To achieve a better performance of \smt store, several optimization to the
 purely theoretical approach are made. In this section we first describe the
