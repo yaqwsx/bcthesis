@@ -974,13 +974,13 @@ we assume it is translated to formula variable with maximum generation).
   Satisfiability is decided using an \smt solver.
 
 * `equal(A, B)` returns true if and only if the path conditions $\varphi$ of `A`
-  and `B` path condition $\psi$ represent the same set of possible valuations.
-  There is no canonical form of \smt formulae, thus two different formulae can
-  describe the same set and it is not possible to decide equality using purely
-  simple syntactic equality. Note that there also cannot be no `less_than`
-  function implemented for this data store. An quantified bit-vector \smt query
-  is made to a solver in order to decide the equality. `equal(A, B)`, returns
-  true if and only if:
+  and path condition $\psi$ of `B` represent the same set of possible
+  valuations. There is no canonical form of \smt formulae, thus two different
+  formulae can describe the same set and it is not possible to decide equality
+  using purely simple syntactic equality. Note that there also cannot be no
+  `less_than` function implemented for this data store. An quantified bit-vector
+  \smt query is made to a solver in order to decide the equality. `equal(A, B)`,
+  returns true if and only if:
   \begin{equation}
     \neg \operatorname{notsubseteq}(\texttt{A}, \texttt{B}) \wedge
         \neg\operatorname{notsubseteq}(\texttt{B}, \texttt{A}) \nonumber
@@ -988,7 +988,8 @@ we assume it is translated to formula variable with maximum generation).
   is satisfiable. $\operatorname{notsubseteq}(\texttt{A}, \texttt{B})$ is a
   short-cut for:
   \begin{equation}
-    \varphi \wedge \forall a_0,\dots,a_n\ldotp \psi \implies
+    \exists b_0,\dots,b_n\ldotp \psi \wedge \forall a_0,\dots,a_n\ldotp \varphi
+    \implies
         \left(
             \bigvee \left(a_i \neq b_i\right)
         \right) \nonumber
