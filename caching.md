@@ -1,7 +1,7 @@
 Trading off time for space is a basic approach to improving the time efficiency
 and scalability of software tools. Storing results of intermediate results can
-be significantly less consuming then re-computation and thus bring a speed up of
-a tool.
+be significantly less time consuming than re-computation and thus bring a speed
+up of a tool.
 
 In this chapter we present our motivation for proposing and implementing several
 \smt queries caching techniques for \smt data store in \symdivine. We provide a
@@ -280,16 +280,17 @@ every two states into matching form. Merging of sub-states is straightforward,
 we create conjunction of their path conditions a make a set union of their
 labels. Splitting a sub-state into two sub-states is possible if clauses of the
 original path conditions can be split into two sets of clauses such that they
-are independent (share no common variable). Note that every two states can be
-transformed into a matching form, as we can in the worst-case scenario merge all
-sub-states to a single one and thus produce a sub-state equivalent to a
-multi-state without sub-states.
+are independent (share no common variable). We call a sub-state *trivial* if it
+cannot be split any more. Note that every two states can be transformed into a
+matching form, as we can in the worst-case scenario merge all sub-states to a
+single one and thus produce a sub-state equivalent to a multi-state without
+sub-states.
 
 Our motivation for introduction of sub-states is straightforward -- provided the
-above-mentioned equality procedure, we produce smaller and more simple queries
-to an \smt solver and we also expect a high cache hit-rate, as in real-world
-programs, only very few variables has effect on current transformation of
-multi-state.
+above-mentioned equality procedure and keeping as many trivial sub-states as
+possible, we produce smaller and more simple queries to an \smt solver. We also
+expect a high cache hit-rate, as in real-world programs, only very few variables
+has effect on current transformation of multi-state.
 
 Compared to performing similar operations directly on the queries produced by
 \smt store, we can compute the the data dependencies on the fly with no
@@ -305,3 +306,50 @@ In this section we provide in detail description of our dependency-based caching
 implementation in \symdivine and make an overview of small differences to
 theoretical description provided in previous section.
 
+We have implemented this caching technique as a new data store -- *partial
+store*. As a non-trivial part of the data store interface is implemented in the
+same manner as \smt store (e.g. all `implement_{op}` functions), we abstracted
+them to a new base class, which both \smt and partial store are derived from.
+Thus we needed to provide only segment related function, `deref`, `load`,
+`store`, `prune` and `implement_input` functions.
+
+We have implemented a data structure called *dependency group*. This structure
+represents a sub-state from previous section. Dependency group keeps its label,
+list of path condition and list a definitions as it implements the same
+optimization as \smt data store. It provides interface for performing dependency
+groups merging and splitting. Also several support function of purely technical
+characters are implemented.
+
+Partial store keeps instead of path condition and definitions a set of
+dependency groups and mapping from variables to these dependency groups. When a
+new variable is created, it is not dependant on any other and thus a new
+dependency group is created for every newly created variable. When a segment
+with all variables is destroyed, substitution of variable definitions is perform
+just like in \smt store. As the dependency groups are independent, substitution
+occurs only in a context of a single group. If the group label is after deletion
+empty, the group is destroyed.
+
+If a `store` or `prune` operation is issued, variables from an expression or a
+constrain are collected, their dependency groups are located and merged.
+Definition or a path condition is then inserted into the group. This
+implementation keeps the invariant that dependency groups are always
+independent. When this invariant would be broken, affected groups are merged.
+
+The other operations are implemented in the same manner as operations in \smt
+store. The only difference is, that corresponding dependency group has to be
+located first.
+
+Test for state emptiness is performed for each resource group independently and
+each group caches result of this check. If path condition is modified, result in
+cache is discarded and the check is repeated. This is an small optimization,
+that was not introduced in the theoretical description.
+
+To perform equality check, multi-states needs to be first converted to matching
+form. Not only dependency groups can differ, also a variable naming can be
+different as the mapping between call stack and segments is not canonical. To
+effectively compute which group needs to be merged, we first obtain a list of
+variables pairs to compare just like \smt store does. Then we iterate over this
+list and using union-find we build sets of groups that need to be merged
+according their labels. Then a standard equality check from \smt store is
+performed for each merged group. To cache these calls, the same approach as the
+naive one is used.
