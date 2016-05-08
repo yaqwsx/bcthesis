@@ -2,11 +2,16 @@ ALL=$(wildcard *.md)
 
 all : thesis.pdf archive_README.pdf
 
+clean:
+	rm -f *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xml *.toc
+	rm -f appendix.tex caching.tex conclusion.tex intro.tex preliminaries.tex \
+		results.tex symdivine.tex README.tex
+
 thesis.pdf : thesis.tex $(ALL:.md=.tex) thesis.bbl
-	./latexwrap $<
+	bash ./latexwrap $<
 
 thesis-print.pdf : thesis-print.tex $(ALL:.md=.tex) thesis-print.bbl thesis.lua
-	./latexwrap $<
+	bash ./latexwrap $<
 
 thesis-print.tex : thesis.tex
 	sed -e 's/linkcolor={.*}/linkcolor={black}/' \
@@ -19,7 +24,7 @@ thesis-print.tex : thesis.tex
 	-biber $(@:.bbl=)
 
 %.bcf :
-	./latexwrap -n1 $(@:.bcf=.tex)
+	bash ./latexwrap -n1 $(@:.bcf=.tex)
 
 .PRECIOUS: %.bcf %.bbl
 

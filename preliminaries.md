@@ -14,7 +14,7 @@ The specification can be expressed as formula in a temporal logic, like \ltl,
 (e.g. ProMeLa in case of SPIN \cite{spin}, or DVE in case of \divine
 \cite{DiVinE30}). However this method can be also used for verification of
 computer programs. Thus there are tools that takes a program source code instead
-of special modelling language. Examples of such tools are CBMC \cite{cbmc} or
+of special modelling language. Examples of such tools are CBMC \cite{CBMC} or
 \divine, that can take a C or C++ code and verify it against given property.
 
 Explicit-state model checking considers all possible memory configuration of the
@@ -32,10 +32,10 @@ $\tau+$-reduction \cite{RBB13} in \divine.
 
 # Symbolic Execution
 
-Symbolic execution \cite{King:symexec} is another formal verification technique,
+Symbolic execution \cite{Kingsymexec} is another formal verification technique,
 that unlike model checking, primarily aims at verification of programs, that can
 read non-deterministic input values and usually does not handle well parallel
-system. KLEE \cite{Cadar:Klee} is a tool for symbolic execution of C and C++
+system. KLEE \cite{CadarKlee} is a tool for symbolic execution of C and C++
 programs.
 
 Symbolic execution basically executes the program and instead of obtaining real
@@ -51,11 +51,11 @@ infinite cycle in the system is present. Symbolic execution is quite wide-spread
 and there are many mutation of this technique, e.g. using concrete values for
 speeding-up the process and using symbolic part is only for synthesis of new
 values during branching. Symbolic execution can also be used for automatic
-synthesis of tests for software \cite{King:symexec}.
+synthesis of tests for software \cite{Kingsymexec}.
 
 # \llvm
 
-\llvm \cite{llvm:web} is a compiler infrastructure. This infrastructure
+\llvm \cite{llvmweb} is a compiler infrastructure. This infrastructure
 features tools for optimization and code generation, that are independent of
 programming language and platform. This is achieved by definition of a custom
 intermediate representation -- \llvm IR (also called \llvm bit-code). So-called
@@ -75,10 +75,10 @@ presents a way to easily take almost any input programming language without a
 big effort. In the following text, we will shortly introduce the most important
 aspects of \llvm IR.
 
-\llvm program consists of modules \cite{llvm:langref}. A module contains
+\llvm program consists of modules \cite{llvmlangref}. A module contains
 functions, global variables and meta-data. Each module is a result of
 compilation of single compilation unit or as a product of \llvm linker. There
-are two basic identifiers in \llvm: global identifiers (variables, functions)
+are two basic identifiers in \llvm : global identifiers (variables, functions)
 denoted with `@` before the name and local identifiers (registers, labels)
 denoted with `%` before the name.
 
@@ -116,7 +116,7 @@ specialized, more effective decision procedure.
 
 The research filed concerned with satisfiability of formulae with respect to
 these theories is called *Satisfiability Modulo Theories* (\smt)
-\cite{Biere:2009}. There are many solvers for various theories: e.g.
+\cite{Biere2009}. There are many solvers for various theories: e.g.
 Z3 \cite{ZZZ}, CVC4 \cite{CVC4} or OpenSMT \cite{opensmt}. There has been put an
 effort into standardisation of input to these solvers. This effort resulted in
 SMTLib format \cite{BarFT-SMTLIB}, that specifies input language and theories.
