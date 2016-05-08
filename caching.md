@@ -184,29 +184,31 @@ ensures that $\varphi$ and $\psi$ are both satisfiable independently (empty
 multi-states are never checked for equality). To apply a constraints caching,
 detecting the new parts of formula (compared to already seen formulas) is
 needed. Here we face the problem that we cannot easily split the formula in the
-similar manner into conjuncts due to the presence of universal quantifier that
-captures part of the formula and the implication in the quantified part.
+similar manner into conjuncts due to the presence of universal quantifier, that
+captures part of the formula and also the implication in the quantified part.
 
-These issues could be solved by detecting the formula growth on $\phi$,
-\$varphi$ and the sets of variables. Then a dependencies across these part could
+These issues could be solved by detecting the formula growth on $\psi$,
+$\varphi$ and the sets of variables. Then a dependencies across these part could
 be computed and a new, smaller query could be produced. However we see this as
-complicated and rather computationally challenging. Instead, we take another
+complicated and rather computationally challenging. Instead, we take an another
 point of view by using the semantics of the query and the possibility to change
 the equality procedure to suite the needs of caching.
 
 In our approach we represent multi-state data as a multiple independent sets of
 valuations instead of a single one. We define two sets of valuations as
-independent, when changing one of them leaves the second one unchanged. In our
-case of valuations representation using path conditions, each set is defined by
-a single path condition and any every pair of path conditions share no
-variables. This set-up can be also seen as splitting a program's multi-state
-into several smaller mutually independent states. We will refer these as a
-sub-states. See \autoref{fig:multimultistate} for illustration of dividing a
-multi-state to a set of sub-states.
+independent, when every change on the one of them leaves the second one
+unchanged. In our case of valuations representation using path conditions, each
+set is defined by a single path condition. We can simplify the requirements for
+independence to following. Two path conditions are independent if the share no
+common variable. This requirement is stronger, however from the practical point
+of view, they are the same. This set-up can be also seen as splitting a
+program's multi-state into several smaller mutually independent states. We will
+refer these as a sub-states. See \autoref{fig:multimultistate} for illustration
+of dividing a multi-state to a set of sub-states.
 
 \begin{figure}[!ht]
 \begin{center}
-\resizebox{\textwidth}{!}{
+\resizebox{0.8\textwidth}{!}{
     \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=1.5cm
                        , semithick
                        , scale=0.7
@@ -215,39 +217,33 @@ multi-state to a set of sub-states.
                          minimum height=2em, minimum width = 10em, inner
                          sep=6pt, text centered, node distance = 2em, align = left,  rounded corners }
                        ]
-        \node[initial, state] (1) {1};
-        \node[state, above right = of 1] (2) {2};
-        \node[state, right = of 1] (3) {3};
-        \node[state, below right = of 1] (4) {4};
 
-        \node[stateprog, right = of 3, label = (A)] (p1)
-            {PC: 1 \\
-             BA: 1 \\
-             a $\in \{0,\dots, 2^{32}-1\}$};
-        \node[stateprog, above right = of p1, label = (B)] (p2)
-            {PC: 1 \\
-             BA: 2 \\
-             a $\in \emptyset$};
-        \node[stateprog, right = of p1, label = (C)] (p3)
-            {PC: 1 \\
-             BA: 3 \\
-             a $=0$};
-        \node[stateprog, below right = of p1, label = (D)] (p4)
-            {PC: 1 \\
-             BA: 4 \\
-             a $\in \{1, 2^{32}-1\}$};
+        \node[stateprog, label=Original multi-state] (p1)
+            {Program counter: x \\
+             Path condition clauses: \\
+             $a < 42$ \\
+             $a > 0 $ \\
+             $b = a + 4$ \\
+             $c > 42$
+             };
 
-        \path[->]
-                (1) edge node [midway, left=0pt] {$a < 0$} (2)
-                (1) edge node [midway, above=0pt] {$a = 0$} (3)
-                (1) edge node [midway, left=0pt] {$a > 0$} (4)
-                (p1) edge [dashed] (p2)
-                (p1) edge [dashed] (p3)
-                (p1) edge [dashed] (p4)
-                ;
+        \node[text centered, align = left, above right = -3.1em and 6em of p1] (pc)
+            {Program counter: x  \\
+             Substates: };
+        \node[stateprog, below = 0.5em of pc] (p2)
+            {$a < 42$ \\
+             $a > 0 $ \\
+             $b = a + 4$};
+        \node[stateprog, below = 0.5em of p2] (p3)
+            {$c > 42$};
+
+        \node[stateprog, fit = (pc) (p2) (p3), label=New multi-state] {};
     \end{tikzpicture}
     }
-    \caption{ToDo }
+    \caption{Illustration of new representation of multi-state. Instead of
+    keeping one path condition, multiple mutually independent path conditions
+    are kept -- so-called sub-states. This set-up allows more effective
+    implementation of equal query when using caching.}
     \label{fig:multimultistate}
 \end{center}
 \end{figure}
@@ -281,10 +277,10 @@ we create conjunction of their path conditions a make a set union of their
 labels. Splitting a sub-state into two sub-states is possible if clauses of the
 original path conditions can be split into two sets of clauses such that they
 are independent (share no common variable). We call a sub-state *trivial* if it
-cannot be split any more. Note that every two states can be transformed into a
-matching form, as we can in the worst-case scenario merge all sub-states to a
-single one and thus produce a sub-state equivalent to a multi-state without
-sub-states.
+cannot be split any more. Note that every two multi-states (with the same
+control part) can be transformed into a matching form, as we can in the
+worst-case scenario merge all sub-states to a single one and thus, produce a
+sub-state equivalent to a multi-state without sub-states.
 
 Our motivation for introduction of sub-states is straightforward -- provided the
 above-mentioned equality procedure and keeping as many trivial sub-states as
@@ -303,14 +299,14 @@ top of these small queries. We call this approach *dependency-based caching*.
 # Implementation of Partial Store
 
 In this section we provide in detail description of our dependency-based caching
-implementation in \symdivine and make an overview of small differences to
+implementation in \symdivine and make an overview of small differences to the
 theoretical description provided in previous section.
 
 We have implemented this caching technique as a new data store -- *partial
 store*. As a non-trivial part of the data store interface is implemented in the
 same manner as \smt store (e.g. all `implement_{op}` functions), we abstracted
-them to a new base class, which both \smt and partial store are derived from.
-Thus we needed to provide only segment related function, `deref`, `load`,
+them to a new base class.  Both \smt and partial store are derived from this
+class. Thus we needed to provide only segment related function, `deref`, `load`,
 `store`, `prune` and `implement_input` functions.
 
 We have implemented a data structure called *dependency group*. This structure
@@ -333,7 +329,8 @@ If a `store` or `prune` operation is issued, variables from an expression or a
 constrain are collected, their dependency groups are located and merged.
 Definition or a path condition is then inserted into the group. This
 implementation keeps the invariant that dependency groups are always
-independent. When this invariant would be broken, affected groups are merged.
+independent. When performing `store` or `prune` operation would violate the
+invariant, affected groups are merged.
 
 The other operations are implemented in the same manner as operations in \smt
 store. The only difference is, that corresponding dependency group has to be
@@ -342,14 +339,15 @@ located first.
 Test for state emptiness is performed for each resource group independently and
 each group caches result of this check. If path condition is modified, result in
 cache is discarded and the check is repeated. This is an small optimization,
-that was not introduced in the theoretical description.
+that was not introduced in the theoretical description. And produces small
+speed-up.
 
 To perform equality check, multi-states needs to be first converted to matching
 form. Not only dependency groups can differ, also a variable naming can be
 different as the mapping between call stack and segments is not canonical. To
 effectively compute which group needs to be merged, we first obtain a list of
 variables pairs to compare just like \smt store does. Then we iterate over this
-list and using union-find we build sets of groups that need to be merged
-according their labels. Then a standard equality check from \smt store is
-performed for each merged group. To cache these calls, the same approach as the
-naive one is used.
+list and using union-find, according groups labels we build sets of groups that
+need to be merged. Then a standard equality check from \smt store is performed
+for each merged group. To cache these calls, the same approach as the naive one
+is used.

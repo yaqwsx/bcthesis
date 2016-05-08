@@ -437,7 +437,7 @@ assumptions about the state representation are made:
 The interpreter expects the control flow location in following straightforward
 form following the instruction identification in an \llvm bit-code. Each
 instruction in an \llvm bit-code can be uniquely identified by a triplet $(f_
-{idx}, bb_{idx}, i_{idx})$, where $f_{idx}$, $bb_{idx} and $i_{idx}$ are indices
+{idx}, bb_{idx}, i_{idx})$, where $f_{idx}$, $bb_{idx}$ and $i_{idx}$ are indices
 of function in the \llvm bit-code, a basic block in the function and the
 instruction in a basic block respectively. As \symdivine supports multi-threaded
 programs, a control flow location is kept for each thread. There is an unique
