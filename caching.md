@@ -18,8 +18,8 @@ Scalability is an important factor of verification tool, that aims for
 verification of real-world sized code. During various experiments with
 \symdivine, we noticed that most of the verification time is spent on Z3 \smt
 solver calls. We analysed \symdivine using time measurements and Callgrind tool
-todo citace on verification task from SC-COMP concurrency set. \smt data store
-in \symdivine performs two kind of \smt queries -- a quantified query for
+\cite{callgrind} on verification task from SC-COMP concurrency set. \smt data
+store in \symdivine performs two kind of \smt queries -- a quantified query for
 decision of multi-state equality and a quantifier-free query for emptiness check
 (both described in \autoref{sec:symdivine:smtstore}). In average, roughly 70\ %
 of the time is spent on quantified \smt solvers calls and 10 % of the time is
@@ -42,31 +42,31 @@ some cases. However there might be a diamond-shape that can be resolved only
 using the \smt query. When such a diamond-shape appears multiple times, the same
 query to an \smt solver needs to be issued.
 
-Caching of both, empty and equal, queries can bring a speed-up. Z3 \smt solver
-incorporates various caching techniques todo citace z3 to speed up queries, that
-might work for the emptiness check (a batch of quantifier-free queries sharing
-common prefix). However we are not aware of a technique, that could help us in
-case of equality check (a batch of quantified \smt queries that include a
-sub-formula with growing common prefix). Also we see bigger potential in the
-equal query, as it is computationally more demanding. The traditional techniques
-does not work, as the quantifier in the query makes slicing it into cacheable
-parts computationally hard or even in some cases impossible. Also from our
-experience, making a query to the Z3 brings a non-trivial overhead even for easy
-queries and thus we would like to avoid it (the same phenomena was observed in
-todo citace vojta). We think bringing a knowledge of our setting (fixed format
-of the equal query and its semantics or path condition origin) can help us to
-face the issue and design an effective caching technique.
+Caching of both, empty and equal, queries can bring a speed-up. There are
+various caching techniques to speed up \smt queries, that might work for the
+emptiness check (a batch of quantifier-free queries sharing common prefix).
+However we are not aware of a technique, that could help us in case of equality
+check (a batch of quantified \smt queries that include a sub-formula with
+growing common prefix). Also we see bigger potential in the equal query, as it
+is computationally more demanding. The traditional techniques does not work, as
+the quantifier in the query makes slicing it into cacheable parts
+computationally hard or even in some cases impossible. Also from our experience,
+making a query to the Z3 brings a non-trivial overhead even for easy queries and
+thus we would like to avoid it (the same phenomena was observed in
+\cite{Havel2014thesis}). We think bringing a knowledge of our setting (fixed
+format of the equal query and its semantics or path condition origin) can help
+us to face the issue and design an effective caching technique.
 
 # Classical Approaches In Other Tools
 
 There are no resources we are aware of, that in detail describe all caching
-optimization implemented in Z3. Only a brief overview can be found in ToDo
-citace Z3. However from this overview and our shallow knowledge of Z3 source
+optimization implemented in Z3. Only a brief overview can be found in
+\cite{ZZZ}. However from this overview and our shallow knowledge of Z3 source
 code, we assume that in principle, the caching optimizations work in a similar
-manner as optimizations that can be found in KLEE todo, PEX todo (both are tools
-for symbolic execution) or in GREEN todo (framework for caching \smt queries
-during symbolic execution). Z3 also features a cache for the built in SAT
-solver, on top of which the \smt solver is built.
+manner as optimizations that can be found in KLEE \cite{KleeMult}, PEX
+\cite{pex} (both are tools for symbolic execution) or in GREEN \cite{green}
+(framework for caching \smt queries during symbolic execution). Z3 also features
+a cache for the built-in SAT solver, on top of which the \smt solver operates.
 
 In principle there can be found two main approaches to caching -- constraints
 caching and unsatisfiable cores caching. Both of these approaches are suited for
@@ -82,8 +82,8 @@ conjuncts. If $\varphi$ is not satisfiable according to a cached result, the
 whole query cannot be satisfiable. Otherwise $\varphi$ and $\psi$ are
 syntactically analysed and only conjuncts from $\varphi$ that share a variable
 with $\psi$ are taken. Satisfiability of this smaller formula is then decided.
-To effectively select only the necessary conjuncts of $\varphi$, GREEN todo
-citace builds a tree structure over existing parts of the path condition. Also
+To effectively select only the necessary conjuncts of $\varphi$, GREEN builds a
+tree structure over existing parts of the path condition \cite{green}. Also
 before deciding satisfiability, parts of the formulae are canonized to increase
 the chance of a cache hit.
 
@@ -110,9 +110,9 @@ conditions, \smt solver has to be called. If such a diamond appears in multi-
 state space again, the same query is performed. If naive caching is present, the
 second query to an \smt solver can be eliminated.
 
-We have implemented this naive approach in \symdivine version from todo citace
-Vilík. The naive caching is implemented using a hash-map from an \smt query to a
-result of such query. In original implementation, `empty` query was directly
+We have implemented this naive approach in \symdivine version from \cite{BHB14}.
+The naive caching is implemented using a hash-map from an \smt query to a result
+of such query. In original implementation, `empty` query was directly
 constructed in \smt solver native format. We have taken an advantage in form of
 fixed query format, as we wanted to kept the caching process independent of an
 \smt solver (queries are not constructed using formulae representation of
@@ -126,9 +126,9 @@ query is constructed, executed and the result is inserted into the cache.
 
 We have evaluated naive approach using a subset of SV-COMP benchmarks (mainly
 concurrency and bit-vector tasks) and a set of \ltl benchmarks by Byron Cook,
-that have been used in evaluation of \symdivine in todo citace vojta. Naive
-caching saved only about 6\ %  in the reachability tasks, however up to 65\ % of
-the queries were cached in the \ltl benchmarks.
+that have been used in evaluation of \symdivine in \cite{BHB14}. Naive caching
+saved only about 6\ %  in the reachability tasks, however up to 65\ % of the
+queries were cached in the \ltl benchmarks.
 
 This result made us to revisit the implementation of the \ltl algorithm in
 \symdivine. \symdivine uses nested DFS with iterative deepening, as bugs in
