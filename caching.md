@@ -39,8 +39,8 @@ equality check has to be performed. See illustration todo ref of this phenomena.
 Also multiple the same or similar diamond-shapes can occur multiple time in
 different parts of a multi-state space. Syntactic equality optimization works in
 some cases. However there might be a diamond-shape that can be resolved only
-using the \smt query. When such a diamond-shape appears multiple times, the same
-query to an \smt solver needs to be issued.
+using an \smt query. When such a diamond-shape appears multiple times, the same
+queries to an \smt solver needs to be issued.
 
 Caching of both, empty and equal, queries can bring a speed-up. There are
 various caching techniques to speed up \smt queries, that might work for the
@@ -106,9 +106,9 @@ syntactic equality optimization, that we described in
 \autoref{subsec:symdivine:smt:impl}. Syntactic equality can eliminate a query to
 an \smt solver in case of diamond shapes, that result in the syntactically same
 path conditions. If this diamond-shape results in a syntactically different path
-conditions, \smt solver has to be called. If such a diamond appears in multi-
-state space again, the same query is performed. If naive caching is present, the
-second query to an \smt solver can be eliminated.
+conditions, \smt solver has to be called. If such a diamond appears in
+multi-state space again, the same query is performed. If naive caching is
+present, the second query to an \smt solver can be eliminated.
 
 We have implemented this naive approach in \symdivine version from \cite{BHB14}.
 The naive caching is implemented using a hash-map from an \smt query to a result
@@ -199,7 +199,7 @@ valuations instead of a single one. We define two sets of valuations as
 independent, when every change on the one of them leaves the second one
 unchanged. In our case of valuations representation using path conditions, each
 set is defined by a single path condition. We can simplify the requirements for
-independence to following. Two path conditions are independent if the share no
+independence to following. Two path conditions are independent if they share no
 common variable. This requirement is stronger, however from the practical point
 of view, they are the same. This set-up can be also seen as splitting a
 program's multi-state into several smaller mutually independent states. We will

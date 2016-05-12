@@ -224,12 +224,24 @@ full reference to its source.
 
 \section*{Abstract}
 
-ToDo: 
+Scalability of automatic verification tools is a crucial factor for usability of
+such tools in practise. There are vast number of ways to improve it. Trading off
+space for time is one of a classic approaches to improving time efficiency of
+these tools, mainly used when constraints satisfiability checking plays a
+central role. Caching of quantifier-free Satisfiability Modulo Theories (\smt)
+queries is now widely used in the world of symbolic execution.
+
+\symdivine is a tool for bit-precise control-explicit data-symbolic model
+checking of parallel C and C++ programs. Quantified \smt queries for multi-state
+equality decisions play a central role in \symdivine and take most of the
+verification time. Standard caching techniques do not work due to the
+quantification. In this paper we propose \textit{dependency-based caching} for
+quantified \smt queries, that are used in \symdivine. We also demonstrate
+integration of it in \symdivine and provide experimental evaluation on a diverse
+set of benchmarks.
 
 \section*{Keywords}
-Formal Verification, C, C++, \llvm, Model Checking, Parallel,
-ToDo
-Implementation.
+Formal Verification, C, C++, \llvm, Model Checking, \smt, Caching, Implementation
 
 \cleardoublepage
 
