@@ -4,8 +4,8 @@ set format y "%.0f"
 set format y "%.0f"
 set xlabel "Time without cache"
 set ylabel "Time with cache [s]"
-set yrange [0:400]
-set xrange [0:400]
+set yrange [0.01:400]
+set xrange [0.01:400]
 unset key
 
 f(x) = x

@@ -73,7 +73,6 @@ with open("table.tex", "w") as f:
     f.write("\t\t\t\\endhead\n\n")
 
     f.write("\t\t\t\\multicolumn{10}{c}{\\textit{Continue...}}\\\\\n")
-    f.write("\t\t\t\\label{\\tablelabel}\n")
     f.write("\t\t\t\\endfoot\n")
 
     f.write("\t\t\t\\bottomrule\n")

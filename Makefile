@@ -6,9 +6,9 @@ clean:
 	rm -f *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xml *.toc
 	rm -f appendix.tex caching.tex conclusion.tex intro.tex preliminaries.tex \
 		results.tex symdivine.tex README.tex
-	echo rm -f *chart.tex *chart.eps *eps-converted-to.pdf summary.txt
+	rm -f *chart.tex *chart.eps *eps-converted-to.pdf summary.txt
 
-thesis.pdf : thesis.tex $(ALL:.md=.tex) thesis.bbl results
+thesis.pdf : thesis.tex results $(ALL:.md=.tex) thesis.bbl
 	bash ./latexwrap $<
 
 thesis-print.pdf : thesis-print.tex $(ALL:.md=.tex) thesis-print.bbl thesis.lua
@@ -27,7 +27,7 @@ thesis-print.tex : thesis.tex
 %.bcf :
 	bash ./latexwrap -n1 $(@:.bcf=.tex)
 
-results: FORCE
+results:
 	cd results/vojta/bitvector; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
 	cd results/vojta/eca; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
 	cd results/vojta/locks; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
@@ -52,9 +52,7 @@ results: FORCE
 		results/vojta/ssh-simplified \
 		results/vojta/systemc \
 		results/concur
-	gnuplot -e "output_file='summary_chart.tex'" -e "input_file='summary.txt'" gnuplot-summary.gnu
-
-FORCE: 
+	gnuplot -e "output_file='summary_chart.tex'" -e "input_file='summary.txt'" gnuplot-summary.gnu 
 
 .PRECIOUS: %.bcf %.bbl
 
@@ -78,7 +76,7 @@ watch :
 
 txt: $(ALL:.md=.txt)
 
-.PHONY: txt
+.PHONY: txt results
 
 %.txt : %.md
 	sed -e ':a;N;$$!ba;s/\n\n/@NL@/g' $< | \
