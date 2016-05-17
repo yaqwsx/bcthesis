@@ -6,6 +6,7 @@ clean:
 	rm -f *.aux *.bbl *.bcf *.blg *.log *.out *.pyg *.run.xml *.toc
 	rm -f appendix.tex caching.tex conclusion.tex intro.tex preliminaries.tex \
 		results.tex symdivine.tex README.tex
+	echo rm -f *chart.tex *chart.eps *eps-converted-to.pdf summary.txt
 
 thesis.pdf : thesis.tex $(ALL:.md=.tex) thesis.bbl results
 	bash ./latexwrap $<
@@ -43,7 +44,15 @@ results: FORCE
 	gnuplot -e "output_file='ssh_chart.tex'" -e "input_dir='results/vojta/ssh-simplified'" gnuplot.gnu
 	gnuplot -e "output_file='systemc_chart.tex'" -e "input_dir='results/vojta/systemc'" gnuplot.gnu
 	gnuplot -e "output_file='concur_chart.tex'" -e "input_dir='results/concur'" gnuplot.gnu
-
+	./process_summary_results.py summary.txt results/vojta/bitvector \
+		results/vojta/eca \
+		results/vojta/loops \
+		results/vojta/locks \
+		results/vojta/recursive \
+		results/vojta/ssh-simplified \
+		results/vojta/systemc \
+		results/concur
+	gnuplot -e "output_file='summary_chart.tex'" -e "input_file='summary.txt'" gnuplot-summary.gnu
 
 FORCE: 
 

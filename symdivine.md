@@ -10,9 +10,12 @@ kindly refer to that thesis.
 
 \symdivine is a tool for verification of real-world parallel C and C++ programs
 with non-deterministic inputs. It is being developed at \paradise Laboratory, at
-\FI\ \MU. The tool is built on top of the \llvm framework in order to avoid the
-need of modeling and, at the same time, to achieve precise semantics of C and
-C++ programming languages. \symdivine is motivated as an extension of purely
+\FI\ \MU. It is distributed under MIT licence. Source code can be found at
+\url{https://github.com/yaqwsx/SymDIVINE}.
+
+The tool is built on top of the \llvm framework in order to avoid the need of
+modeling and, at the same time, to achieve precise semantics of C and C++
+programming languages. \symdivine is motivated as an extension of purely
 explicit model checker \divine\ \cite{DiVinE30} that is capable of handling full
 parallel C/C++ programs without inputs. \symdivine share the ideology of
 \divine -- it aims for bitprecise\footnote{All operations precisely keep
@@ -32,10 +35,12 @@ transformed from a generic platform to "out-of-box ready" verification tool
 \cite{spin2016} by providing predefined \smt -based state representation and
 implementation of algorithms for assertion safety and \ltl properties checking.
 See \autoref{fig:workflow} for typical verification work flow in current release
-\footnote{Todo}. Algorithms and store implementation provided in current release
-were tested in practise and provide quite good performance. Nevertheless,
-internal modular architecture was preserved, so \symdivine can still be used as
-a platform for user experiments.
+\footnote{Current version at the time of writing this thesis is v0.3. Release of
+this version is available at
+\url{https://github.com/yaqwsx/SymDIVINE/releases/tag/v0.3}}. Algorithms and
+store implementation provided in current release were tested in practise and
+provide quite good performance. Nevertheless, internal modular architecture was
+preserved, so \symdivine can still be used as a platform for user experiments.
 
 \begin{figure}[!ht]
 \resizebox{\textwidth}{!}{
@@ -81,7 +86,7 @@ a platform for user experiments.
 
 \symdivine is designed to take an \llvm bit-code as an input language and thus
 support for C and C++ languages features is mainly reduced to support of \llvm
-instruction set. In the current version ToDo \symdivine supports almost all
+instruction set. In the current version \symdivine supports almost all
 \llvm instruction except of:
 
 * instructions for symbolic pointer arithmetic

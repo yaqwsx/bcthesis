@@ -36,11 +36,12 @@ execution.
 Second, \symdivine focuses on multi-threaded programs and various thread
 interleavings can cause so-called diamond-shapes in the multi-state space. This
 means that two paths in a multi-state space join to the same state and an
-equality check has to be performed. See illustration todo ref of this phenomena.
-Also more of the same or similar diamon-shapes can occur multiple times in different parts of a multi-state space. Syntactic equality optimization works in
-some cases. However there might be a diamond-shape which can be resolved only by
-using an \smt query. When such a diamond-shape appears multiple times, the same
-queries to an \smt solver needs to be issued.
+equality check has to be performed. Also more of the same or similar
+diamon-shapes can occur multiple times in different parts of a multi-state
+space. Syntactic equality optimization works in some cases. However there might
+be a diamond-shape which can be resolved only by using an \smt query. When such
+a diamond-shape appears multiple times, the same queries to an \smt solver needs
+to be issued.
 
 Caching of both, empty and equal, queries can bring a speed-up. There are
 various caching techniques to speed up \smt queries, that might work for the

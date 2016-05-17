@@ -33,7 +33,7 @@ property for each benchmark and its negation. Comparison of results can be seen
 Todo
 
 
-\begin{longtable}{l@{\hskip 0.1cm}rrrrrrrR{1.7cm}}  
+\begin{longtable}{l@{\hskip 0.1cm}rrrrrrrR{1.7bbbbbcm}}  
     \caption{Summary results showing effects of caching}\label{tab:summary}\\   
     \mcrot{1}{l}{60}{\pbox{20cm}{Category  \\ name}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time without \\ caching [s]}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time with \\ caching [s]}} & \mcrot{1}{l}{60}{\pbox{20cm}{Percentage \\ difference}} & \mcrot{1}{l}{60}{Equal queries} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ without cache}} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ with cache}} \\ \toprule
     bitvector      & $3619.5$ & $2531.5$ & \SI{-30.1}{\percent} & $16570$   & 165470 & $6854$ \\ \midrule
@@ -84,4 +84,9 @@ Todo
 \begin{figure}
     \input{concur_chart.tex}
     \caption{Concurrency set}
+\end{figure}
+
+\begin{figure}
+    \input{summary_chart.tex}
+    \caption{Overall summary}
 \end{figure}
