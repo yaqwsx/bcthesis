@@ -32,125 +32,56 @@ Then we ran \symdivine with timeout 4 minutes. We have tested validity of given
 property for each benchmark and its negation. Comparison of results can be seen
 Todo
 
-\begin{table}[h!]
-  \centering
-  \caption{Caption for the table.}
-  \label{tab:table1}
-  \begin{tabular}{cccccccccc}
-    \toprule
-    Benchmark name & \mcrot{1}{l}{60}{\pbox{20cm}{Multi-states \\ Instructions executed}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time without caching \\ Time with caching}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time difference \\ Percentage difference}} & \mcrot{1}{l}{60}{Equal queries} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls without cache \\ Solver call with cache}}\\
 
-    \midrule
-
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \multirow{2}{*}{s3\_clnt\_2\_true.BV.c.cil\_os} & $20981$ & $240\ s$    & $-73.4$ s   & \multirow{2}{*}{$14831$} &  $Unknown$ \\
-                                                    & 247393  & $166.57$ & $-30.5\ \%$ &                          &  $26$ \\ \hline
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\begin{landscape}
-\begin{table}[h!]
-  \centering
-  \caption{Caption for the table.}
-  \label{tab:table1}
-  \begin{tabular}{cccccccccC{1.7cm}}
-    \toprule
-    Benchmark name & \mcrot{1}{l}{60}{Multi-states} & \mcrot{1}{l}{60}{\pbox{20cm}{Instructions \\ executed}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time without \\ caching}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time with \\  caching}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time \\ difference}} & \mcrot{1}{l}{60}{\pbox{20cm}{Percentage \\ difference}} & \mcrot{1}{l}{60}{Equal queries} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ without cache}} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ with cache}}\\
-
-    \midrule
-
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \hline
-    \bottomrule
-  \end{tabular}
-\end{table}
-\end{landscape}
-
-\begin{landscape}
-\begin{longtable}{l@{\hskip 1cm}llllllllL{1.7cm}}
-
-    \toprule
-    Benchmark name & \mcrot{1}{l}{60}{Multi-states} & \mcrot{1}{l}{60}{\pbox{20cm}{Instructions \\ executed}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time without \\ caching}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time with \\  caching}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time \\ difference}} & \mcrot{1}{l}{60}{\pbox{20cm}{Percentage \\ difference}} & \mcrot{1}{l}{60}{Equal queries} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ without cache}} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ with cache}}\\
-
-    \midrule
-    \endhead
-    \caption{Caption for the table. continue...}
-    \label{tab:table1}
-    \endfoot
-    \bottomrule
-    \caption*{Continue: Caption for the table.}
-    \endlastfoot
-
-
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ \midrule
-    s3\_clnt\_2\_true.BV.c.cil\_os & $20981$ & 247393 & $240\ s$ & $166.57$ & $-73.4$ s & $-30.5\ \%$ & $14831$ &  $Unknown$  &  $26$ \\ 
-    \bottomrule
-
+\begin{longtable}{l@{\hskip 0.1cm}rrrrrrrR{1.7cm}}  
+    \caption{Summary results showing effects of caching}\label{tab:summary}\\   
+    \mcrot{1}{l}{60}{\pbox{20cm}{Category  \\ name}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time without \\ caching [s]}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time with \\ caching [s]}} & \mcrot{1}{l}{60}{\pbox{20cm}{Percentage \\ difference}} & \mcrot{1}{l}{60}{Equal queries} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ without cache}} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ with cache}} \\ \toprule
+    bitvector      & $3619.5$ & $2531.5$ & \SI{-30.1}{\percent} & $16570$   & 165470 & $6854$ \\ \midrule
+    eca            & $488.9$  & $696.1$  & \SI{42.4}{\percent}  & $18695$   & 18695 & $5173$ \\ \midrule
+    locks          & $243.9$  & $237.0$  & \SI{-2.8}{\percent}  & $2040$    & 2040 & $377$  \\ \midrule
+    loops          & $81.5$   & $58.3$   & \SI{-28.4}{\percent} & $5755$    & 5745 & $4113$ \\ \midrule
+    recursive      & $16.0$   & $16.6$   & \SI{4.0}{\percent}   & $372$     & 372 & $109$  \\ \midrule
+    ssh-simplified & $4557.9$ & $3069.5$ & \SI{-32.7}{\percent} & $238280$  & 238280 & $571$  \\ \midrule
+    system-c       & $3338.6$ & $1920.9$ & \SI{-42.5}{\percent} & $225906$  & $225906$ & $43513$\\ \midrule
+    concurrency    & $943.0$  & $494.6$  & \SI{-47.6}{\percent} & $1769313$ & 96214 & $9619$ \\ \bottomrule
 \end{longtable}
-\end{landscape}
+
+\begin{figure}
+    \input{bitvector_chart.tex}
+    \caption{Bitvector set}
+\end{figure}
+
+\begin{figure}
+    \input{eca_chart.tex}
+    \caption{Eca set}
+\end{figure}
+
+\begin{figure}
+    \input{locks_chart.tex}
+    \caption{Locks set}
+\end{figure}
+
+\begin{figure}
+    \input{loops_chart.tex}
+    \caption{Loops set}
+\end{figure}
+
+\begin{figure}
+    \input{recursive_chart.tex}
+    \caption{Recursive set}
+\end{figure}
+
+\begin{figure}
+    \input{ssh_chart.tex}
+    \caption{SSH-simplified set}
+\end{figure}
+
+\begin{figure}
+    \input{systemc_chart.tex}
+    \caption{SystemC set}
+\end{figure}
+
+\begin{figure}
+    \input{concur_chart.tex}
+    \caption{Concurrency set}
+\end{figure}

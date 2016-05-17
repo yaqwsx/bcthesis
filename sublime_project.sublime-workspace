@@ -4,6 +4,66 @@
 		"selected_items":
 		[
 			[
+				"table_header",
+				"table_header_r"
+			],
+			[
+				"table",
+				"table_header_r"
+			],
+			[
+				"tex",
+				"tex_join_lines"
+			],
+			[
+				"table_hea",
+				"table_header_r"
+			],
+			[
+				"prep",
+				"prepare_data"
+			],
+			[
+				"colum",
+				"column_to_int"
+			],
+			[
+				"de",
+				"default"
+			],
+			[
+				"filter_left",
+				"filter_left_timeout"
+			],
+			[
+				"column",
+				"column_to_float"
+			],
+			[
+				"fil",
+				"filter_name_prefix"
+			],
+			[
+				"wri",
+				"writerow"
+			],
+			[
+				"write",
+				"writerows"
+			],
+			[
+				"se",
+				"second_file"
+			],
+			[
+				"im",
+				"implementation"
+			],
+			[
+				"have",
+				"Havel2014thesis"
+			],
+			[
 				"TIN",
 				"TINTEGER"
 			],
@@ -20,34 +80,74 @@
 	"buffers":
 	[
 		{
-			"file": "symdivine.md",
-			"settings":
-			{
-				"buffer_size": 55845,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "In this chapter, we introduce \\symdivine from the user point of view and then\ndescribe its internal architecture. For purposes of this thesis we focus mainly\non selected parts of the \\llvm interpreter, \\smt data representation and the\nrelated machinery in \\symdivine. We omit mainly technical details about \\llvm\ninterpretation and optimization techniques. To more details about the tool we\nrefer to ToDo.\n\n# About the Tool\n\n\\symdivine is a tool for verification of real-world parallel C and C++ programs\nwith non-deterministic inputs. It is being developed at \\paradise Laboratory, at\n\\FI\\ \\MU. The tool is built on top of the \\llvm framework in order to avoid the\nneed of modeling and, at the same time, to achieve precise semantics of C and\nC++ programming languages. \\symdivine is motivated as an extension of purely\nexplicit model checker \\divine\\ \\cite{BBH+13} that is capable of handling full\nparallel C/C++ programs without inputs. \\symdivine share the ideology of\n\\divine -- it aims for bitprecise\\footnote{ToDo} verification of parallel C and\nC++ programs without modification. To properly handle programs with inputs,\n\\symdivine relies on control-explicit data-symbolic approach\\ \\cite{BBH14},\nwhich we detail in the next section.\n\nThe tool was originally presented in ToDo(citace Vojta) as a generic platform\nfor control-explicit data-symbolic state-space exploration. It provided a state\ngenerator from \\llvm bit-code and allowed user to specify custom state format\nand exploration algorithm. This set-up allowed user to implement wide variety of\nverification techniques -- e.g. explicit-state model checking, symbolic\nexecution or some kind of hybrid technique. Over the years \\symdivine\ntransformed from a generic platform to \"out-of-box ready\" verification tool by\nproviding predefined \\smt -based state representation and implementation of\nalgorithms for assertion safety and \\ltl properties checking. See\n\\autoref{fig:workflow} for typical verification work flow in current release.\nAlgorithms and store implementation provided in current release were tested in\npractise and provide quite good performance. Nevertheless, internal modular\narchitecture was preserved, so \\symdivine can still be used as a platform for\nuser experiments.\n\n\\begin{figure}[!ht]\n\\resizebox{\\textwidth}{!}{\n    \\begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=3cm\n                       , semithick\n                       , scale=0.7\n                       , state/.style={ rectangle, draw=black, very thick,\n                         minimum height=2em, minimum width = 4em, inner\n                         sep=2pt, text centered, node distance = 2em }\n                       , font=\\sffamily\n                       ]\n\n      \\node[state, anchor = north west] (cpp) {C/C++};\n      \\node[state, right = 3em of cpp, rounded corners] (clang) {Clang};\n      \\node[state, right = 3em of clang] (llvm) {LLVM IR};\n      \\node[state, right = 3em of llvm, rounded corners] (symdivine) \n      {\\symdivine};\n\n      \\node[state, above = of symdivine.north, minimum width = 15em] (ltl) \n           {Verified property: reachability, LTL};\n      \\node[state, right = of symdivine, anchor = west, minimum width = 8em] \n           (valid) {\\color{paradisegreen!70!black}OK};\n      \\node[state, below = of valid, minimum width = 8em] (ce) {\\color{red!70!black}Counterexample};\n\n      \\path (ltl.south) edge (symdivine.north)\n            (cpp) edge (clang)\n            (clang) edge (llvm)\n            (llvm) edge (symdivine)\n            (symdivine) edge (valid) edge[out=0,in=180] (ce)\n            ;\n    \\end{tikzpicture}\n    }\n    \\caption{Typical verification work flow in current version of \\symdivine. It\n       takes an \\llvm bit-code and property specification on input and decides\n       whether supplied property does hold or not. If not, an counterexample can\n       be produced by the verification algorithm. Input bit-code is usually\n       produces by \\clang compiler from C or C++ source code, however the user\n       can generate it differently.}\n    \\label{fig:workflow}\n\\end{figure}\n\n## Input Language Overview\n\n\\symdivine is designed to take an \\llvm bit-code as an input language and thus\nsupport for C and C++ languages features is mainly reduced to support of \\llvm\ninstruction set. In the current version ToDo \\symdivine supports almost all\n\\llvm instruction except of:\n\n* instructions for symbolic pointer arithmetic\n\n* instructions for pointer casts (simple integer conversions are supported,\n  only the real `bitcast` operation is not)\n\n* instructions for floating point arithmetic\n\nTo verify program using \\symdivine it is necessary that the input \\llvm bit-code\nis self-contained -- there must not be any call to a function that is not\ndefined in the bit-code, because behaviour of sucha  function is unknown to the\ntool. This also includes system calls to the underlying operating system. There\nare however few exceptions as \\symdivine provides intrinsic\nimplementation\\footnote{Behaviour of these function is hard-coded in the\ninterpreter and follows their specification.} of the subset of Pthread library\nto support multi-threading and also the subset of functions defined in SV-COMP\ncompetition rules ToDo to implement notation for non-deterministic input.\n\nFollowing functions from Pthread library are supported:\n\n* `pthread_create`, `pthread_join`, `pthread_create` for thread manipulation\n\n* `pthread_mutex_lock`, `pthread_mutex_unlock` for mutex manipulation\n\nFollowing functions from SV-COMP notation are supported:\n\n* `__VERIFIER_nondet_{type}` for modelling of non-deterministic input of given\n  type\n\n* `__VERIFIER_atomic_begin`, `__VERIFIER_atomic_end` for modelling of atomic \n  sections\n\nThis means that the standard C and C++ library is supported if it is linked in\nthe bit-code form to the input program and used functions do not call any\nsystem call.\n\nCurrent version of \\symdivine does not support heap allocation, so verified\nprogram is forbidden to call `malloc` or use `new` operator. Also dynamic sized\narrays from C99 cannot be handled in the current version of \\symdivine.\n\n# Control-Explicit Data-Symbolic Approach\n\nIn the standard explicit-state model checking, the state-space graph of the\nverified programs is explored by an exhaustive enumeration of its states.\n\\symdivine basically follows the same idea, but it employs the control-explicit\ndata-symbolic approach to alleviate the state space explosion caused by the\nnon-deterministic input values.\n\nWhen an input read (`__VERIFIER_nondet_{type}` function is called) is\ninterpreted by an explicit-state model checker, a new successor for every\npossible input value has to be produced. This causes tremendous state-space\nexplosion. It is worth noting these states only differ in a single data field\nand thus the same instructions are further applied to all of them (only\nbranching or `select` instruction can change the control flow). \\symdivine can\nbenefit from this fact. When \\symdivine interprets non-deterministic read, only\na single so called *multi-state* is produced. Produced multi-state is composed\nof an explicit control flow location and a set of program's memory valuation.\n\nSingle multi-state can be viewed as set of purely explicit states (so called\nset-based reduction, we kindly refer to ToDo citatce vojta for formal\ndefinition). Thus multi-state space can bring up to exponential size (and\nmemory) reduction compared to the explicit state-space of the same program with\ninputs. The model-checking algorithms present in \\symdivine operate on multi-\nstates. As the multi state-space is up to exponentially smaller and a single\noperation application to a multi-state corresponds to an application of the same\noperation to a set of explicit states, these algorithms can be much faster, even\nthough handling multi-states is computational more demanding. This is the key\ndifferentiation compared to the purely explicit approaches. To illustrate the\neffect of the set-based reduction, see example of a bit-code and a corresponding\nexplicit-state space and a multi-state space in\n\\autoref{fig:statespace}.\n\nMoreover if we provide a decision procedures for multi-state equality, it is\npossible to adopt existing explicit-state model checking algorithms. This allows\nto easily implement standard automata-based \\ltl model-checking or perform\nsafety analysis for non-terminating programs (provided that the multi-state\nspace is finite).\n\n\\begin{figure}[!ht]\n    \\begin{minted}[xleftmargin=1.5em,linenos=true]{llvm}\n%a = call i32 @__VERIFIER_nondet_int()\n%b = icmp sge i32 %a, 65535\nbr i1 %b, label %5, label %6\n    \\end{minted}  \n  \n    The code represents a simple \\llvm program, where register \\texttt{a} is\n    initialized with a non-deterministic 32-bit integer, then it is checked\n    whether it is greater or equal to a given constant. The result of the check\n    is stored to register \\texttt{b} and used for branching.\n\n    \\begin{center}\n    \\divine\n    \n    \\resizebox{\\textwidth}{!}{\n    \\begin{tikzpicture}[]\n        \\tikzstyle{every node}=[align=center, minimum width=1.75cm, minimum height=0.6cm]\n        \\tikzset{empty/.style = {minimum width=0cm,minimum height=1cm}}\n        \\tikzset{tnode/.style = {rectangle,draw=black!50,fill=black!10,thick}}\n        \\tikzset{dots/.style = {draw=none}}\n        \\tikzset{>=latex}\n        \\tikzstyle{outer}=[draw, dotted, thick]\n\n        \\tikzstyle{wave}=[decorate, decoration={snake, post length=0.1 cm}]\n        %divine\n        \\node [tnode] (s) {\\texttt{init}};\n        \\node [right = 2cm of s] (mid) {};\n\n        \\node [tnode, above = -0.25 cm of mid, minimum width=2cm] (s65534){\\texttt{a = 65534}};\n        \\node [tnode, below = -0.25 cm of mid, minimum width=2cm] (s65535){\\texttt{a = 65535}};\n\n        \\node [dots, above = 0 cm of s65534] (dots1){\\LARGE$\\vdots$};\n        \\node [dots, below = -0.2 cm of s65535] (dots2){\\LARGE$\\vdots$};\n\n        \\node [tnode, above = -0.2 cm of dots1, minimum width=2cm] (s0) {\\texttt{a = 0}};\n        \\node [tnode, below = 0 cm of dots2, minimum width=2cm] (sn) {\\texttt{a = $2^{32}-1$}};\n\n        \\node [tnode, right = 1.5 cm of s65534, minimum width=3.7cm] \n        (s65534_icmp){\\texttt{a = 65534; b = 0}};\n        \\node [tnode, right = 1.5 cm of s65535, minimum width=3.7cm] \n        (s65535_icmp){\\texttt{a = 65535; b = 1}};\n\n        \\node [dots, above = 0.0 cm of s65534_icmp] (dots1_icmp){\\LARGE$\\vdots$};\n        \\node [dots, below = -0.2 cm of s65535_icmp] (dots2_icmp){\\LARGE$\\vdots$};\n\n        \\node [tnode, right = 1.5 cm of s0, minimum width=3.7cm] (s0_icmp) \n        {\\texttt{a = 0; b = 0}};\n        \\node [tnode, right = 1.5 cm of sn, minimum width=3.7cm] (sn_icmp) \n        {\\texttt{a = $2^{32}-1$; b = 1}};\n           \n        \\node [empty, left  = 1 cm of s]  (start) {};\n        \\node [empty, right = 1 cm of s0_icmp] (s0end) {};\n        \\node [empty, right = 1 cm of s65534_icmp] (s65534end) {};\n        \\node [empty, right = 1 cm of s65535_icmp] (s65535end) {};\n        \\node [empty, right = 1 cm of sn_icmp] (snend) {};\n\n        \\begin{pgfonlayer}{background}[]\n        \\node[outer, fit = (s) (s0) (sn) (start) (s0end) (snend) (s0_icmp)] (tool) {};\n        \\end{pgfonlayer}\n\n        \\draw [->] (s.east) -| ($(s.east) !0.3! (s0.west)$) |- (s0.west) node [near end, above=1pt] {\\texttt{call}} ;\n        \\draw [->] (s.east) -| ($(s.east) !0.3! (s65534.west)$) |- (s65534.west) node [near end, above=1pt] {\\texttt{call}} ;;\n        \\draw [->] (s.east) -| ($(s.east) !0.3! (s65535.west)$) |- (s65535.west) node [near end, above=1pt] {\\texttt{call}} ;\n        \\draw [->] (s.east) -| ($(s.east) !0.3! (sn.west)$) |- (sn.west) node [near end, above=1pt] {\\texttt{call}} ;\n\n        \\draw [->] (s0) -- (s0_icmp) node [midway, above=0pt] {\\texttt{icmp}};\n        \\draw [->] (s65534) -- (s65534_icmp) node [midway, above=0pt] {\\texttt{icmp}};\n        \\draw [->] (s65535) -- (s65535_icmp) node [midway, above=0pt] {\\texttt{icmp}};\n        \\draw [->] (sn) -- (sn_icmp) node [midway, above=0pt] {\\texttt{icmp}};\n\n        \\draw [wave, ->] (s0_icmp.east) -- (s0end) node [empty, midway, above=2pt] {};\n        \\draw [wave, ->] (s65534_icmp.east) -- (s65534end) node [empty, midway, above=2pt] {};\n        \\draw [wave, ->] (s65535_icmp.east) -- (s65535end) node [empty, midway, above=2pt] {};\n        \\draw [wave, ->] (sn_icmp.east) -- (snend) node [empty, midway, above=2pt] {};\n\n        \\draw [wave, ->] (start) -- (s);\n    \\end{tikzpicture}\n    }\n    \n    \\medskip\n    \n    \\symdivine\n    \\bigskip\n    \n    \\resizebox{\\textwidth}{!}{\n    \\begin{tikzpicture}[]\n        \\tikzstyle{every node}=[align=center, minimum width=1.75cm, minimum height=0.6cm]\n        \\tikzset{empty/.style = {minimum width=0cm,minimum height=1cm}}\n        \\tikzset{tnode/.style = {rectangle,draw=black!50,fill=black!10,thick,align=left}}\n        \\tikzset{dots/.style = {draw=none}}\n        \\tikzset{>=latex}\n        \\tikzstyle{outer}=[draw, dotted, thick]\n\n        \\tikzstyle{wave}=[decorate, decoration={snake, post length=0.1 cm}]  \n        %symdivine\n        \\node [tnode] (s_sym) {\\texttt{init}};\n        \\node [tnode, right = 1.0 cm of s_sym, minimum width=2cm] (s_nd_sym) \n        {\\texttt{a = \\{0,\\dots,$2^{32}-1$\\}}};\n\n        \\node [empty, right = 3.5cm of s_nd_sym] (mid_sym) {};\n\n        \\node [tnode, above = -0.45 cm of mid_sym, minimum width=4.6cm] (s1_sym)\n        {\\texttt{a = \\{0,\\dots,65534\\}}\\\\\\texttt{b = \\{0\\}}};\n        \\node [tnode, below = -0.45 cm of mid_sym, minimum width=4.6cm] (s2_sym)\n        {\\texttt{a = \\{65535,\\dots,$2^{32}-1$\\}}\\\\\\texttt{b = \\{1\\}}};\n            \n        \\node [empty, left  = 0.5 cm of s_sym]  (start_sym) {};\n        \\node [empty, right = 0.5 cm of s1_sym] (s1end_sym) {};\n        \\node [empty, right = 0.5 cm of s2_sym] (s2end_sym) {};\n\n        \\begin{pgfonlayer}{background}[]\n        \\node[outer, fit = (s_sym) (s1_sym) (s2_sym) (start_sym) (s1end_sym) (s2end_sym)] (tool) {};\n        \\end{pgfonlayer}\n\n        \\draw [->] (s_sym.east) -- (s_nd_sym.west) node [midway, above=0pt] {\\texttt{call}};\n\n        \\draw [->] (s_nd_sym.east) -| ($(s_nd_sym.east) !0.2! (s1_sym.west)$) |- (s1_sym.west) node [near end, above=0pt] {\\texttt{icmp}};\n        \\draw [->] (s_nd_sym.east) -| ($(s_nd_sym.east) !0.2! (s2_sym.west)$) |- (s2_sym.west) node [near end, above=0pt] {\\texttt{icmp}};\n\n        \\draw [wave, ->] (start_sym) -- (s_sym);\n        \\draw [wave, ->] (s1_sym) -- (s1end_sym);\n        \\draw [wave, ->] (s2_sym) -- (s2end_sym);\n    \\end{tikzpicture}\n    }\n    \\end{center}\n\n    \\caption{The figure compares state exploration in the explicit approach of\n    \\divine and in the control-explicit data-symbolic  approach of \\symdivine on\n    \\llvm program example. From \\texttt{init} state \\divine explores states for\n    every possible value of \\texttt{a} ($2^{32}$ values), hence exponentially\n    expands the state space. In contrast \\symdivine approach of symbolic\n    representation generates only two different states. One where the condition\n    on branching ($a \\geq 65535$) is satisfied and the other one where the\n    condition is violated. }\n    \\label{fig:statespace}\n\\end{figure}\n\nTo verify a real-world program an efficient representation of the multi-states\nis needed. \\symdivine is not linked to a given fixed format of multi-states and\nusers can supply their own implementation (as is described in detail in the\narchitecture overview in the section \\autoref{sec:architecture}). During\ndevelopment of \\symdivine several representations of multi-states were\nimplemented and tested. This includes representation using binary decisions\ndiagrams (\\bdd) or representation using \\smt formulae. \\bdd representation\nperforms quite well on artificial benchmarking programs containing no advanced\narithmetic. \\smt representation significantly outperformed the previous one on\nthe real-world programs with more arithmetic. Support for \\bdd representation\nwas dropped in the current version and the \\smt representation is the only one\nshipped. We describe this representation in detail in\n\\autoref{sec:symdivine:smtstore} as it an essential preliminary for our work\npresented in this thesis.\n\n# Internal architecture\\label{sec:architecture}\n\nAs we mentioned in the previous section, \\symdivine was originally developed as\na platform for creating custom tools for the control-explicit data-symbolic\napproach. Thus the internal structure is split into clearly separated modules\nwith fixed interface and each module can easily be replaced by another\nimplementation. The whole tool is implemented in C++. Each module is represented\nby a class. \\autoref {fig:architecture} illustrates components\ninteraction. There are following main modules in \\symdivine:\n\n* \\llvm interpreter (responsible for multi-state generation from \\llvm bit-code)\n\n* Data stores (implementation of multi-state representation)\n\n* Exploration algorithms\n\n\\begin{figure}[!ht]\n\\begin{center}\n\\resizebox{0.85\\textwidth}{!}{\n    \\begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=3cm\n                       , semithick\n                       , scale=0.7\n                       , state/.style={ rectangle, draw=black, very thick,\n                         minimum height=2em, minimum width = 4em, inner\n                         sep=4pt, text centered, node distance = 2em }\n                       , font=\\sffamily\n                       ]\n\n      \\node[state, minimum width = 8em] (inter) {\\llvm Interpreter};\n\n      \\node[above = 3em of inter] (alg_cent) {};\n      \\node[state, left = 0.5em of alg_cent, minimum width = 6em] (ltl) {\\ltl};\n      \\node[state, right = 0.5em of alg_cent, minimum width = 6em] (reach) \n      {reachability};\n      \\node[above = 0.7em of alg_cent] (alg_label) {Algorithms};\n      \\node[state, left = 4em of ltl] (property) {\\ltl formula};\n\n      \\node[below = 3em of inter] (data_label) {Data Stores};\n      \\node[below = 0.7em of data_label] (data_cent) {};\n      \\node[state, left = 0.5em of data_cent, minimum width = 7em] (expl) \n      {Explicit Store};\n      \\node[state, right = 0.5em of data_cent, minimum width = 7em] (symb) {\\smt\n       Store};\n\n       \\node[state, right = 3em of symb] (solver) {\\smt solver};\n\n      \\node[state, left = 6em of inter] (input) {\\llvm bit-code};\n      \\node[state, fit=(ltl) (reach) (alg_label)] \n      (algorithm) {};\n      \\node[state, fit=(data_label) (expl) (symb)] (state) \n      {};\n\n      \\node[state, dotted, label=\\symdivine, fit = (algorithm) (state)] (frame) \n      {};\n\n      \\path[<->] (inter) edge (algorithm)\n                 (inter) edge (state)\n                 (symb) edge (solver)\n                 ;\n      \\path[->] (input) edge (inter)\n                (property) edge (ltl)\n                ;\n    \\end{tikzpicture}\n    }\n    \\caption{High-level overview of \\symdivine architecture. Nested boxes correspond to interfaces and their concrete implementations.}\n    \\label{fig:architecture}\n\\end{center}\n\\end{figure}\n\n## \\llvm interpreter\n\nInterpreter in \\symdivine operates between input \\llvm bit-code and a multi-\nstate space exploration algorithm. It acts as an abstraction layer that provides\nexplicit program representation in form of a  multi-state space graph to the\nexploration algorithms instead of the implicit form (\\llvm bit-code). In this\nsubsection we provide general overview of the interpreter operation and in\ndetail we describe parts related to the interaction with data store, as\nunderstanding the interaction is essential for our work.\n\nInterpreter is represented by the `Evaluator` class in the source code and\nprovides a similar interface to the state generators of explicit-state model\nchecking tools like \\divine. After initialization of the interpreter with an\ninput \\llvm bit-code, it provides a reference to so-called working multi-state\n(we will refer it as \"working copy\") and provides several functions that can be\nused to modify this working copy. Exploration algorithm then can write a\nmulti-state to the working copy and use the interface of the interpreter to\nmodify it and examine it. Following functions are available:\n\n* `initial` function constructs an initial multi-state in the working copy -- a\n  multi-state of a program just after the start of the main thread and the call\n  of the `main` function.\n\n* `advance` function sequentially constructs all possible successors of the\n  working copy, caller is notified by a callback function about newly produced\n  successor.\n\n* `is_empty` function returns true iff the set of possible memory valuations of\n  the working copy is empty.\n\n* `is_error` functions return true iff there is a violated assertion or\n  memory corruption (e.g. access beyond array boundaries) in working copy.\n\n* `push_prop_guard` functions filters possible memory valuations of the working\n  copy using a given predicate.\n\nThis interface allows easy mimicking existing explicit-state model checking\nalgorithms like simple reachability or automata-based \\ltl model checking. A\nmulti-state corresponds to a set of explicit-states, as we mentioned in the\ngeneral tool overview, so the generator related operations in these algorithms\ncan be up to exponentially faster compared to their explicit-state version.\n\nTo allow the interpreter to operate on top of a user-supplied implementation of\na multi-state (here and in a source code referred as \"data store\"), several\nassumptions about the state representation are made:\n\n* control flow location is represented explicitly\n\n* memory layout layer (MML) is provided\n\n* set of functions for data manipulation is provided\n\n\\noindent We will now discuss each of these assumptions in detail.\n\nThe interpreter expects the control flow location in following straightforward\nform following the instruction identification in an \\llvm bit-code. Each\ninstruction in an \\llvm bit-code can be uniquely identified by a triplet $(f_\n{idx}, bb_{idx}, i_{idx})$, where $f_{idx}$, $bb_{idx} and $i_{idx}$ are indices\nof function in the \\llvm bit-code, a basic block in the function and the\ninstruction in a basic block respectively. As \\symdivine supports multi-threaded\nprograms, a control flow location is kept for each thread. There is an unique\nintegral identifier assigned to each thread upon its execution. To represent\ncontrol flow state of a multi-thread program with function calls, \\symdivine\nkeeps a stack of instructions identifiers for every thread.\n\nTo interpret the verified program, unique identification of program's variables\nneeds to be established. Identification in a similar way as instructions are\nidentified is not sufficient, because the recursion and nested function calls\nmight occur and it is necessary to distinguish variables in different calls of\nthe same function. As \\symdivine does not support dynamic memory allocation,\ninspiration for variables identification was taken from classical call stack.\nWhen a new block of memory is allocated in an \\llvm program (function is called\nor an `alloca` instruction is interpreted), new memory segment is created and\nassigned to a the operation (function call or `alloca` instruction). Each automatic variable in the function body or element of array (in case of the `alloca` instruction) is then assigned an index (in source code and in further text referred as\n\"offset\") in this segment. Every instance of a live variable then can be\nidentified by its segment and offset. Note that the first segment is reserved\nfor global variables.\n\nVariables naming using segment and offset is required by the interpreter as this\nfixed naming allows straightforward implementation of strongly typed pointers,\narrays and structures. Pointers are simply implemented as a pair containing a\nsegment and a offset. Array of size $n$ is represented as $n$ independent\nvariables. Since the arrays are strongly typed (`bitcast` instruction is not\nsupported by \\symdivine), pointer arithmetic for arrays can be implemented by\noffset manipulation. Similarly structures are implemented as several independent\nvariables. Since there are no requirements for the offset numbering, memory\nlayout layer, implemented by a data store, allows the interpreter to map\nvariables from currently executed function to correct offset. To see example of\na memory layout layer, follow \\autoref{sec:symdivine:smtstore}.\n\nSince the set of possible data valuations in a multi-state can be expressed in\nmany ways, the interpreter relies on the interface provided by the data store.\nThis interface is designed in a way, that effect of every \\llvm instruction and\nevery intrinsic function definition on a given multi-state can be expressed as a\nsequence of function application from the interface. The interface is further\ndescribed in \\autoref{sec:symdivine:arch:datastore}.\n\nGiven this set up, implementation of the `advance` function for successor\ngeneration is straightforward. In theory, \\symdivine produces successors by an\nexhaustive enumeration -- every possible thread interleaving is emitted. This\napproach would cause a state-space explosion well known from explicit-state\nmodel checkers that operate on top of \\llvm like \\divine. To at least partially\nalleviate the state-space explosion, the interpreter involves so-called\n$\\tau$-reduction Todo. In practise the interpreter does not emit every direct\nsuccessor, but keeps traversing the multi-state space graph until a visible\naction is performed (`load` or `store` on a globally visible variable is\ninterpreted or an safety property is violated). It effectively squashes effect\nof multiple instruction with no visible action to single transition and thus\nremove unnecessary thread interleaving and produces smaller multi-state spaces\nequivalent with the original one (for safety properties and \\ltl formulae with\nno next operator). For details of implementation we kindly refer to todo citatce\nvojta\n\nTo illustrate the interpreter operation, we present \\autoref{fig:codegeneration}\nand \\autoref{fig:generation}. The first figure shows an example of a simple C\ncode and corresponding \\llvm bit-code. The second figure shows a multi-state\nspace graph, that is produced by the interpreter if the bit-code from\n\\autoref{fig:codegeneration} is supplied as an input.\n\n\n\\begin{figure}[!ht]\n    \\begin{minted}[xleftmargin=1.5em,linenos=true]{C}\nvolatile int a;\nint main() {\n    a = __VERIFIER_nondet_int();\n    while(1) {\n        int b = __VERIFIER_nondet_int();\n        if (b < a) { a = b; }\n        if (a == 42) { break; }\n    }\n    return 0;\n}\n    \\end{minted}\n    \\begin{minted}[xleftmargin=1.5em,linenos=true]{llvm}\n@a = common global i32 0, align 4\n; Function Attrs: nounwind uwtable\ndefine i32 @main() #0 {\n  %1 = tail call i32 (...)* @__VERIFIER_nondet_int() #2\n  store volatile i32 %1, i32* @a, align 4, !tbaa !1\n  br label %2\n\n; <label>:2                                ; preds = %7, %0\n  %3 = tail call i32 (...)* @__VERIFIER_nondet_int() #2\n  %4 = load volatile i32* @a, align 4, !tbaa !1\n  %5 = icmp slt i32 %3, %4\n  br i1 %5, label %6, label %7\n\n; <label>:6                                ; preds = %2\n  store volatile i32 %3, i32* @a, align 4, !tbaa !1\n  br label %7\n\n; <label>:7                                ; preds = %6, %2\n  %8 = load volatile i32* @a, align 4, !tbaa !1\n  %9 = icmp eq i32 %8, 42\n  br i1 %9, label %10, label %2\n\n; <label>:10                               ; preds = %7\n  ret i32 0\n}\n    \\end{minted}  \n  \n    \\caption{Example of a very simple C code and a corresponding \\llvm bit-code\n    obtained as a result of a compilation with \\clang with O2 optimizations.\n    Produced bit-code should be simple enough to be understandable even without\n    a deep knowledge of \\llvm. Note that variable \\texttt{a} was marked as\n    \\texttt{volatile} and thus compiler cannot optimize out any load or store\n    operations to/from this variable. See \\autoref{fig:generation} for\n    corresponding multi-state space. }\n    \n    \\label{fig:codegeneration}\n\\end{figure}\n\n\\begin{figure}[!ht]\n\\begin{center}\n\\resizebox{0.9\\textwidth}{!}{\n    \\begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=3cm\n                       , semithick\n                       , scale=0.7\n                       , state/.style={ rectangle, draw=black, very thick,\n                         minimum height=2em, minimum width = 13em, inner\n                         sep=6pt, text centered, node distance = 2em, align = left,  rounded corners }\n                       , font=\\sffamily\n                       ]\n\n      \\node[state, label = initial] (initial)\n            {PC: 4 \\\\\n             @a  $\\in \\{-2^{32},\\dots, 2^{32}-1\\}$\\\\\n             \\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%3 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%4 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%5 $\\in$ \\{$0,1$\\}\\\\\n             \\%8 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%9 $\\in$ \\{$0,1$\\}};\n\n      \\node[state, right = 6em of initial] (2)\n            {PC: 6 \\\\\n             @a  = \\%1\\\\\n             {\\color{red}\\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}}\\\\\n             \\%3 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%4 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%5 $\\in$ \\{$0,1$\\}\\\\\n             \\%8 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%9 $\\in$ \\{$0,1$\\}};\n\n      \\node[state, below = 1.5 em of 2] (3)\n            {PC: 11 \\\\\n             {\\color{red}@a  = \\%1}\\\\\n             \\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             {\\color{red}\\%3 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}}\\\\\n             {\\color{red}\\%4 = @a}\\\\\n             \\%5 $\\in$ \\{$0,1$\\}\\\\\n             \\%8 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%9 $\\in$ \\{$0,1$\\}};\n\n      \\node[state, below = of 3] (4)\n            {PC: 20 \\\\\n             @a  = \\%1\\\\\n             \\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             {\\color{red}\\%3 $\\in$ \\{@a$,\\dots, 2^{32}-1$\\}}\\\\\n             \\%4 = @a\\\\\n             {\\color{red}\\%5 = 0}\\\\\n             {\\color{red}\\%8 = @a}\\\\\n             \\%9 $\\in$ \\{$0,1$\\}};\n\n      \\node[state, left = 6em of 3] (5)\n            {PC: 16 \\\\\n             {\\color{red}@a  = \\%3}\\\\\n             \\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             {\\color{red}\\%3 $\\in$ \\{$-2^{32},\\dots, $@a$_{prev}-1$\\}}\\\\\n             {\\color{red}\\%4 = @a}\\\\\n             {\\color{red}\\%5 = 1}\\\\\n             \\%8 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%9 $\\in$ \\{$0,1$\\}};\n\n      \\node[state, below = of 5] (6)\n            {PC: 20 \\\\\n             @a  = \\%3\\\\\n             \\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%3 $\\in$ \\{$-2^{32},\\dots, $@a$_{prev}-1$\\}\\\\\n             \\%4 = @a\\\\\n             \\%5 = 1\\\\\n             {\\color{red}\\%8 = @a}\\\\\n             \\%9 $\\in$ \\{$0,1$\\}};\n\n      \\node[state, below = of 4] (7)\n            {PC: end \\\\\n             @a  = \\%1\\\\\n             \\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%3 $\\in$ \\{@a$,\\dots, -2^{32}-1$\\}\\\\\n             \\%4 = @a\\\\\n             \\%5 = 0\\\\\n             \\%8 = @a\\\\\n             {\\color{red}\\%9 $=1$}};\n\n      \\node[state, below = of 6] (8)\n            {PC: end \\\\\n             @a   =\\%3\\\\\n             \\%1 $\\in$ \\{$-2^{32},\\dots, 2^{32}-1$\\}\\\\\n             \\%3 $\\in$ \\{$-2^{32},\\dots, $@a$_{prev}-1$\\}\\\\\n             \\%4 = @a\\\\\n             \\%5 = 1\\\\\n             \\%8 = @a\\\\\n             {\\color{red}\\%9 $=1$}};\n\n      \\path[->] (initial) edge (2)\n                (2) edge (3)\n                (3) edge node [midway, above=0pt] {$\\%3<\\%4$} (5)\n                (3) edge node [midway, right=0pt] {$\\%3\\geq \\%4$} (4)\n                (4.east) edge[bend right] node [right=0pt] {$\\%8\\neq 42$} (3.east)\n                (5) edge (6)\n                (6) edge node [midway, right=0pt] {$\\%8=42$} (8)\n                (4) edge node [midway, right=0pt] {$\\%8=42$} (7)\n                (6.north east) edge node [midway, above=7pt] {$\\%8\\neq 42$} (3.south west)\n                ;\n    \\end{tikzpicture}\n    }\n    \\caption{Multi-state space corresponding to the code from\n    \\autoref{fig:codegeneration}. As there are no nested function calls, we used\n    simple naming according to variable and registers names in the \\llvm bit-\n    code. Program counter (PC) is expressed as a line number of instructions\n    that is going to be interpreted next to make the scheme easier to read. Note\n    the $\\tau$-reduction in action, where multiple globally invisible actions\n    are squashed together. To make the schematic even more easy to read, we\n    highlighted fields, that have been modified by a transition and we also\n    added labels to edges, to make clear which action caused given transition.\n    If multiple threads were involved, all possible context switches would occur\n    on every transition. Also please note, to express the valuations set, it was\n    necessary to refer to an value of \\texttt{a} from previous state. We marked\n    it as a$_{prev}$. }\n    \\label{fig:generation}\n\\end{center}\n\\end{figure}\n\n\n## Data store \\label{sec:symdivine:arch:datastore}\n\nIn this subsection we describe an interface of data store, that is used by the\n\\llvm interpreter to analyse and transform multi-states. To see an example of\npossible implementation of this interface, please see\n\\autoref{sec:symdivine:smtstore}, where we provide in-depth description of \\smt\nStore. Each data store keeps the explicit part of a state and the symbolic\n(data) part. We omit description of the explicit part of state as it\nimplementation is trivial. The interface can be split into following categories:\nmemory layout layer, transformations and analysis.\n\nTo present the interface formally, we define a set of possible memory valuations\nas a function $v: V \\rightarrow 2^B$, where $V$ is a finite set of programs\nvariables and $B$ is a set of all bit-vectors. $v$ also follows that for all $y\n\\in v(x), x \\in V$ the bit-width of $y$ matches the bit width of $x$ declared in\n\\llvm bit-code.\n\nThe memory layout layer is invoked when the interpreter needs to allocate new\nmemory or dereference a register or a pointer. Following functions are required:\n\n* `add_segment(bws)` function -- given a thread identifier and a list of bit\n  widths `bws`, constructs a new stack segment for these variables and returns\n  its identifier. Formally speaking, the set of variables $V$ is extended, $v(x)$ for newly added $x$ is undefined.\n\n* `erase_segment(id)` function -- erases segment and guaranties that values from\n  other segments are not affected. Formally, the set of variables $V$ is\n  reduced. Also value of $v(x)$ for all $x$ that were not in the removed\n  segment, stays the same.\n\n* `deref(tid, id)` -- given a thread identifier and a register identifier from\n  \\llvm bit- code, returns identifier of variable in form of segment and offset.\n  If the identifier was a pointer, returns an identifier to a location pointed\n  by that pointer. Only values from global scope or the currently called\n  function in given thread are allowed as arguments.\n\n\\noindent Transformation functions are invoked when the interpreter needs to\nperform an arithmetic operation or store value to a memory. Following functions\nare required:\n\n* `implement_{op}(a, b, c)` -- set of functions, that given three memory\n  location obtained by call to MML, implement a given binary operation\n  (arithmetic, bitwise, etc.) using `a` and `b` as arguments and stores the\n  result to `c`. Formally, `implement_{op}` changes $v$ to $v'$ such that $v'(x)\n  = \\{ x \\texttt{ op } y \\mid x \\in v(\\texttt{a}), y \\in(\\texttt{b})\\}$ if\n  $x=\\texttt{c}$, otherwise $v'(x) = v(x)$.\n\n* `implement_input(a)` -- stores a non-deterministic value to given memory\n  location. Formally, `implement_input` changes $v$ to $v'$ such that $v'(x) =\n  \\{ b \\mid b \\mbox{ is a bit-vector of bit-with corresponding to bit-width of }\n  x \\}$ if $x=\\texttt{a}$, otherwise $v'(x) = v(x)$\n\n* `prune_{op}(a, b)` -- given a simple relation operator (grater, smaller that,\n  equal to, etc.) and two memory locations, removes memory valuations in which\n  the relation does not hold. Formally, it changes\n\n* `store(r, p)` and `load(r, p)` -- takes a register and a pointer either stores\n  a value from register to memory pointed by the pointer or loads a value to a\n  register from memory pointed by the pointer. Formally, `store` changes $v$ to\n  $v'$ such that $v'(x) = v(r)$ if `p` points to $x$, otherwise $v'(x) = v(x)$.\n  `load` operation is defined symmetrically.\n\n\\noindent Last category are analysis functions used mainly by exploration\nalgorithms to construct a set of known multi-states and produce a product with\nan automaton:\n\n* `empty(a)` -- returns true if the set of possible valuations of `a` is empty.\n  Formally, returns true iff there is a $x$ such that $v_a(x)=\\emptyset$.\n\n* `equal(a, b)` -- given two multi-states , returns true if the set of possible\n  valuations is empty. Formally, returns $v_a=v_b$. The sets of programs\n  variables $V_a$ and $V_b$ are required to be the same. Note that there might\n  be representations, which equality cannot be checked purely by syntactic or\n  memory equality, as we show an example in \\autoref{sec:symdivine:smtstore}.\n\n* `get_explicit_part` -- returns an encoded explicitly represented part of the\n  multi-state in form of a binary blob. If two multi-states are equal to each\n  other, both blobs from the multi-states has to be the same.\n\n* `less_than` -- if there is an ordering defined on the multi-state\n  representation, this function can be provided (and thus an algorithm can use a\n  tree set to represent a set of multi-states)\n\n\\noindent There were several implementations of data store developed and short\nsummary of them follows. Note that not all of them are distributed in current\nrelease of \\symdivine as they were replaced by a more efficient one, or their\ndevelopment and support was discontinued.\n\n* Explicit store -- represents only a single possible memory valuation, not a\n  set of valuations. Usage of this store \"degrades\" \\symdivine to a purely\n  explicit-state model checker. This store is used for implementation of the\n  explication optimization to reduce number of multi-state equality test during\n  state space exploration. As this optimization is not important for our thesis,\n  we kindly refer to citace vota for further detail.\n\n* \\bdd store -- \\bdd are be used to represent a set of possible memory\n  valuations. There are algorithms for computing binary arithmetic and logic\n  operations for \\bdd todo citace bdd, so implementation of store is\n  straightforward -- for every program's variable there is a single \\bdd.\n  Equality check of two \\bdd s is cheap operation as they feature canonical\n  representation. However construction of \\bdd for arithmetic operations (e.g.\n  multiplication) are quite expensive. This kind of store failed to verify even\n  small examples due to the high complexity todo citace vojta. Thus development\n  of this store was discontinued\n\n* \\smt store -- uses \\smt formula to represent a set of possible memory\n  valuations. To decide whether two representations describe the same set of\n  valuations, an \\smt solver for quantified bit-vector theory is used. For\n  further description of this store, follow \\autoref{sec:symdivine:smtstore},\n  where we describe this store in detail. This store is used as a primary one in\n  current release of \\symdivine.\n\n* Empty store -- does not represent any memory valuations and only collects\n  sequence of transformations applied to the store. This is not useful for any\n  verification technique, however it can be used to translate \\llvm bit-code\n  into different kind of formalism. See next section where we describe this\n  process in more detail.\n\n## Exploration algorithms\n\nOn top the \\llvm interpreter and a data store it is easy to implement an\nalgorithm for state space exploration. Algorithm is usually the only thing user\ninteracts with. Taken all inputs from the user (\\llvm bit-code, property,\nexploration strategy etc.) it usually instantiates an interpreter, asks for an\ninitial state and using the `advance` function of the interpreter it builds a\nset of known multi-states or even full multi-state space graph.\n\nAs a multi-state is required to provide a procedure for equality of two multi-\nstates, is possible to represent a set of multi-states. Set representation using\nonly a an equal operation would not scale well to real-world program sizes for\nobvious reasons. Note that a traditional hash-set used in explicit-state model\nchecker cannot be used as there can be a multi-state representation that doesn't\nhave a canonical form (e.g. \\smt store). Thus \\symdivine tries to benefit from\nhaving an explicit control flow is mandatory for every data store\nimplementation. Typical set of multi-states is implemented as follow. There is a\nhash map containing list of symbolic parts of the multi-states for every\nexplicit part of the multi-states. When a new element is inserted to the set,\nlist of the symbolic parts corresponding to the explicit part is recalled and\nthen every symbolic part from the list tested for equality. If an equal symbolic\npart is found, procedure ends, otherwise new symbolic part is put at the end of\nthe list. This optimization significantly reduces number of calls to the\nequality procedure, however it still possible to obtain a significant number of\nsymbolic parts per control flow location.\n\nIf a multi-state representation allows to implement `less_than` procedure, it is\npossible to replace a linear search by binary search and thus further optimize\nthe set representation.\n\nUsing various combinations of algorithms and data stores, \\symdivine can serve\nas a multi-purpose tool. During development of \\symdivine, experiments with\nfollowing combinations were performed:\n\n* \\smt or \\bdd store combined with algorithm for reachability. This\n  combination produces a model-checker for safety properties that can handle\n  input values. This approach was originally introduced in todo citatce vojta\n\n* \\smt or \\bdd store combined with a standard algorithm for automata-based\n  \\ltl model-checking. During the verification, negation of specification \\ltl\n  formula is converted to an \\buchi automaton and during successors generation\n  procedure a product with the automaton is produces. Test for atomic\n  propositions, that can refer to global variables of the program, is\n  implemented using the `prune` operation of the store. It filters-out memory\n  valuations that violate the atomic proposition -- see \\autoref{fig:ltl}. This\n  approach was originally implemented in citatce vilik and further improved in\n  citace spin.\n\n* Explicit store combined with reachability or \\ltl algorithm on input\n  programs with no non-deterministic input produces a standard explicit-state\n  model checker.\n\n* \\smt or a \\bdd store combined with simple exploration without tracking the\n  set of known multi-states yields in symbolic execution.\n\n* Empty store in combination with reachability can be used to convert \\llvm\n  bit-code to an artificial modelling language. Thus tool like nuXmv todo\n  citace, that does not support \\llvm as an input formalism, can be used to\n  verify properties of \\llvm bit-code. When running the reachability, empty\n  store produces one state per each reachable control flow location and collects\n  sequence of transformations applied to the state and transition guard --\n  constructs a guarded transition system. After exploration, this transition\n  system is translated to desired modelling language. This usage of \\symdivine\n  was introduced in citace vilik\n\n  \\begin{figure}[!ht]\n\\begin{center}\n\\resizebox{\\textwidth}{!}{\n    \\begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=1.5cm\n                       , semithick\n                       , scale=0.7\n                       , font=\\sffamily\n                       , stateprog/.style={ rectangle, draw=black, very thick,\n                         minimum height=2em, minimum width = 10em, inner\n                         sep=6pt, text centered, node distance = 2em, align = left,  rounded corners }\n                       ]\n        \\node[initial, state] (1) {1};\n        \\node[state, above right = of 1] (2) {2};\n        \\node[state, right = of 1] (3) {3};\n        \\node[state, below right = of 1] (4) {4};\n\n        \\node[stateprog, right = of 3, label = (A)] (p1)\n            {PC: 1 \\\\\n             BA: 1 \\\\\n             a $\\in \\{0,\\dots, 2^{32}-1\\}$};\n        \\node[stateprog, above right = of p1, label = (B)] (p2)\n            {PC: 1 \\\\\n             BA: 2 \\\\\n             a $\\in \\emptyset$};\n        \\node[stateprog, right = of p1, label = (C)] (p3)\n            {PC: 1 \\\\\n             BA: 3 \\\\\n             a $=0$};\n        \\node[stateprog, below right = of p1, label = (D)] (p4)\n            {PC: 1 \\\\\n             BA: 4 \\\\\n             a $\\in \\{1, 2^{32}-1\\}$};\n\n        \\path[->]\n                (1) edge node [midway, left=0pt] {$a < 0$} (2)\n                (1) edge node [midway, above=0pt] {$a = 0$} (3)\n                (1) edge node [midway, left=0pt] {$a > 0$} (4)\n                (p1) edge [dashed] (p2)\n                (p1) edge [dashed] (p3)\n                (p1) edge [dashed] (p4)\n                ;\n    \\end{tikzpicture}\n    }\n    \\caption{Illustration of multi-state space generation in automata based \\ltl\n    model checking. The \\ltl exploration algorithm takes an \\buchi automaton\n    (subset of such a automaton shown on the left). The generation procedure\n    works as follow. State that is being explored is load into interpreter and\n    new successor (state A) is produced. The state contains a program counter,\n    \\buchi automaton state and a set of possible data valuations. The product\n    (states B, C and D) is generated by taking all possible transitions of the\n    automaton from given state by pruning the set of valuations. All non-empty\n    states (C, D) are then emitted as successors of the explored state. }\n    \\label{fig:ltl}\n\\end{center}\n\\end{figure}\n\n\n# \\smt Store \\label{sec:symdivine:smtstore}\n\nIn this section we closely look at the implementation of \\smt Store, as\nunderstanding of its internals is essential for our work. First we describe the\nstore from a theoretical point of view and then we closely look at the actual\nimplementation which features several optimization and thus slightly differ from\nthe theoretical model.\n\n## Theoretical model\n\n\\smt store uses a representation described in ToDo citatce vilik. A quantifier-\nfree first-order bit-vector \\smt formula $\\varphi$ called *path condition* is used\nfor description of the possible memory valuations set defined in\n\\autoref{sec:symdivine:arch:datastore}. The set of program variables $V$\n(defined in \\autoref{sec:symdivine:arch:datastore}) can be mapped to the set of\nfree variables in the path condition (in a way we describe later in the text).\nProgram variables can be sequentially assigned different values during a single\nprogram run. To distinguish different values assigned to a variable, so-called\n*variable's generation* is used. For each assignment to a program variable, a\nnew variable in formula is created (with incremented generation number). Thus\nthe set of variables in formula is a subset of $V \\times \\mathbb{N}$ and we can\ndenote formula variable as a pair $(v, g)$, were $v$ is a program variable from\n$V$ and $g$ is its generation. The mapping from formula variables to programs\nvariables is easy -- every program variable $v$ maps to formula variable $(v,\ng)$ with the maximum generation $g$. The set of all models of path condition\ndefines the valuation function $v$.\n\n\nImplementing data store interface using path condition is performed in the\nfollowing way:\n\nGiven the implementation of the operations, we can now easily illustrate the\nneed for different variables generations. Consider following example of \\llvm\nbit-code:\n\n\\begin{minted}[xleftmargin=1.5em,linenos=true]{llvm}\nstore i32 5, i32* %a, align 4\n%2 = load i32* %a, align 4\nstore i32 %2, i32* %b, align 4\nstore i32 42, i32* %a, align 4\n\\end{minted}\n\nThis piece of bit-code stores constant 5 to `%a`, then assigns value of `%a` to\n`%b`. The last operation stores constant 42 to `%a`. With no generations, the\nlast store operation would change both values of `%a` and `%b`. It is necessary\nto keep track of each variable's history.\n\n\n## Implementation\n\nThis data store use \\smt formulae to describe the set of possible memory\nvaluations.\n\nValidation and verification are one of the essential parts of the software\ndevelopment as software bugs in a released product may become costly and degrade \noverall rating of the vendor or even cause harm to the users. Thus there is\nusually a lot of effort put into this part of the development process even it is\none of the most time consuming and the most expensive part of it.\n\nTesting is widely adopted method in the industry as is quite simple and does not \nrequire any complex tools. Usually only a simple testing framework and an\n(automated) runtime environment is used. Even though this method is not sound \n(it cannot prove absence of a bug), it performs quite well in practise during\nbug-finding in sequential code.\n\nAs the multi-core CPUs are quite common today, multi-threaded software is \nrequired to fully utilize such CPUs. Even mobile devices, e.g. cellphones,\nfeature multi-core CPUs and thus multi-threaded software is increasingly\ncommonly produced today. This kind of software is hard to test due to the\npresence of the non-determinism in thread scheduling. Two runs of the same\nprogram with the same input can lead to a different threads interleaving. This\ncan cause a different program behaviour for each run. These kinds of bug are\ncalled race conditions. Multi-threaded program's test is also affected by the\nscheduler's non-determinism and so it is possible to obtain two different test\nresults for two test runs. These bugs are also hard to find, as they can occur\nonly in a single thread interleaving, that can be scheduled only in very specific\ncircumstances. Also an observation of the program (e.g. run under a debugger or \nrun in a different environment) can affect the scheduling and the bug might not\noccur.\n\nA lot of effort was put into a development of formal methods during the last few\ndecades that could replace testing and would help to find more bugs. There are\nmethods like symbolic execution, bounded model checking and others, that are in\ngeneral unsound, however they can help with discovery of the hard-to-find bugs \n(e.g. integer overflow related bugs, memory safety etc.). On the other hand\nthere are methods like deductive verification, model-checking and others, that\nare sound and besides bug-finding they can actually prove absence of a bug. Many\nof these methods also support multi-threaded programs, so it is possible to \ndeterministically find bugs in a multi-threaded software -- this could be one\nof the motivations to replace testing by these methods in the industry.\n\nDespite the promising features of the formal methods, they are not widespread in\nthe industry and stay mainly within the academic interest. There are several\nreasons for that. First of all, techniques like deductive verification are not\nautomatized and require qualified user interaction. On the other hand, the\nautomatized techniques does not scale well to real world program. Either they\ncannot take an unmodified code and process it (manual annotation is needed, all\nlanguage features are not supported), or the verification need an enormous\namount of CPU time and memory for real-world code. Many tools fail to verify\nreal-world code due to enormous input data domain or complexity in control flow.\n\nOne of the tools that aim for verification of the real-world parallel C/C++ code\nis \\symdivine. It allows user to take an unmodified C/C++ code with\nnotation of input values and verify it for reachability or \\ltl properties. \nTo suppress possible state-space explosion caused by input values, it involves\nso-called set-based reduction. This reduction is based on symbolic\ndata representation. This representation heavily uses quantified bit-vector\n\\smt queries to an \\smt solver.\n\nIn this thesis we describe and analyse internal \\smt machinery of \\symdivine,\nintroduce optimization for this machinery based on the \\smt queries caching in\norder to speed-up the verification task and help it to scale better. We also\nprovide implementation of the proposed technique and its experimental evaluation.\n",
-			"settings":
-			{
-				"buffer_size": 52295,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "thesis.tex",
 			"settings":
 			{
-				"buffer_size": 7348,
+				"buffer_size": 8634,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "intro.md",
+			"file": "process_results.py",
 			"settings":
 			{
-				"buffer_size": 4027,
+				"buffer_size": 8719,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "latexwrap",
+			"settings":
+			{
+				"buffer_size": 1505,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 2696,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "experiments.md",
+			"settings":
+			{
+				"buffer_size": 1344,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "appendix.md",
+			"settings":
+			{
+				"buffer_size": 6,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "results.md",
+			"settings":
+			{
+				"buffer_size": 3328,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "results/vojta/bitvector/table.tex",
+			"settings":
+			{
+				"buffer_size": 5387,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "results.tex",
+			"settings":
+			{
+				"buffer_size": 3785,
 				"line_ending": "Unix"
 			}
 		}
@@ -116,6 +216,74 @@
 	},
 	"file_history":
 	[
+		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/table.tex",
+		"/D/Users/email/Documents/bcthesis/_cache_plot.txt",
+		"/D/Users/email/Documents/presentations/spin2016/pres.md",
+		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/additional.txt",
+		"/D/Users/email/Documents/bcthesis/caching.md",
+		"/D/Users/email/Documents/bcthesis/intro.md",
+		"/D/Users/email/Documents/bcthesis/symdivine.md",
+		"/D/Users/email/Documents/bcthesis/jaina/caching.md",
+		"/D/Users/email/Documents/bcthesis/Makefile",
+		"/D/tmp/is_export/cpp/tree_msg.h",
+		"/D/tmp/is_export/cpp/tree_msg.cpp",
+		"/D/Users/email/AppData/Local/Temp/Temp1_Kejstova_Katarina-TreeMgs.zip/TreeMgs/TreeMsg.h",
+		"/D/Users/email/AppData/Local/Temp/Temp1_Kejstova_Katarina-TreeMgs.zip/TreeMgs/main.cpp",
+		"/D/Users/email/Documents/CppLink/CMakeLists.txt",
+		"/D/Users/email/Documents/Paradise/papers/draft/fm2016/main.tex",
+		"/D/Users/email/Documents/CppLink/utils/files_to_constants.py",
+		"/D/Users/email/Documents/CppLink/src/cpplink_lib/cpplink_lib.h",
+		"/D/Users/email/Documents/CppLink/out.cpp",
+		"/D/Users/email/AppData/Local/Temp/in-2.txt",
+		"/D/Users/email/Documents/CppLink/test.txt",
+		"/D/Users/email/Documents/CppLink/Debug/b.cpp",
+		"/D/Users/email/Documents/CppLink/examples/basic_generators.cpplink",
+		"/D/Users/email/Documents/CppLink/examples/more_generators.cpplink",
+		"/D/Users/email/Documents/CppLink/README.md",
+		"/D/Users/email/Documents/CppLink/LICENSE",
+		"/D/Users/email/Documents/CppLink/Debug/cpplink_const_lib.cpp",
+		"/D/Users/email/Documents/bcthesis/preliminaries.md",
+		"/D/Users/email/Documents/bcthesis/preliminaries.tex",
+		"/D/Users/email/Documents/bcthesis/jaina/intro.md",
+		"/D/Users/email/Documents/bcthesis/bibliography.bib",
+		"/D/Users/email/AppData/Local/Temp/memics14.bib",
+		"/D/Users/email/Documents/bcthesis/jaina/preliminaries.md",
+		"/D/Users/email/Documents/CppLink/src/parser.y",
+		"/D/Users/email/Documents/CppLink/src/translator.h",
+		"/D/Users/email/Documents/CppLink/src/quoteunquotecompiler.h",
+		"/D/Users/email/Documents/CppLink/src/quoteunquotecompiler.cpp",
+		"/D/Users/email/Documents/CppLink/src/translator.cpp",
+		"/D/Users/email/Documents/CppLink/src/parsers/parser.y",
+		"/D/Users/email/Documents/CppLink/src/parsers/tokens.l",
+		"/D/Users/email/Documents/CppLink/libs/catch.hpp",
+		"/D/Users/email/Documents/CppLink/src/modulesquare.h",
+		"/D/Users/email/Documents/CppLink/src/cpplink_lib/modules.h",
+		"/D/Users/email/Documents/CppLink/src/tests.cpp",
+		"/D/Users/email/Documents/CppLink/tests/parser.cpp",
+		"/D/Users/email/AppData/Local/Temp/in.txt",
+		"/D/Users/email/AppData/Local/Temp/Custom.cppmod",
+		"/D/Users/email/Documents/CppLink/tests/tests.h",
+		"/D/Users/email/Documents/CppLink/tests/modules.cpp",
+		"/D/Users/email/Documents/bcthesis/jaina/symdivine.md",
+		"/D/Users/email/Documents/bcthesis/bibliography.bak",
+		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-642-39799-8_3.bib",
+		"/D/Users/email/AppData/Local/Temp/Temp1_excel2latex.zip/excel2latex/README",
+		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-319-32582-8_14.bib",
+		"/D/xampp/htdocs/akce.txt",
+		"/D/Users/email/Documents/bcthesis/thesis.tex",
+		"/D/Users/email/Documents/bcthesis/results.md",
+		"/D/Users/email/Documents/bcthesis/conclusion.md",
+		"/D/Users/email/Documents/bcthesis/latexwrap",
+		"/C/cygwin64/usr/share/texmf-dist/web2c/texmf.cnf",
+		"/D/Users/email/Documents/bcthesis/bibliography.bib.bak",
+		"/D/Users/email/Documents/bcthesis/sublime_project.sublime-project",
+		"/D/Users/email/Documents/bcthesis/t.txt",
+		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-642-12002-2_12.bib",
+		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-642-22110-1_14.bib",
+		"/D/Users/email/AppData/Local/Temp/BIBTEX_output.txt",
+		"/D/Users/email/Documents/bcthesis/symdivine.tex",
+		"/D/Users/email/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/D/Users/email/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Event.cpp",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Common.hpp",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Scanner.cpp",
@@ -125,9 +293,7 @@
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Scanner.hpp",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Event.hpp",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Position.hpp",
-		"/D/Users/email/Documents/bcthesis/intro.md",
 		"/D/Users/email/Documents/bcthesis/thesis.pdf",
-		"/D/Users/email/Documents/bcthesis/latexwrap",
 		"/D/Users/email.HONZA-NTB/Documents/presentations/spin2016/pres.md",
 		"/D/Users/email.HONZA-NTB/AppData/Local/Temp/Temp1_spin2016.zip/main.tex",
 		"/D/Users/email/Documents/bcthesis/build_sublime.sh",
@@ -154,7 +320,6 @@
 		"/D/xampp/htdocs/doporucujeme.txt",
 		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/src/parsers/ltl_tokens.l",
-		"/D/Users/email/Documents/bcthesis/Makefile",
 		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/CMakeLists.txt",
 		"/D/Users/email/AppData/Local/Temp/brick-types-1.h",
 		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/src/parsers/ltl_parser.y",
@@ -167,8 +332,6 @@
 		"/D/tmp/parsers/tokens.cpp",
 		"/D/Users/email/AppData/Roaming/Skype/My Skype Received Files/exkurze.md",
 		"/D/Users/email/Desktop/vysledky/c_sub_base.csv",
-		"/D/Users/email/Documents/bcthesis/thesis.tex",
-		"/D/Users/email/Documents/bcthesis/conclusion.md",
 		"/D/Users/email/Documents/bcthesis/appendix.md",
 		"/D/Users/email/Documents/bcthesis/README.md",
 		"/D/Users/email/Documents/bcthesis/out.txt",
@@ -180,70 +343,7 @@
 		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/cmake/FindLLVM.cmake",
 		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/configure",
 		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/readme.md",
-		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/985284_2_2/ltl_base.csv",
-		"/D/Users/email/Desktop/vysledky/c_sub_cache.csv",
-		"/D/Users/email/Documents/Paradise/benchmarks/weird_cases/safe036_power.oepc_true-unreach-call_o0.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks - kopie/weird_cases/safe036_power.oepc_true-unreach-call_o0.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1.c",
-		"/D/Users/email/AppData/Local/Temp/7zO0A3295F3/CMakeLists.txt",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/app.cpp",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/ev3way-cpp/app.cpp",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/ev3way-cpp/Makefile.inc",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.cfg",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.cpp",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.h",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/Makefile.inc",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/app.h",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/cli_sensor.c",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/app.c",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/patrol-robot/cli_motor.c",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/Makefile.inc",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/test-cpp/app.cfg",
-		"/D/Users/email/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/scripts/preprocess.py",
-		"/D/Users/email/Desktop/concurrency_base.csv",
-		"/D/Users/email/Desktop/rem.txt",
-		"/D/Users/email/Desktop/vysledky/concurrency_base_cache.csv",
-		"/D/Users/email/Desktop/vysledky/concurrency_base.csv",
-		"/D/Users/email/Desktop/vysledky/c_sub_simple_cache.csv",
-		"/D/Users/email/Documents/Paradise/benchmarks/ltl/pgdropbuf/model_noop.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/ltl/pgdropbuf/pgdropbuf.c",
-		"/D/Users/email/Documents/utility/llvm/llvm2cfg",
-		"/D/Users/email/cv.txt",
-		"/D/Users/email/Documents/Projekty/led_lightning/constant_current_ac_hv/constant_current_ac_hv.kicad_pcb",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2.c",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle3.c",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle4.c",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle5.c",
-		"/D/Users/email/Documents/Paradise/benchmarks/ltl/apache/apache.c",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/.gitignore",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle6.c",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle5_o0.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle5_o2.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle6_o2.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle6_os.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2_o0.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle4_o0.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle4_o2.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle3_o0.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle3_o2.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2_os.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle2_o2.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1_o0.ll",
-		"/D/Users/email/AppData/Local/Temp/Temp1_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/app.cfg",
-		"/D/Users/email/AppData/Local/Temp/Temp1_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/cppapi.cfg",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/common/ev3api/src/ev3api_sensor.c",
-		"/D/Users/email/AppData/Local/Temp/Temp2_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/Makefile.inc",
-		"/D/Users/email/AppData/Local/Temp/Temp2_ev3rt-beta5-2-kubas.zip/ev3rt-beta5-2-release/hrp2/workspace/first_test_cpp/Makefile.app",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1_o2.ll",
-		"/D/Users/email/Documents/Paradise/benchmarks/simple_cycles/simple_cycle1_os.ll",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/gyroboy2/Makefile.inc",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/gyroboy2/app.cfg",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/sdk/workspace/gyroboy2/app.c",
-		"/D/Users/email/Documents/Paradise/benchmarks/ltl/acqrel/Makefile",
-		"/D/Users/email/Documents/Vyuka/course/slidy/01_intro.md",
-		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/1967334_3_3/pthread.csv",
-		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/1967334_3_2/test.csv"
+		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/985284_2_2/ltl_base.csv"
 	],
 	"find":
 	{
@@ -258,9 +358,87 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"table",
+			"c",
+			"cccccccc",
+			"c",
+			"s3\\_clnt\\_2\\_true.BV.c.cil\\_os",
+			"\\hline",
+			".}\n",
+			"array",
+			"240",
+			"\\rotatebox{90}",
+			"createSchedule",
+			"\\n",
+			"Miss",
+			"'",
+			"parser",
+			"declarations",
+			"moduleDeclarations",
+			"symdivine",
+			"\\autoref",
+			"\\cite",
+			"\\divine",
+			"\\symdivine",
+			"\\ctl",
+			"\\ltl",
+			"\\llvm",
+			"\\smt",
+			"\\ltl",
+			"\\symdivine",
+			"\\divine",
+			"\\llvm",
+			"\\autoref",
+			"\\cite",
+			"\\ltl",
+			"\\smt",
+			"\\symdivine",
+			"\\cite",
+			"\\autoref",
+			"\\\\autoref",
+			"\\buchi",
+			"\\divine",
+			"\\bdd",
+			"\\",
+			"\\ltl",
+			"\\smt",
+			"\\llvm",
+			"\\symdivine",
+			"todo",
+			"BBH14",
+			"todo",
+			"constant ",
+			"BHB14",
+			"BBH13",
+			"}\n",
+			"kingsy",
+			"spin",
+			"Clarke2000MC",
+			":",
+			"llvm:web",
+			"memory",
+			"stack",
+			"pool_size",
+			"\\cite",
+			"cbmc",
+			"url",
+			"error",
+			"Error",
+			"llvm",
+			"todo",
+			"tau",
+			"divine",
+			"fit",
+			"             };",
+			"break",
+			"\\smt store",
+			"\\llvm inter",
+			"\\llvm int",
+			"zzz",
+			"z3",
 			"&",
 			"program variables",
 			"minted",
@@ -310,52 +488,50 @@
 			"_o2.ll",
 			"_o0.ll",
 			"\\n",
-			"dot-",
-			" to 'dot' file",
-			"to 'dot' ",
-			"babi",
-			"State Equ",
-			"Conclusion",
-			";  (set-info :status unknown) (declare-fun b_seg9_off0_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off2_gen1 () (_ BitVec 32)) (declare-fun b_seg8_off0_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off17_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off16_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off15_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off10_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off8_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off7_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off5_gen1 () (_ BitVec 1)) (declare-fun b_seg6_off4_gen1 () (_ BitVec 32)) (declare-fun b_seg3_off0_gen1 () (_ BitVec 32)) (declare-fun b_seg4_off0_gen0 () (_ BitVec 64)) (declare-fun b_seg2_off8_gen1 () (_ BitVec 64)) (declare-fun b_seg1_off2_gen2 () (_ BitVec 32)) (declare-fun b_seg1_off3_gen2 () (_ BitVec 32)) (declare-fun b_seg7_off19_gen1 () (_ BitVec 32)) (declare-fun b_seg1_off1_gen1 () (_ BitVec 32)) (declare-fun b_seg6_off19_gen1 () (_ BitVec 32)) (declare-fun b_seg1_off0_gen2 () (_ BitVec 32)) (declare-fun b_seg0_off3_gen1 () (_ BitVec 64)) (declare-fun b_seg0_off2_gen1 () (_ BitVec 64)) (declare-fun b_seg0_off1_gen1 () (_ BitVec 64)) (declare-fun b_seg0_off0_gen1 () (_ BitVec 64)) (declare-fun b_seg7_off2_gen1 () (_ BitVec 32)) (assert  (let (($x31 (and (not (bvsle b_seg6_off4_gen1 (_ bv0 32))) (not (bvsle (_ bv2 32) b_seg6_off7_gen1)))))  (let (($x38 (and (and $x31 (= b_seg7_off2_gen1 (_ bv1 32))) (not (= (_ bv0 32) b_seg6_off16_gen1)))))  (let (($x112 (and (and (and true $x38) (= b_seg0_off0_gen1 (_ bv4294967296 64))) (= b_seg0_off1_gen1 (_ bv4294967297 64)))))  (let (($x118 (and (and $x112 (= b_seg0_off2_gen1 (_ bv4294967298 64))) (= b_seg0_off3_gen1 (_ bv4294967299 64)))))  (let (($x125 (and (and $x118 (= b_seg1_off0_gen2 b_seg6_off19_gen1)) (= b_seg1_off1_gen1 (_ bv0 32)))))  (let (($x133 (and (and $x125 (= b_seg1_off2_gen2 b_seg7_off19_gen1)) (= b_seg1_off3_gen2 (bvadd (_ bv0 32) b_seg1_off2_gen2)))))  (let (($x140 (and (and $x133 (= b_seg2_off8_gen1 b_seg4_off0_gen0)) (= b_seg3_off0_gen1 (_ bv0 32)))))  (let (($x146 (and (and $x140 (= b_seg6_off4_gen1 b_seg8_off0_gen1)) (= b_seg6_off5_gen1 (_ bv1 1)))))  (let (($x151 (and (and $x146 (= b_seg6_off7_gen1 b_seg8_off0_gen1)) (= b_seg6_off8_gen1 (_ bv1 1)))))  (let (($x158 (and (and $x151 (= b_seg6_off10_gen1 (_ bv1 1))) (= b_seg6_off15_gen1 b_seg9_off0_gen1))))  (let (($x163 (and (and $x158 (= b_seg6_off16_gen1 b_seg8_off0_gen1)) (= b_seg6_off17_gen1 (_ bv1 1)))))  (and (and $x163 (= b_seg8_off0_gen1 b_seg6_off2_gen1)) (= b_seg9_off0_gen1 (_ bv0 32))))))))))))))) (assert  (forall ((a_seg6_off4_gen1 (_ BitVec 32)) (a_seg6_off7_gen1 (_ BitVec 32)) (a_seg6_off16_gen1 (_ BitVec 32)) (a_seg7_off2_gen1 (_ BitVec 32)) (a_seg0_off0_gen1 (_ BitVec 64)) (a_seg0_off1_gen1 (_ BitVec 64)) (a_seg0_off2_gen1 (_ BitVec 64)) (a_seg0_off3_gen1 (_ BitVec 64)) (a_seg1_off0_gen2 (_ BitVec 32)) (a_seg6_off19_gen1 (_ BitVec 32)) (a_seg1_off1_gen1 (_ BitVec 32)) (a_seg1_off2_gen2 (_ BitVec 32)) (a_seg7_off19_gen1 (_ BitVec 32)) (a_seg1_off3_gen2 (_ BitVec 32)) (a_seg1_off2_gen2 (_ BitVec 32)) (a_seg2_off8_gen1 (_ BitVec 64)) (a_seg4_off0_gen0 (_ BitVec 64)) (a_seg3_off0_gen1 (_ BitVec 32)) (a_seg6_off4_gen1 (_ BitVec 32)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off5_gen1 (_ BitVec 1)) (a_seg6_off7_gen1 (_ BitVec 32)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off8_gen1 (_ BitVec 1)) (a_seg6_off10_gen1 (_ BitVec 1)) (a_seg6_off15_gen1 (_ BitVec 32)) (a_seg9_off0_gen1 (_ BitVec 32)) (a_seg6_off16_gen1 (_ BitVec 32)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off17_gen1 (_ BitVec 1)) (a_seg8_off0_gen1 (_ BitVec 32)) (a_seg6_off2_gen1 (_ BitVec 32)) (a_seg9_off0_gen1 (_ BitVec 32)) )(let (($x293 (or (or false (and (distinct a_seg0_off0_gen1 b_seg0_off0_gen1) true)) (and (distinct a_seg0_off1_gen1 b_seg0_off1_gen1) true)))) (let (($x295 (or (or $x293 (and (distinct a_seg0_off2_gen1 b_seg0_off2_gen1) true)) (and (distinct a_seg0_off3_gen1 b_seg0_off3_gen1) true)))) (let (($x297 (or (or $x295 (and (distinct a_seg1_off0_gen2 b_seg1_off0_gen2) true)) (and (distinct a_seg1_off1_gen1 b_seg1_off1_gen1) true)))) (let (($x299 (or (or $x297 (and (distinct a_seg1_off2_gen2 b_seg1_off2_gen2) true)) (and (distinct a_seg1_off3_gen2 b_seg1_off3_gen2) true)))) (let (($x301 (or (or $x299 (and (distinct a_seg2_off8_gen1 b_seg2_off8_gen1) true)) (and (distinct a_seg3_off0_gen1 b_seg3_off0_gen1) true)))) (let (($x303 (or (or $x301 (and (distinct a_seg4_off0_gen0 b_seg4_off0_gen0) true)) (and (distinct a_seg6_off2_gen1 b_seg6_off2_gen1) true)))) (let (($x305 (or (or $x303 (and (distinct a_seg6_off4_gen1 b_seg6_off4_gen1) true)) (and (distinct a_seg6_off5_gen1 b_seg6_off5_gen1) true)))) (let (($x307 (or (or $x305 (and (distinct a_seg6_off7_gen1 b_seg6_off7_gen1) true)) (and (distinct a_seg6_off8_gen1 b_seg6_off8_gen1) true)))) (let (($x309 (or (or $x307 (and (distinct a_seg6_off10_gen1 b_seg6_off10_gen1) true)) (and (distinct a_seg6_off15_gen1 b_seg6_off15_gen1) true)))) (let (($x311 (or (or $x309 (and (distinct a_seg6_off16_gen1 b_seg6_off16_gen1) true)) (and (distinct a_seg6_off17_gen1 b_seg6_off17_gen1) true)))) (let (($x313 (or (or $x311 (and (distinct a_seg6_off19_gen1 b_seg6_off19_gen1) true)) (and (distinct a_seg8_off0_gen1 b_seg8_off0_gen1) true)))) (let (($x344 (and (and (not (bvsle a_seg6_off4_gen1 (_ bv0 32))) (not (bvsle (_ bv2 32) a_seg6_off7_gen1))) (not (= a_seg6_off16_gen1 (_ bv0 32)))))) (let (($x348 (and (and (and true (and $x344 (= a_seg7_off2_gen1 (_ bv1 32)))) (= a_seg0_off0_gen1 (_ bv4294967296 64))) (= a_seg0_off1_gen1 (_ bv4294967297 64))))) (let (($x352 (and (and (and (and $x348 (= a_seg0_off2_gen1 (_ bv4294967298 64))) (= a_seg0_off3_gen1 (_ bv4294967299 64))) (= a_seg1_off0_gen2 a_seg6_off19_gen1)) (= a_seg1_off1_gen1 (_ bv0 32))))) (let (($x355 (and (and (and $x352 (= a_seg1_off2_gen2 a_seg7_off19_gen1)) (= a_seg1_off3_gen2 (bvadd (_ bv0 32) a_seg1_off2_gen2))) (= a_seg2_off8_gen1 a_seg4_off0_gen0)))) (let (($x359 (and (and (and (and $x355 (= a_seg3_off0_gen1 (_ bv0 32))) (= a_seg6_off4_gen1 a_seg8_off0_gen1)) (= a_seg6_off5_gen1 (_ bv1 1))) (= a_seg6_off7_gen1 a_seg8_off0_gen1)))) (let (($x363 (and (and (and (and $x359 (= a_seg6_off8_gen1 (_ bv1 1))) (= a_seg6_off10_gen1 (_ bv1 1))) (= a_seg6_off15_gen1 a_seg9_off0_gen1)) (= a_seg6_off16_gen1 a_seg8_off0_gen1)))) (let (($x367 (not (and (and (and $x363 (= a_seg6_off17_gen1 (_ bv1 1))) (= a_seg8_off0_gen1 a_seg6_off2_gen1)) (= a_seg9_off0_gen1 (_ bv0 32)))))) (or $x367 (or $x313 (and (distinct a_seg9_off0_gen1 b_seg9_off0_gen1) true)))))))))))))))))))))) ) (check-sat) ",
-			"xcolor",
-			"6",
-			"\\n\\n\\n",
-			",",
-			".",
-			"net 0",
-			"net 8",
-			"width 1.8",
-			"net 0",
-			"width 1.8",
-			"net 0",
-			"segment",
-			"spindle.stop",
-			"EXE",
-			"pncconf",
-			"seg_6_off_2, seg_8_off_0",
-			"seg8_off0_gen1",
-			"v",
-			"\\n",
-			"units",
-			"\\n\\n",
-			" ",
-			"trunc",
-			"rm",
-			"acqrel",
-			"tabul",
-			"tabl",
-			"export",
-			"Doučování",
-			"do_ACCEPT",
-			"die_now",
-			"runtime.tools.arm-none-eabi-gcc.path"
+			"dot-"
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
 		[
+			"l",
+			"\\textbf{s3\\_clnt\\_2\\_true.BV.c.cil\\_os}",
+			"\\midrule",
+			"240\\ s",
+			"\\mcrot{1}{l}{60}",
+			"\\rotatebox{75}",
+			"|",
+			"\"",
+			"cpplink",
+			"\\\\autoref",
+			"\\\\cite",
+			"DIVINE",
+			"SymDIVINE",
+			"CTL",
+			"LTL",
+			"LLVM",
+			"SMT",
+			"LTL",
+			"SymDIVINE",
+			"DIVINE",
+			"\\\\LLVM",
+			"\\\\autoref",
+			"\\\\cite",
+			"LTL",
+			"SMT",
+			"SymDIVINE",
+			"\\\\cite",
+			"\\\\autoref",
+			"Buchi",
+			"DIVINE",
+			"BDD",
+			"LTL",
+			"SMT",
+			"LLVM",
+			"SymDIVINE",
+			"llvmweb",
 			"\\&",
 			"\\varphi",
 			"V",
@@ -391,80 +567,80 @@
 			[
 				{
 					"buffer": 0,
-					"file": "symdivine.md",
-					"settings":
-					{
-						"buffer_size": 55845,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								52559,
-								52559
-							]
-						],
-						"settings":
-						{
-							"auto_wrap": true,
-							"syntax": "Packages/Markdown/Markdown.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 14261.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"settings":
-					{
-						"buffer_size": 52295,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								52295,
-								52295
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 13692.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "thesis.tex",
 					"settings":
 					{
-						"buffer_size": 7348,
+						"buffer_size": 8634,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1614,
-								1614
+								8431,
+								8431
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
 							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 101240.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "process_results.py",
+					"settings":
+					{
+						"buffer_size": 8719,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5170,
+								5170
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1533.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "latexwrap",
+					"settings":
+					{
+						"buffer_size": 1505,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								149,
+								149
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -475,18 +651,44 @@
 				},
 				{
 					"buffer": 3,
-					"file": "intro.md",
+					"file": "Makefile",
 					"settings":
 					{
-						"buffer_size": 4027,
+						"buffer_size": 2696,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								4027
+								1583,
+								1583
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "experiments.md",
+					"settings":
+					{
+						"buffer_size": 1344,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1176,
+								1176
 							]
 						],
 						"settings":
@@ -495,6 +697,119 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "appendix.md",
+					"settings":
+					{
+						"buffer_size": 6,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6,
+								6
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "results.md",
+					"settings":
+					{
+						"buffer_size": 3328,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1930,
+								1930
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 98.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "results/vojta/bitvector/table.tex",
+					"settings":
+					{
+						"buffer_size": 5387,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1727,
+								1730
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "results.tex",
+					"settings":
+					{
+						"buffer_size": 3785,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2014,
+								2014
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
+							"tab_size": 8,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 294.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -519,11 +834,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.068870523416,
 			1.0
 		],
 		"rows":

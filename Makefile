@@ -7,7 +7,7 @@ clean:
 	rm -f appendix.tex caching.tex conclusion.tex intro.tex preliminaries.tex \
 		results.tex symdivine.tex README.tex
 
-thesis.pdf : thesis.tex $(ALL:.md=.tex) thesis.bbl
+thesis.pdf : thesis.tex $(ALL:.md=.tex) thesis.bbl results
 	bash ./latexwrap $<
 
 thesis-print.pdf : thesis-print.tex $(ALL:.md=.tex) thesis-print.bbl thesis.lua
@@ -25,6 +25,27 @@ thesis-print.tex : thesis.tex
 
 %.bcf :
 	bash ./latexwrap -n1 $(@:.bcf=.tex)
+
+results: FORCE
+	cd results/vojta/bitvector; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/vojta/eca; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/vojta/locks; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/vojta/loops; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/vojta/recursive; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/vojta/ssh-simplified; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/vojta/systemc; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/concur; ../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	gnuplot -e "output_file='bitvector_chart.tex'" -e "input_dir='results/vojta/bitvector'" gnuplot.gnu
+	gnuplot -e "output_file='eca_chart.tex'" -e "input_dir='results/vojta/eca'" gnuplot.gnu
+	gnuplot -e "output_file='locks_chart.tex'" -e "input_dir='results/vojta/locks'" gnuplot.gnu
+	gnuplot -e "output_file='loops_chart.tex'" -e "input_dir='results/vojta/loops'" gnuplot.gnu
+	gnuplot -e "output_file='recursive_chart.tex'" -e "input_dir='results/vojta/recursive'" gnuplot.gnu
+	gnuplot -e "output_file='ssh_chart.tex'" -e "input_dir='results/vojta/ssh-simplified'" gnuplot.gnu
+	gnuplot -e "output_file='systemc_chart.tex'" -e "input_dir='results/vojta/systemc'" gnuplot.gnu
+	gnuplot -e "output_file='concur_chart.tex'" -e "input_dir='results/concur'" gnuplot.gnu
+
+
+FORCE: 
 
 .PRECIOUS: %.bcf %.bbl
 

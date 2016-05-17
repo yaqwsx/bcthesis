@@ -93,6 +93,7 @@
 \usepackage{pdflscape}
 \usepackage{tabu, longtable}
 \usepackage{array}
+\usepackage{siunitx}
 
 \newcommand{\mcrot}[4]{\multicolumn{#1}{#2}{\rlap{\rotatebox{#3}{#4}~}}}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -103,6 +104,9 @@
 \newcommand\todo[1]{\noindent\textcolor{red}{#1}}
 \newcommand\add[1]{\noindent\textcolor{green}{#1}}
 
+\newcommand\tablecaption{Nothing}
+\newcommand\tablecaptioncont{Nothing}
+\newcommand\tablelabel{tab:todo}
 
 
 \newcommand{\symdivine}{\mbox{\textsf{SymDIVINE}}\xspace}
@@ -285,9 +289,12 @@ ToDo
 \chapter{Conclusion} \label{chap:conclusion}
 \input{conclusion}
 
-%\appendix
-%\chapter{Archive Structure and Compilation} \label{chap:appendix}
-%\input{appendix}
+\appendix
+\chapter{Archive Structure and Compilation} \label{chap:appendix}
+\input{appendix}
+
+\chapter{Experimental Evaluation} \label{chap:experiment}
+\input{experiments}
 
 \chapter*{Bibliography}
 \addcontentsline{toc}{chapter}{Bibliography}
