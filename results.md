@@ -54,10 +54,10 @@ occurred.
 
 We examined results of each category independently, to see effects of caching on
 different type of input programs. For summary results of our
-measurements\footnote{Full measurements can be found in the electronic appendix
-of this thesis}, follow \autoref{tab:summary}. We looked at verification time
-and number of queries to an \smt solver. Short evaluation of results for each
-category is provided below:
+measurements\footnote{Full measurements can be found in the electronic archive
+submitted with this thesis}, follow \autoref{tab:summary}. We looked at
+verification time and number of queries to an \smt solver. Short evaluation of
+results for each category is provided below:
 
 \paragraph{bitvector} There are many simple benchmarks in this set, that contain
 only the necessary constructions to produce a bug in bit-vector manipulation.
