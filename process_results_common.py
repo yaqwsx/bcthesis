@@ -95,9 +95,9 @@ def check_validity(l, r):
     return True
 
 def prepare_data(no_cache, cache):
-    # no_cache, cache = filter_left_error(no_cache, cache)
-    # cache, no_cache = filter_left_error(cache, no_cache)
-    # cache, no_cache = filter_left_timeout(cache, no_cache)
+    no_cache, cache = filter_left_error(no_cache, cache)
+    cache, no_cache = filter_left_error(cache, no_cache)
+    cache, no_cache = filter_left_timeout(cache, no_cache)
 
     # cache, no_cache = filter_name_prefix(cache, no_cache, "jain")
 

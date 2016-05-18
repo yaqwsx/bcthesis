@@ -37,10 +37,11 @@ implementation of algorithms for assertion safety and \ltl properties checking.
 See \autoref{fig:workflow} for typical verification work flow in current release
 \footnote{Current version at the time of writing this thesis is v0.3. Release of
 this version is available at
-\url{https://github.com/yaqwsx/SymDIVINE/releases/tag/v0.3}}. Algorithms and
-store implementation provided in current release were tested in practise and
-provide quite good performance. Nevertheless, internal modular architecture was
-preserved, so \symdivine can still be used as a platform for user experiments.
+\url{https://github.com/yaqwsx/SymDIVINE/releases/tag/v0.3} and in the
+electronic appendix of this thesis}. Algorithms and store implementation
+provided in current release were tested in practise and provide quite good
+performance. Nevertheless, internal modular architecture was preserved, so
+\symdivine can still be used as a platform for user experiments.
 
 \begin{figure}[!ht]
 \resizebox{\textwidth}{!}{
@@ -319,7 +320,7 @@ and the \smt representation is the only one shipped. We describe this
 representation in detail in \autoref{sec:symdivine:smtstore} as it an essential
 preliminary for our work presented in this thesis.
 
-# Internal architecture\label{sec:architecture}
+# Internal Architecture\label{sec:architecture}
 
 As we mentioned in the previous section, \symdivine was originally developed as
 a platform for creating custom tools for the control-explicit data-symbolic
@@ -684,7 +685,7 @@ define i32 @main() #0 {
 \end{figure}
 
 
-## Data store \label{sec:symdivine:arch:datastore}
+## Data Store \label{sec:symdivine:arch:datastore}
 
 In this subsection we describe an interface of data store, that is used by the
 \llvm interpreter to analyse and transform multi-states. To see an example of
@@ -806,7 +807,7 @@ development and support was discontinued.
   into different kind of formalism. See next section where we describe this
   process in more details.
 
-## Exploration algorithms
+## Exploration Algorithms
 
 On top the \llvm interpreter and a data store it is easy to implement an
 algorithm for state space exploration. Algorithm is usually the only thing user
@@ -935,7 +936,7 @@ store from a theoretical point of view and then we closely look at the actual
 implementation which features several optimization and thus slightly differ from
 the theoretical model.
 
-## Theoretical model
+## Theoretical Model
 
 \smt store uses a representation described in \cite{BBH14}. A quantifier-free
 first-order bit-vector \smt formula $\varphi$ called *path condition* is used

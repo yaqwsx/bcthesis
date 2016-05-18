@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"re",
+				"results"
+			],
+			[
 				"table_header",
 				"table_header_r"
 			],
@@ -83,47 +87,40 @@
 			"file": "thesis.tex",
 			"settings":
 			{
-				"buffer_size": 8634,
+				"buffer_size": 8633,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "process_results.py",
+			"file": "gnuplot-summary.gnu",
 			"settings":
 			{
-				"buffer_size": 8719,
+				"buffer_size": 480,
+				"line_ending": "Unix",
+				"name": "set style line 2 lc rgb '#003999' lt 2 lw 3"
+			}
+		},
+		{
+			"file": "process_summary_results.py",
+			"settings":
+			{
+				"buffer_size": 3143,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "latexwrap",
+			"file": "intro.tex",
 			"settings":
 			{
-				"buffer_size": 1505,
+				"buffer_size": 4590,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Makefile",
+			"file": "symdivine.md",
 			"settings":
 			{
-				"buffer_size": 2696,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "experiments.md",
-			"settings":
-			{
-				"buffer_size": 1344,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "appendix.md",
-			"settings":
-			{
-				"buffer_size": 6,
+				"buffer_size": 59702,
 				"line_ending": "Unix"
 			}
 		},
@@ -131,23 +128,7 @@
 			"file": "results.md",
 			"settings":
 			{
-				"buffer_size": 3328,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "results/vojta/bitvector/table.tex",
-			"settings":
-			{
-				"buffer_size": 5387,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "results.tex",
-			"settings":
-			{
-				"buffer_size": 3785,
+				"buffer_size": 6813,
 				"line_ending": "Unix"
 			}
 		}
@@ -216,15 +197,54 @@
 	},
 	"file_history":
 	[
-		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/table.tex",
-		"/D/Users/email/Documents/bcthesis/_cache_plot.txt",
+		"/D/Users/email/Documents/bcthesis/experiments.tex",
+		"/D/Users/email/Documents/CppLink/src/cpplink_lib/modules.h",
+		"/D/Users/email/Documents/CppLink/examples/basic_generators.cpplink",
+		"/D/Users/email/Documents/bcthesis/gnuplot.gnu",
+		"/D/Users/email/Documents/CppLink/examples/more_generators.cpplink",
+		"/D/Users/email/Documents/CppLink/tmp/basic.cpp",
+		"/D/Users/email/Documents/presentations/cpplink2016/pres.md",
 		"/D/Users/email/Documents/presentations/spin2016/pres.md",
-		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/additional.txt",
-		"/D/Users/email/Documents/bcthesis/caching.md",
-		"/D/Users/email/Documents/bcthesis/intro.md",
-		"/D/Users/email/Documents/bcthesis/symdivine.md",
-		"/D/Users/email/Documents/bcthesis/jaina/caching.md",
+		"/D/Users/email/Documents/presentations/cpplink2016/Makefile",
+		"/D/Users/email/Documents/Vyuka/xbenes3_naval/cviceni/Makefile",
+		"/D/Users/email/Documents/bcthesis/results.md",
 		"/D/Users/email/Documents/bcthesis/Makefile",
+		"/D/Users/email/Documents/bcthesis/summary_table.tex",
+		"/D/Users/email/Documents/bcthesis/experiments.md",
+		"/D/Users/email/Documents/bcthesis/summary.txt",
+		"/D/Users/email/Documents/bcthesis/symdivine.md",
+		"/D/Users/email/Documents/bcthesis/caching.md",
+		"/D/Users/email/Documents/bcthesis/benchmarks/vojta/locks/test_locks_9_true_o0.ll",
+		"/D/Users/email/Documents/bcthesis/benchmarks/vojta/locks/test_locks_9_true_o2.ll",
+		"/D/Users/email/Documents/bcthesis/process_results_common.py",
+		"/D/Users/email/Documents/bcthesis/results/ltl/table.tex",
+		"/D/Users/email/Documents/bcthesis/process_results.py",
+		"/D/Users/email/Documents/bcthesis/results/vojta/systemc/no_cache_no_flags.csv",
+		"/D/Users/email/Documents/Paradise/benchmarks/vojta/systemc/kundu2_false.cil.ll",
+		"/D/Users/email/Documents/bcthesis/benchmarks/vojta/systemc/kundu2_false.cil_os.ll",
+		"/D/tmp/no_cache_no_flags.csv",
+		"/D/Users/email/Documents/bcthesis/test.txt",
+		"/D/Users/email/Documents/Vyuka/xbenes3_naval/cviceni/slides13.md",
+		"/D/Users/email/Documents/Vyuka/xbenes3_naval/cviceni/slides13.tex",
+		"/D/tmp/sob/style.gnu",
+		"/D/Users/email/Documents/bcthesis/results/no_cache_no_flags4.csv",
+		"/D/Users/email/Documents/bcthesis/results/vojta/ssh-simplified/no_cache_no_flags.csv",
+		"/D/Users/email/Documents/bcthesis/results/vojta/systemc/cache_partial_store_dontsimplify.csv",
+		"/D/Users/email/Documents/bcthesis/results.tex",
+		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/chart.tex",
+		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/table.tex",
+		"/D/Users/email/Documents/bcthesis/results/no_cache_no_flags.csv",
+		"/D/Users/email/Documents/bcthesis/appendix.md",
+		"/D/Users/email/Documents/bcthesis/latexwrap",
+		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/no_cache_no_flags.csv",
+		"/D/Users/email/Documents/bcthesis/results/vojta/ssh-simplified/_res.csv",
+		"/D/Users/email/Documents/bcthesis/results/vojta/locks/_cache_plot.txt",
+		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/_no_cache_plot.txt",
+		"/D/Users/email/Documents/bcthesis/results/no_cache_no_flags2.csv",
+		"/D/Users/email/Documents/bcthesis/_cache_plot.txt",
+		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/additional.txt",
+		"/D/Users/email/Documents/bcthesis/intro.md",
+		"/D/Users/email/Documents/bcthesis/jaina/caching.md",
 		"/D/tmp/is_export/cpp/tree_msg.h",
 		"/D/tmp/is_export/cpp/tree_msg.cpp",
 		"/D/Users/email/AppData/Local/Temp/Temp1_Kejstova_Katarina-TreeMgs.zip/TreeMgs/TreeMsg.h",
@@ -237,8 +257,6 @@
 		"/D/Users/email/AppData/Local/Temp/in-2.txt",
 		"/D/Users/email/Documents/CppLink/test.txt",
 		"/D/Users/email/Documents/CppLink/Debug/b.cpp",
-		"/D/Users/email/Documents/CppLink/examples/basic_generators.cpplink",
-		"/D/Users/email/Documents/CppLink/examples/more_generators.cpplink",
 		"/D/Users/email/Documents/CppLink/README.md",
 		"/D/Users/email/Documents/CppLink/LICENSE",
 		"/D/Users/email/Documents/CppLink/Debug/cpplink_const_lib.cpp",
@@ -257,7 +275,6 @@
 		"/D/Users/email/Documents/CppLink/src/parsers/tokens.l",
 		"/D/Users/email/Documents/CppLink/libs/catch.hpp",
 		"/D/Users/email/Documents/CppLink/src/modulesquare.h",
-		"/D/Users/email/Documents/CppLink/src/cpplink_lib/modules.h",
 		"/D/Users/email/Documents/CppLink/src/tests.cpp",
 		"/D/Users/email/Documents/CppLink/tests/parser.cpp",
 		"/D/Users/email/AppData/Local/Temp/in.txt",
@@ -271,9 +288,7 @@
 		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-319-32582-8_14.bib",
 		"/D/xampp/htdocs/akce.txt",
 		"/D/Users/email/Documents/bcthesis/thesis.tex",
-		"/D/Users/email/Documents/bcthesis/results.md",
 		"/D/Users/email/Documents/bcthesis/conclusion.md",
-		"/D/Users/email/Documents/bcthesis/latexwrap",
 		"/C/cygwin64/usr/share/texmf-dist/web2c/texmf.cnf",
 		"/D/Users/email/Documents/bcthesis/bibliography.bib.bak",
 		"/D/Users/email/Documents/bcthesis/sublime_project.sublime-project",
@@ -309,41 +324,7 @@
 		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/app.cfg",
 		"/D/tmp/ev3rt-beta6-2-release/hrp2/include/svc_call.h",
 		"/D/tmp/ev3rt-beta6-2-release/hrp2/include/kernel.h",
-		"/D/Users/email.HONZA-NTB/Documents/bcthesis/thesis.tex",
-		"/D/Users/email.HONZA-NTB/Documents/bcthesis/intro.md",
-		"/D/Users/email.HONZA-NTB/.zshrc",
-		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/app.cpp",
-		"/D/Users/email.HONZA-NTB/Documents/bcthesis/symdivine.md",
-		"/D/Users/email.HONZA-NTB/Documents/MobaXterm/slash/usr/share/terminfo/74/teraterm",
-		"/C/cygwin64/etc/passwd",
-		"/D/Users/email.HONZA-NTB/AppData/Roaming/ConEmu.xml",
-		"/D/xampp/htdocs/doporucujeme.txt",
-		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/src/parsers/ltl_tokens.l",
-		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/CMakeLists.txt",
-		"/D/Users/email/AppData/Local/Temp/brick-types-1.h",
-		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/src/parsers/ltl_parser.y",
-		"/D/Users/email/.cache/dconf/user",
-		"/D/Users/email.HONZA-NTB/Documents/bcthesis/README.tex",
-		"/D/tmp/parsers/parser.hpp",
-		"/D/tmp/parsers/parser.cpp",
-		"/D/tmp/parsers/ltl_parser.y",
-		"/D/tmp/parsers/ltl_tokens.l",
-		"/D/tmp/parsers/tokens.cpp",
-		"/D/Users/email/AppData/Roaming/Skype/My Skype Received Files/exkurze.md",
-		"/D/Users/email/Desktop/vysledky/c_sub_base.csv",
-		"/D/Users/email/Documents/bcthesis/appendix.md",
-		"/D/Users/email/Documents/bcthesis/README.md",
-		"/D/Users/email/Documents/bcthesis/out.txt",
-		"/D/Users/email/Desktop/vysledky/s_sub_cache_2.csv",
-		"/D/Users/email/Desktop/vysledky/ltl_base.csv",
-		"/D/Users/email/Documents/Škola/IB016 - Seminář z funkcionálního programování/HW04/Weather-task.hs",
-		"/D/Users/email/Desktop/vysledky/c_sub_cache_2.csv",
-		"/D/Users/email/Documents/Paradise/benchmarks/caching/independent.c",
-		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/cmake/FindLLVM.cmake",
-		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/configure",
-		"/D/Users/email/Documents/Paradise/SymDivine_Vojta/readme.md",
-		"/D/Users/email/Documents/MobaXterm/slash/RemoteFiles/985284_2_2/ltl_base.csv"
+		"/D/Users/email.HONZA-NTB/Documents/bcthesis/thesis.tex"
 	],
 	"find":
 	{
@@ -351,9 +332,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -361,6 +343,32 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"%",
+			"category",
+			"$",
+			"nc",
+			"\\",
+			"Solver calls",
+			"footmisc",
+			"have r",
+			"tab:a",
+			"usepackage",
+			"table_header",
+			"}} ",
+			"none_op",
+			"token_ring.05_true.cil_os.ll",
+			"eps",
+			"timeout",
+			"transmitter.06_false.cil_o2.ll",
+			"s3_srvr_13_false.cil_os.ll",
+			"s3_srvr_13_false.cil_o2.ll",
+			"s3_clnt_4_true.cil_o2.ll",
+			"timeout",
+			"gcd_2_true_o2.ll",
+			"s3_clnt_3_false.BV.c.cil_o2.ll",
+			"s3_clnt_1_false.BV.c.cil_o2.ll",
+			"gcd_2_true_o2.ll",
+			"\\percent",
 			"table",
 			"c",
 			"cccccccc",
@@ -462,33 +470,7 @@
 			"seg_1_off_0",
 			"seg_9_off_0",
 			"seg_7_off_20",
-			"seg_6_off_20",
-			"seg_3_off_0",
-			"seg_0_off_7",
-			"seg_1_off_7",
-			"seg_0_off_6",
-			"seg_1_off_6",
-			"seg_0_off_5",
-			"seg_1_off_5",
-			"seg_0_off_4",
-			"seg_1_off_4",
-			"seg_0_off_3",
-			"seg_1_off_3",
-			"seg_0_off_2",
-			"seg_1_off_2",
-			"seg_0_off_1",
-			"seg_1_off_1_gen_0",
-			"3.5",
-			"istemp",
-			"\\n",
-			".",
-			"\\n",
-			" ",
-			"_os.ll",
-			"_o2.ll",
-			"_o0.ll",
-			"\\n",
-			"dot-"
+			"seg_6_off_20"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -496,6 +478,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"nc_r",
+			"\\\\",
+			"Solver queries",
+			"tex_table_header",
+			"",
 			"l",
 			"\\textbf{s3\\_clnt\\_2\\_true.BV.c.cil\\_os}",
 			"\\midrule",
@@ -562,7 +549,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -570,15 +557,15 @@
 					"file": "thesis.tex",
 					"settings":
 					{
-						"buffer_size": 8634,
+						"buffer_size": 8633,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8431,
-								8431
+								8430,
+								8430
 							]
 						],
 						"settings":
@@ -588,60 +575,31 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 101240.0,
+						"translation.y": 3046.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "process_results.py",
+					"file": "gnuplot-summary.gnu",
 					"settings":
 					{
-						"buffer_size": 8719,
+						"buffer_size": 480,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5170,
-								5170
+								480,
+								480
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1533.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "latexwrap",
-					"settings":
-					{
-						"buffer_size": 1505,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								149,
-								149
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"auto_name": "set style line 2 lc rgb '#003999' lt 2 lw 3",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -650,24 +608,50 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "Makefile",
+					"buffer": 2,
+					"file": "process_summary_results.py",
 					"settings":
 					{
-						"buffer_size": 2696,
+						"buffer_size": 3143,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1583,
-								1583
+								1807,
+								1807
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 221.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "intro.tex",
+					"settings":
+					{
+						"buffer_size": 4590,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -677,139 +661,56 @@
 				},
 				{
 					"buffer": 4,
-					"file": "experiments.md",
+					"file": "symdivine.md",
 					"settings":
 					{
-						"buffer_size": 1344,
+						"buffer_size": 59702,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1176,
-								1176
+								4702,
+								2863
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 208.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "appendix.md",
-					"settings":
-					{
-						"buffer_size": 6,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6,
-								6
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 6,
 					"file": "results.md",
 					"settings":
 					{
-						"buffer_size": 3328,
+						"buffer_size": 6813,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1930,
-								1930
+								3318,
+								3318
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 98.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "results/vojta/bitvector/table.tex",
-					"settings":
-					{
-						"buffer_size": 5387,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1727,
-								1730
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "results.tex",
-					"settings":
-					{
-						"buffer_size": 3785,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2014,
-								2014
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
-							"tab_size": 8,
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 294.0,
+						"translation.y": 506.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -834,18 +735,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.068870523416,
 			1.0
 		],
 		"rows":
@@ -893,6 +787,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"results",
+				"bcthesis/results.md"
+			]
 		],
 		"width": 0.0
 	},

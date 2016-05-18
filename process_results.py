@@ -59,8 +59,8 @@ with open("table.tex", "w") as f:
               tex_table_header_r(tex_join_lines("Time", "difference [s]")),
               tex_table_header_r(tex_join_lines("Percentage", "difference")),
               tex_table_header_r("Equal queries"),
-              tex_table_header_r(tex_join_lines("Solver calls", "without cache")),
-              tex_table_header_r(tex_join_lines("Solver calls", "with cache"))]
+              tex_table_header_r(tex_join_lines("Solver queries", "without cache")),
+              tex_table_header_r(tex_join_lines("Solver queries", "with cache"))]
 
     f.write("\t\t\t\\caption{\\tablecaption}\\label{\\tablelabel}\\\\\n");
     f.write("\t\t\t" + " & ".join(header) + " \\\\\n")
@@ -96,6 +96,8 @@ with open("table.tex", "w") as f:
         x[0] = x[0].replace("bug02_sum01_bug02", "b2s1b2")
         x[0] = x[0].replace("__tTflag_arr_one_loop", "s_f_ol")
         x[0] = x[0].replace("unreach-call", "uc")
+        x[0] = x[0].replace(".ll_neg", "_neg.ll")
+        x[0] = x[0].replace("succeed", "succ")
         x[0] = x[0].replace("_", "\\_")[:-3]
         x[1] = tex_math(x[1])
         x[2] = tex_math(x[2])

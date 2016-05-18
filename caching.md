@@ -158,7 +158,7 @@ naive cache was reduced to similar levels as in case of reachability
 verification tasks. Memory overhead of this solution is negligible taking in
 account the size of an average multi-state.
 
-# Dependency-based caching
+# Dependency-Based Caching
 
 In this section we introduce our approach for caching equal queries in \smt data
 store in \symdivine. Our approach shares similar ideas as constraints caching,

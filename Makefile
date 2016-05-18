@@ -35,7 +35,8 @@ results:
 	cd results/vojta/recursive; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
 	cd results/vojta/ssh-simplified; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
 	cd results/vojta/systemc; ../../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
-	cd results/concur; ../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/concurrency; ../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
+	cd results/ltl; ../../process_results.py no_cache_no_flags.csv cache_partial_store_dontsimplify.csv
 	gnuplot -e "output_file='bitvector_chart.tex'" -e "input_dir='results/vojta/bitvector'" gnuplot.gnu
 	gnuplot -e "output_file='eca_chart.tex'" -e "input_dir='results/vojta/eca'" gnuplot.gnu
 	gnuplot -e "output_file='locks_chart.tex'" -e "input_dir='results/vojta/locks'" gnuplot.gnu
@@ -43,7 +44,8 @@ results:
 	gnuplot -e "output_file='recursive_chart.tex'" -e "input_dir='results/vojta/recursive'" gnuplot.gnu
 	gnuplot -e "output_file='ssh_chart.tex'" -e "input_dir='results/vojta/ssh-simplified'" gnuplot.gnu
 	gnuplot -e "output_file='systemc_chart.tex'" -e "input_dir='results/vojta/systemc'" gnuplot.gnu
-	gnuplot -e "output_file='concur_chart.tex'" -e "input_dir='results/concur'" gnuplot.gnu
+	gnuplot -e "output_file='concur_chart.tex'" -e "input_dir='results/concurrency'" gnuplot.gnu
+	gnuplot -e "output_file='ltl_chart.tex'" -e "input_dir='results/ltl'" gnuplot.gnu
 	./process_summary_results.py summary.txt results/vojta/bitvector \
 		results/vojta/eca \
 		results/vojta/loops \
@@ -51,7 +53,8 @@ results:
 		results/vojta/recursive \
 		results/vojta/ssh-simplified \
 		results/vojta/systemc \
-		results/concur
+		results/concurrency \
+		results/ltl
 	gnuplot -e "output_file='summary_chart.tex'" -e "input_file='summary.txt'" gnuplot-summary.gnu 
 
 .PRECIOUS: %.bcf %.bbl

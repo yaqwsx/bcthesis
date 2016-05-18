@@ -3,26 +3,45 @@ caching a we discuss strengths and weaknessbes of our approaches. We have
 evaluated both algorithms (reachability and \ltl) from current version of
 \symdivine with dependency-based caching.
 
-# Benchmark set
+# Benchmark Set and Environment
 
 To evaluate reachability, we have taken a subset of C benchmarks from SV-COMP
 \cite{SVCOMP} benchmark suite. Benchmarks from following subdirectories were
 taken: bitvector, eca, locks, loops, recursive, ssh-simplified, systemc,
 pthread, pthread-atomic, pthread-ext, pthread-lit and pthread-wmm. To evaluate
 \ltl algorithm, we have used \ltl benchmarks, which have been used in
-\cite{BHB14} for benchmarking of first \ltl implementation in \symdivine. We ran
-\symdivine with caching on a machine with Intel Core i5-4690 CPU (3.50\ GHz)
-and 16\ GB of RAM. Each benchmark was compiled with three different level of
-optimizations into \llvm bit-code -- `-O0`, `-Os` and `-O2`. \ltl benchmarks
-were tested for their specification and its negation. All benchmarks ran with
-time-out 4 minutes. Then we have run the same set of benchmarks without caching
-using the original implementation of \smt Store and no time-out. The time-out
-was disabled in order to see improvements caused by caching, as many benchmarks
-without caching time-outed and no relevant data cannot be obtained. Also we
-excluded simple benchmarks with no equal queries as they are not relevant to
-caching.
+\cite{BHB14} for benchmarking of first \ltl implementation in \symdivine.
 
-We also verified correctness of implementation of partial \smt store. We
+Our test machine features Intel Core i5-4690 CPU (3.50\ GHz) with 16\ GB of RAM
+and runs Arch Linux distribution with 4.4.8-1-lts Linux kernel. \symdivine was
+build in release configuration using \clang 3.4 and Z3 \smt solver version
+4.4.1-1.
+
+Three test files were produced from a single input benchmark file by compiling
+it into \llvm bit-code with three different levels of optimizations -- `O0`,
+`Os` and `O2`. Note that each \ltl benchmark is shipped with its specification
+in form of \ltl formula. We have tested each \ltl benchmark for its
+specification and negation of the specification.
+
+First of all, we run \symdivine with different configurations (solver time-out,
+simplification strategies, etc.) for both \smt data store and partial \smt data
+store, to find the optimal configuration for our set of benchmarks. \smt data
+store performs best with the default setting (no command line flags -- advanced
+simplifications of path condition and syntactic equality optimizations are
+enabled). Partial \smt data store performs best with the same setting, however
+simplifications of path conditions has to be disabled, as changing the the path
+condition using simplifications leads to a zero cache hit-rate.
+
+Using the optimal settings mentioned above, we run \symdivine with partial \smt
+store and caching enabled on the benchmark set with time-out 4 minutes for each
+task. Then we run the same set of benchmarks without caching using the original
+implementation of \smt store and time-out increased to 15 minutes. The time-out
+was increased in order to see improvements caused by caching, as many benchmarks
+without caching time-outed and no relevant data cannot be obtained. Simple
+benchmarks with no equal queries were excluded from the final results as they
+are not relevant to caching.
+
+We also verified correctness of the implementation of partial \smt store. We
 implemented so-called *validity test* in partial \smt store. This validity test
 keeps 2 multi-states -- one represented by \smt store and the other one by
 partial \smt store. All multi-state manipulations are performed simultaneously
@@ -33,90 +52,172 @@ occurred.
 
 # Evaluation
 
-We had several expectations about results. We expected 
+We examined results of each category independently, to see effects of caching on
+different type of input programs. For summary results of our
+measurements\footnote{Full measurements can be found in the electronic appendix
+of this thesis}, follow \autoref{tab:summary}. We looked at verification time
+and number of queries to an \smt solver. Short evaluation of results for each
+category is provided below:
 
-- **bitvector** --
+\paragraph{bitvector} There are many simple benchmarks in this set, that contain
+only the necessary constructions to produce a bug in bit-vector manipulation.
+\autoref{fig:bitvector_set} shows that caching overhead is compensated with its
+positive effect on small benchmarks and therefore verification time differs only
+by less than one percent. On the other hand, there are benchmarks like `gcd*`,
+where caching saved over $50~\%$ of verification time, as there is a sub-formula
+in the path condition, that causes troubles to the Z3 solver. Using caching,
+this sub-formula is used only once as the result is cached. In summary, almost
+half of the verification time can be saved using caching.
 
-- **eca** --
+\paragraph{eca} This is the single category, that exploited weaknesses of our
+caching approach as can be seen in \autoref{fig:eca_set}. Benchmarks from this
+set are generated pieces of code with enormous number of variables and
+non-trivial dependencies and therefore the overhead of caching is noticeable.
+Even compilation of these benchmarks takes unexpected amount of time (usually
+few minutes).
 
-- **locks** --
+\paragraph{locks} Almost all benchmarks in this category are simple enough to be
+directly solved by optimization passes in \clang -- optimization in the compiler
+are able to simplify the benchmarks up to single branching. Therefore \symdivine
+produces only 3 multistates, and thus results, which can be seen in
+\autoref{fig:locks_set}, are not significant.
 
-- **loops** --
+\paragraph{loops} Many benchmarks in this category suffer from the same issue as
+benchmarks in locks category -- many of them can be solved by the compiler
+itself. However verification time of complicated benchmarks can be reduced in
+summary by almost $30~\%$, see \autoref{fig:loops_set}. This observation is in
+line with our expectations (equality of intermediate results in program run is
+evaluated only once when caching is used).
 
-- **recursive** --
+\paragraph{recursive} There are no effects of caching in programs with recursion
+as can be seen in \autoref{fig:recursive_set}. This due the fact that
+multi-states produced in recursion cannot be merged, as their explicit
+control-flow location differs.
 
-- **ssh-simplified** --
+\paragraph{ssh-simplified and systemc} Benchmarks from this category are quite
+large and feature a similar structure to loops benchmarks, therefore caching
+provides a good performance and can save in average about a half of the
+verification time (in some benchmarks even $75~\%$ of verification time can be
+saved). These results can be seen in \autoref{fig:ssh_set} and
+\autoref{fig:systemc_set}. Note the significant decrease in number of
+solver queries.
 
-- **system-c** --
+\paragraph{concurrency} We expected the most significant effect of caching in
+concurrency benchmarks due to the presence of diamond-shapes in multi-state
+space. Even almost half of the verification time is saved using caching, there
+is systemc category, where caching performed slightly better. The reason for
+such a behaviour is as follows. Many equal queries on diamond-shapes can be
+optimized out by the syntactic equality optimization. This optimization does not
+apply to other categories, as the other benchmarks are sequential compare number
+of equal queries and solver calls in \autoref{tab:summary}). Therefore there are
+not as many \smt queries, which can be cached. We disabled ToDo Also benchmarks
+in this set do not contain complicated arithmetic and so, the queries to an \smt
+solvers are quite simple and the benefit of caching is not significant, as in
+other categories.
 
-- **concurrency** --
+\paragraph{\ltl} There two kinds of benchmarks in this set; ones that are very
+simple and contain almost no arithmetic and the others, that contain a loop,
+which has to be fully unrolled and therefore they cannot be verified by
+\symdivine in a reasonable amount of time. Interesting phenomena appeared in
+these simple benchmarks -- all equal queries were decided only using syntactic
+equality. When a product of a multi-state space and an automaton is generated,
+transition guards are pushed to the multi-states and diamond shapes are
+produced. However pushing transition guards in different order produces
+syntactically different path condition and therefore no syntactical equality was
+detected. In contrast, pushing transition guards in different order to
+sub-states produces syntactically equal path conditions (as the conjuncts are
+not interleaved). Even though no queries were made, no speed-up occurred as can
+be seen in \autoref{fig:ltl}.
 
-- \textbf{\ltl} --
+\paragraph{Overall} We observed following behaviour from all our test runs. In
+summary, caching reduces verification time by $44.8~\%$. Caching applies mainly
+on the large benchmarks, where it can save of to $75~\%$ of verification time.
+If caching does not bring a speed-up, usually only negligible slow-down in units
+of percent occurs (except benchmarks from the artificial eca set). The overall
+positive results are summarized in \autoref{fig:overall_set}. We can conclude,
+that the speed-up produced by dependency-based caching is caused by several
+factors:
 
-\begin{longtable}{l@{\hskip 0.1cm}rrrrrrrR{1.7bbbbbcm}}  
-    \caption{Summary results showing effects of caching}\label{tab:summary}\\   
-    \mcrot{1}{l}{60}{\pbox{20cm}{Category  \\ name}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time without \\ caching [s]}} & \mcrot{1}{l}{60}{\pbox{20cm}{Time with \\ caching [s]}} & \mcrot{1}{l}{60}{\pbox{20cm}{Percentage \\ difference}} & \mcrot{1}{l}{60}{Equal queries} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ without cache}} & \mcrot{1}{l}{60}{\pbox{20cm}{Solver calls \\ with cache}} \\ \toprule
-    bitvector      & $3619.5$ & $2531.5$ & \SI{-30.1}{\percent} & $16570$   & 165470 & $6854$ \\ \midrule
-    eca            & $488.9$  & $696.1$  & \SI{42.4}{\percent}  & $18695$   & 18695 & $5173$ \\ \midrule
-    locks          & $243.9$  & $237.0$  & \SI{-2.8}{\percent}  & $2040$    & 2040 & $377$  \\ \midrule
-    loops          & $81.5$   & $58.3$   & \SI{-28.4}{\percent} & $5755$    & 5745 & $4113$ \\ \midrule
-    recursive      & $16.0$   & $16.6$   & \SI{4.0}{\percent}   & $372$     & 372 & $109$  \\ \midrule
-    ssh-simplified & $4557.9$ & $3069.5$ & \SI{-32.7}{\percent} & $238280$  & 238280 & $571$  \\ \midrule
-    system-c       & $3338.6$ & $1920.9$ & \SI{-42.5}{\percent} & $225906$  & $225906$ & $43513$\\ \midrule
-    concurrency    & $943.0$  & $494.6$  & \SI{-47.6}{\percent} & $1769313$ & 96214 & $9619$ \\ \bottomrule
-    \textbf{summary} & $13289.3$ & $9024.5$ & \SI{-32.0}{\percent} & $2276931$ & $752722$ & $70329$ \\ \bottomrule
-\end{longtable} 
+* Smaller and simpler queries to an \smt solver are issued.
+
+* Number of queries is reduced by caching.
+
+* Number of queries is further reduced by the fact that the syntactic equality
+  optimization can work even in sequential benchmarks when multi-states are
+  split into sub-states.
+
+\noindent In our test case, dependency-based caching issued 5 times less queries
+compared to \symdivine with no caching.
+
+\input{summary_table.tex}
 
 \begin{figure}
     \input{bitvector_chart.tex}
-    \caption{Bitvector set}
+    \caption{Effect of caching on bitvector benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:bitvector_set}
 \end{figure}
 
 \begin{figure}
     \input{eca_chart.tex}
-    \caption{Eca set}
+    \caption{Effect of caching on eca benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:eca_set}
 \end{figure}
 
 \begin{figure}
     \input{locks_chart.tex}
-    \caption{Locks set}
+    \caption{Effect of caching on locks benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:locks_set}
 \end{figure}
 
 \begin{figure}
     \input{loops_chart.tex}
-    \caption{Loops set}
+    \caption{Effect of caching on loops benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:loops_set}
 \end{figure}
 
 \begin{figure}
     \input{recursive_chart.tex}
-    \caption{Recursive set}
+    \caption{Effect of caching on recursive benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:recursive_set}
 \end{figure}
 
 \begin{figure}
     \input{ssh_chart.tex}
-    \caption{SSH-simplified set}
+    \caption{Effect of caching on ssh-simplified benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:ssh_set}
 \end{figure}
 
 \begin{figure}
     \input{systemc_chart.tex}
-    \caption{SystemC set}
+    \caption{Effect of caching on systemc benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:systemc_set}
 \end{figure}
 
 \begin{figure}
     \input{concur_chart.tex}
-    \caption{Concurrency set}
+    \caption{Effect of caching on concurrency benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
     \label{fig:concurrency_set}
 \end{figure}
 
 \begin{figure}
+    \input{ltl_chart.tex}
+    \caption{Effect of caching on \ltl benchmark set. Diagram depicts how
+    many benchmarks could be solved within given time-out.}
+    \label{fig:ltl_set}
+\end{figure}
+
+\begin{figure}
     \input{summary_chart.tex}
-    \caption{Overall summary}
+    \caption{Overall summary of caching effect. Each point represents a single
+    benchmark. Benchmarks under the blue line are the ones, which can be
+    verified faster using caching.}
     \label{fig:overall_set}
 \end{figure}
