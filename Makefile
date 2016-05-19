@@ -70,7 +70,7 @@ results:
 		-e 's/\\Split/\\end{minipage}\\hfill\\begin{minipage}[t]{0.48\\textwidth}/' \
 		-e 's/\\endSplit/\\end{minipage}/' \
 		-e 's/\\texorpdfstring\{\\llvm\}\{\}/\\texorpdfstring\{\\llvm\}\{LLVM\}/' \
-		-e 's/\\texorpdfstring\{\\llvm Interpreter\}\{Interpreter\}/\\texorpdfstring\{\\llvm Interpreter\}\{LLVM Interpreter\}/' \
+		-e 's/\{Interpreter \}/\{LLVM Interpreter \}/'
 
 watch :
 	while true; do inotifywait -e close_write,moved_to,create .; sleep 1; make; done
