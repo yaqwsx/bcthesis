@@ -1,3 +1,5 @@
+\input{summary_table.tex}
+
 \renewcommand\tablecaption{Bitvector Category}
 \renewcommand\tablecaptioncont{Bitvector Category}
 \renewcommand\tablelabel{tab:bitvector_set}
@@ -36,4 +38,9 @@
 \renewcommand\tablecaption{Concurrency Category}
 \renewcommand\tablecaptioncont{Concurrency Category}
 \renewcommand\tablelabel{tab:concurrency_set}
-\input{results/concur/table.tex}
+\input{results/concurrency/table.tex}
+
+\renewcommand\tablecaption{LTL Category}
+\renewcommand\tablecaptioncont{LTL Category}
+\renewcommand\tablelabel{tab:ltl_set}
+\input{results/ltl/table.tex}

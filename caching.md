@@ -18,7 +18,7 @@ Scalability is an important factor of verification tools, which aims for
 verification of real-world sized code. During various experiments with
 \symdivine, we noticed that most of the verification time is spent on Z3 \smt
 solver calls. We analysed \symdivine using time measurements and Callgrind tool
-\cite{callgrind} on verification task from SV-COMP concurrency set\cite{svcomp}.
+\cite{callgrind} on verification task from SV-COMP concurrency set\cite{SVCOMP}.
 \smt data store in \symdivine performs two kinds of \smt queries -- a quantified
 query for decision of multi-state equality and a quantifier-free query for
 emptiness check (both described in \autoref{sec:symdivine:smtstore}). In
@@ -179,8 +179,8 @@ performs the following query to an \smt solver:
             \bigvee \left(a_i \neq b_i\right)
         \right) \nonumber
 \end{equation}
-where $\varphi$ is a path condition of $A$, $\psi$ is a path condition of $B$
-and $a_0,\dots,a_n$; $b_0,\dots,b_n$ denotes variables from $A$, $B$
+\noindent where $\varphi$ is a path condition of $A$, $\psi$ is a path condition
+of $B$ and $a_0,\dots,a_n$; $b_0,\dots,b_n$ denotes variables from $A$, $B$
 respectively.
 
 The unsatisfaible cores caching has no effect on our query, as \symdivine

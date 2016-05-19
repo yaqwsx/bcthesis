@@ -111,17 +111,17 @@ non-deterministic input.
 
 The following functions from Pthread library are supported:
 
-* `pthread_create`, `pthread_join` and `pthread_create` for thread manipulation
+* `pthread_create`, `pthread_join` and `pthread_create` for thread manipulation,
 
-* `pthread_mutex_lock` and `pthread_mutex_unlock` for mutex manipulation
+* `pthread_mutex_lock` and `pthread_mutex_unlock` for mutex manipulation.
 
 \noindent The following functions from SV-COMP notation are supported:
 
 * `__VERIFIER_nondet_{type}` for modelling a non-deterministic input of a given
-  type
+  type,
 
 * `__VERIFIER_atomic_begin` and `__VERIFIER_atomic_end` for modelling atomic
-  sections
+  sections.
 
 \noindent This means that the standard C and C++ library is supported if it is
 linked to the input program in the bit-code form and used functions do not call
@@ -740,7 +740,7 @@ functions are required:
 * `implement_input(a)` -- stores a non-deterministic value to given memory
   location. Formally, `implement_input` changes $v$ to $v'$ such that $v'(x) =
   \{ b \mid b \mbox{ is a bit-vector of bit-with corresponding to bit-width of }
-  x \}$ if $x=\texttt{a}$, otherwise $v'(x) = v(x)$
+  x \}$ if $x=\texttt{a}$, otherwise $v'(x) = v(x)$.
 
 * `prune_{op}(a, b)` -- given a simple relation operator (grater, smaller that,
   equal to, etc.) and two memory locations, it removes memory valuations in
@@ -1027,10 +1027,10 @@ store i32 %2, i32* %b, align 4
 store i32 42, i32* %a, align 4
 \end{minted}
 
-This piece of bit-code stores constant 5 to `%a`, then assigns the value of `%a`
-to `%b`. The last operation stores constant 42 to `%a`. With no generations, the
-last store operation would change both values of `%a` and `%b`, so it is
-necessary to keep track of each variable's history.
+\noindent This piece of bit-code stores constant 5 to `%a`, then assigns the
+value of `%a` to `%b`. The last operation stores constant 42 to `%a`. With no
+generations, the last store operation would change both values of `%a` and `%b`,
+so it is necessary to keep track of each variable's history.
 
 ## Implementation\label{subsec:symdivine:smt:impl}
 

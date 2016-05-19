@@ -1,5 +1,5 @@
-set style line 2 lc rgb '#003999' lt 2 lw 3
-set style line 1 lc rgb '#FF9933' lt 2 lw 3
+set style line 2 lc rgb '#003999' lt 2 lw 2.5
+set style line 1 lc rgb '#FF9933' lt 2 lw 2.5
 set format y "%.0f"
 set xlabel "Benchmark count"
 set ylabel "Time [s]"
@@ -10,7 +10,7 @@ set key left top
 set style line 12 lc rgb '#808080' lt 0 lw 1
 set grid back ls 12
 
-set terminal epslatex size 13cm,7.65cm color colortext
+set terminal epslatex size 13cm,8.65cm color colortext
 set output output_file
 
 

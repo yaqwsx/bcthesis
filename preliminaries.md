@@ -11,7 +11,7 @@ checker can produce a counter-example -- a run that violates the property.
 
 The specification can be expressed as a formula in a temporal logic, like \ltl,
 \ctl or \ctls. The system is traditionally specified in a special modelling
-language (e.g. ProMeLa in case of SPIN \cite{Hol97SPIN}, or DVE in case of
+language (e.g. ProMeLa in case of \spin \cite{Hol97SPIN}, or DVE in case of
 \divine \cite{DiVinE30}). However, this method can be also be used for
 verification of computer programs, implying the existence of tools that take a
 program source code instead of a special modelling language. Examples of such

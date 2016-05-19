@@ -55,7 +55,7 @@ occurred.
 We examined the results of each category independently, to see the effects of
 caching on different types of input programs. For summary results of our
 measurements\footnote{Full measurements can be found in the electronic archive
-submitted with this thesis}, follow \autoref{tab:summary}. We looked at the
+submitted with this thesis.}, follow \autoref{tab:summary}. We looked at the
 verification time and number of queries to an \smt solver. A short evaluation of
 results for each category is provided below:
 
