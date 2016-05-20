@@ -54,13 +54,13 @@ with open("table.tex", "w") as f:
     header = [tex_table_header("Benchmark name"),
               tex_table_header_r("Multi-states"),
               tex_table_header_r(tex_join_lines("Instructions", "executed")),
-              tex_table_header_r(tex_join_lines("Time without", "caching [s]")),
-              tex_table_header_r(tex_join_lines("Time with", "caching [s]")),
+              tex_table_header_r(tex_join_lines("Time with", "SMT store [s]")),
+              tex_table_header_r(tex_join_lines("Time with", "Partial store [s]")),
               tex_table_header_r(tex_join_lines("Time", "difference [s]")),
               tex_table_header_r(tex_join_lines("Percentage", "difference")),
               tex_table_header_r("Equal queries"),
-              tex_table_header_r(tex_join_lines("Solver queries", "without cache")),
-              tex_table_header_r(tex_join_lines("Solver queries", "with cache"))]
+              tex_table_header_r(tex_join_lines("Solver queries", "SMT store")),
+              tex_table_header_r(tex_join_lines("Solver queries", "Partial store"))]
 
     f.write("\t\t\t\\caption{\\tablecaption}\\label{\\tablelabel}\\\\\n");
     f.write("\t\t\t" + " & ".join(header) + " \\\\\n")

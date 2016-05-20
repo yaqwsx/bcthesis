@@ -145,7 +145,7 @@ programs. However, verification of programs with no bug takes longer. The
 inspiration for the implementation was taken from \divine, which also features
 iterative deepening DFS. \divine does not keep the state space graph and during
 every iteration with increased depth it regenerates the state-space from
-scratch. Howeverm generation of multi-state space is computationally more
+scratch. However generation of multi-state space is computationally more
 demanding compared to generation of explicit-state space; the overhead caused by
 re-generation of the multi-state space is not negligible, as queries to an \smt
 solver are involved. The re-generation of the multi-state space caused enormous

@@ -1,10 +1,10 @@
 In this chapter, we introduce \symdivine from the user point of view and then
 describe its internal architecture. For purposes of this thesis we focus mainly
-on selected parts of the \llvm interpreter, \smt data representation and the
-related machinery in \symdivine. We omit mainly technical details about \llvm
-interpretation and general optimizations. In many cases, we provide more
-in-depth description than \cite{Havel2014thesis}, however, for others, we
-kindly refer to that thesis.
+on selected parts of the \llvm interpreter in \symdivine, \smt data
+representation and the related machinery in \symdivine. We omit mainly technical
+details about \llvm interpretation and general optimizations. In many cases, we
+provide more in-depth description than \cite{Havel2014thesis}, however, for
+others, we kindly refer to that thesis.
 
 # About the Tool
 
@@ -27,7 +27,7 @@ approach \cite{BBH14}, which we detail in the next section.
 
 The tool was originally presented in \cite{Havel2014thesis} as a generic
 platform for control-explicit data-symbolic state-space exploration. It provided
-a state generator from \llvm bit-code and allowed the user to specify a custom
+a state generator from \llvm bitcode and allowed the user to specify a custom
 state format and an exploration algorithm. This set-up let the user to implement
 a wide variety of verification techniques -- e.g. explicit-state model checking,
 symbolic execution or some kind of hybrid technique. Over the years, \symdivine
@@ -44,7 +44,7 @@ provide quite good performance. Nevertheless, the internal modular architecture 
 preserved, so
 \symdivine can still be used as a platform for user experiments.
 
-\begin{figure}[!ht]
+\begin{figure}[t]
 \resizebox{\textwidth}{!}{
     \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=3cm
                        , semithick
@@ -76,17 +76,17 @@ preserved, so
     \end{tikzpicture}
     }
     \caption{Typical verification workflow in the current version of \symdivine.
-       It takes an \llvm bit-code and property specification on input and
+       It takes an \llvm bitcode and property specification on input and
        decides whether supplied property does hold or not. If not, a
        counterexample can be produced by the verification algorithm. Input
-       bit-code is usually produced by the \clang compiler from C or C++ source
+       bitcode is usually produced by the \clang compiler from C or C++ source
        code, however the user can obtain it differently.}
     \label{fig:workflow}
 \end{figure}
 
 ## Input Language Overview
 
-\symdivine is designed to take an \llvm bit-code as an input language and thus
+\symdivine is designed to take an \llvm bitcode as an input language and thus
 support for C and C++ languages features is mainly reduced to support of the
 \llvm instruction set. In the current version \symdivine supports almost all
 \llvm instructions except of:
@@ -98,9 +98,9 @@ support for C and C++ languages features is mainly reduced to support of the
 
 * instructions for floating point arithmetic.
 
-To verify a program using \symdivine, the input \llvm bit-code has to be
+To verify a program using \symdivine, the input \llvm bitcode has to be
 self-contained -- there must not be any call to functions that are not defined
-in the bit-code. Behaviour of such functions is unknown to the tool and thus
+in the bitcode. Behaviour of such functions is unknown to the tool and thus
 they cannot be verified. This also includes system calls to an underlying
 operating system. There are, however, a few exceptions, as \symdivine provides
 intrinsic implementation\footnote{Behaviour of these functions is hard-coded in
@@ -124,7 +124,7 @@ The following functions from Pthread library are supported:
   sections.
 
 \noindent This means that the standard C and C++ library is supported if it is
-linked to the input program in the bit-code form and used functions do not call
+linked to the input program in the bitcode form and used functions do not call
 any system calls.
 
 The current version of \symdivine does not support heap allocation, so the
@@ -162,7 +162,7 @@ application of the same operation to a set of explicit states, these algorithms
 can be much faster, even though handling multi-states is computationally more
 demanding. This is the key differentiation compared to the purely explicit
 approaches. To illustrate the effect of the set-based reduction, see an example
-of a bit-code and the corresponding explicit-state space and a multi-state space
+of a bitcode and the corresponding explicit-state space and a multi-state space
 in \autoref{fig:statespace}.
 
 Moreover, if we provide a decision procedures for multi-state equality, it is
@@ -171,7 +171,7 @@ easy implementation of standard automata-based \ltl model-checking or perform
 safety analysis for non-terminating programs (provided that the multi-state
 space is finite).
 
-\begin{figure}[!ht]
+\begin{figure}[!t]
     \begin{minted}[xleftmargin=1.5em,linenos=true]{llvm}
 %a = call i32 @__VERIFIER_nondet_int()
 %b = icmp sge i32 %a, 65535
@@ -333,13 +333,13 @@ implementation. The whole tool is implemented in C++. Each module is represented
 by a class. \autoref {fig:architecture} illustrates components
 interaction. There are following main modules in \symdivine:
 
-* the \llvm interpreter (responsible for multi-state generation from \llvm bit-code),
+* the \llvm interpreter (responsible for multi-state generation from \llvm bitcode),
 
 * data stores (implementation of multi-state representation),
 
 * exploration algorithms.
 
-\begin{figure}[!ht]
+\begin{figure}[!t]
 \begin{center}
 \resizebox{0.85\textwidth}{!}{
     \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=3cm
@@ -369,7 +369,7 @@ interaction. There are following main modules in \symdivine:
 
        \node[state, right = 3em of symb] (solver) {\smt solver};
 
-      \node[state, left = 6em of inter] (input) {\llvm bit-code};
+      \node[state, left = 6em of inter] (input) {\llvm bitcode};
       \node[state, fit=(ltl) (reach) (alg_label)] 
       (algorithm) {};
       \node[state, fit=(data_label) (expl) (symb)] (state) 
@@ -384,6 +384,7 @@ interaction. There are following main modules in \symdivine:
                  ;
       \path[->] (input) edge (inter)
                 (property) edge (ltl)
+                (algorithm) edge [in = 30, out = 330] (state)
                 ;
     \end{tikzpicture}
     }
@@ -394,7 +395,7 @@ interaction. There are following main modules in \symdivine:
 
 ## \llvm Interpreter \label{sec:arch:inter}
 
-The interpreter in \symdivine operates between input \llvm bit-code and a
+The interpreter in \symdivine operates between input \llvm bitcode and a
 multi-state space exploration algorithm. It acts as an abstraction layer that
 provides explicit program representation in the form of a multi-state space
 graph instead of the implicit one to the exploration algorithms. In this
@@ -405,7 +406,7 @@ interaction is essential to our work.
 The interpreter is represented by the `Evaluator` class in the source code and
 provides a similar interface to the state generators of explicit-state model
 checking tools like \divine. After initialization of the interpreter with an
-input \llvm bit-code, it provides a reference to so-called working multi-state
+input \llvm bitcode, it provides a reference to so-called working multi-state
 (we will refer to it as the "working copy") and provides several functions that
 can be used to modify this working copy. Exploration algorithm then can then
 write a multi-state to the working copy and use the interface of the interpreter
@@ -441,17 +442,17 @@ assumptions about the state representation are made:
 
 * control flow location is represented explicitly,
 
-* memory layout layer (MML) is provided,
+* memory mapping layer (MML) is provided,
 
 * set of functions for data manipulation is provided.
 
 \noindent We will now discuss each of these assumptions in detail.
 
 The interpreter expects the control flow location in a straightforward form
-following the instruction identification in an \llvm bit-code. Each instruction
-in an \llvm bit-code can be uniquely identified by a triplet $(f_ {idx},
+following the instruction identification in an \llvm bitcode. Each instruction
+in an \llvm bitcode can be uniquely identified by a triplet $(f_ {idx},
 bb_{idx}, i_{idx})$, where $f_{idx}$, $bb_{idx}$ and $i_{idx}$ are indices of
-function in the \llvm bit-code, a basic block in the function and the
+function in the \llvm bitcode, a basic block in the function and the
 instruction in a basic block, respectively. As \symdivine supports
 multi-threaded programs, a control flow location is kept for each thread. There
 is a unique integral identifier assigned to each thread upon its execution. To
@@ -495,7 +496,7 @@ interface is further described in \autoref{sec:symdivine:arch:datastore}.
 Given this set up, the implementation of the `advance` function for successor
 generation is straightforward. In theory, \symdivine produces successors by an
 exhaustive enumeration -- every possible thread interleaving is emitted. This
-approach would cause a state-space explosion well-sknown from explicit-state
+approach would cause a state-space explosion well-known from explicit-state
 model checkers that operate on top of \llvm like \divine. To at least partially
 alleviate the state-space explosion, the interpreter involves the so-called
 $\tau$-reduction\cite{RBB13}. In practice the interpreter does not emit every
@@ -510,12 +511,12 @@ with no next operator). For details of implementation we kindly refer to
 
 To illustrate the interpreter operation, we present \autoref{fig:codegeneration}
 and \autoref{fig:generation}. The first figure shows an example of a simple C
-code and the corresponding \llvm bit-code. The second figure shows a multi-state
-space graph that is produced by the interpreter if the bit-code from
+code and the corresponding \llvm bitcode. The second figure shows a multi-state
+space graph that is produced by the interpreter if the bitcode from
 \autoref{fig:codegeneration} is supplied as the input.
 
 
-\begin{figure}[!ht]
+\begin{figure}[H]
     \begin{minted}[xleftmargin=1.5em,linenos=true]{C}
 volatile int a;
 int main() {
@@ -557,8 +558,8 @@ define i32 @main() #0 {
     \end{minted}  
   
     \caption{Example of a very simple C code and the corresponding \llvm
-    bit-code obtained as a result of a compilation with \clang with O2
-    optimizations. The produced bit-code should be simple enough to be
+    bitcode obtained as a result of a compilation with \clang with O2
+    optimizations. The produced bitcode should be simple enough to be
     understandable even without a deep knowledge of \llvm. Note that variable
     \texttt{a} was marked as \texttt{volatile} and thus the compiler cannot
     optimize out any load or store operations to/from this variable. See
@@ -567,7 +568,7 @@ define i32 @main() #0 {
     \label{fig:codegeneration}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{center}
 \resizebox{0.9\textwidth}{!}{
     \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=3cm
@@ -674,7 +675,7 @@ define i32 @main() #0 {
     \caption{Multi-state space corresponding to the code from
     \autoref{fig:codegeneration}. As there are no nested function calls, we used
     simple naming according to variable and register names in the \llvm
-    bit-code. Program counter (PC) is expressed as a line number of instructions
+    bitcode. Program counter (PC) is expressed as a line number of instructions
     that is going to be interpreted next to make the scheme easier to read. Note
     the $\tau$-reduction in action, where multiple globally invisible actions
     are squashed together. To make the schematic even more easy to read, we
@@ -698,15 +699,15 @@ possible implementation of this interface, please see
 Store. Each data store keeps the explicit part of a state and the symbolic
 (data) part. We omit description of the explicit part of state as its
 implementation is trivial. The interface can be split into following categories:
-memory layout layer, transformations and analysis.
+memory mapping layer, transformations and analysis.
 
 To present the interface formally, we define a set of possible memory valuations
 as a function $v: V \rightarrow 2^B$, where $V$ is a finite set of program
 variables and $B$ is a set of all bit-vectors. $v$ also follows that for all $y
 \in v(x), x \in V$ the bit-width of $y$ matches the bit width of $x$ declared in
-the \llvm bit-code.
+the \llvm bitcode.
 
-The memory layout layer is invoked when the interpreter needs to allocate new
+The memory mapping layer is invoked when the interpreter needs to allocate new
 memory or dereference a register or a pointer. The following functions are
 required:
 
@@ -721,7 +722,7 @@ required:
   the removed segment also stays the same.
 
 * `deref(tid, id)` -- given a thread identifier and a register identifier from
-  \llvm bit-code, it returns an identifier of a variable in the form of segment
+  \llvm bitcode, it returns an identifier of a variable in the form of segment
   and offset. If the identifier was a pointer, it returns an identifier to a
   location pointed to by that pointer. Only values from the global scope or the
   currently called function in the given thread are allowed as arguments.
@@ -809,7 +810,7 @@ their development and support was discontinued.
 
 * Empty store -- does not represent any memory valuations and only a collects
   sequence of transformations applied to the store. This is not useful for any
-  verification technique, however, it can be used to translate an \llvm bit-code
+  verification technique, however, it can be used to translate an \llvm bitcode
   into different kinds of formalisms. See next section where we describe this
   process in more detail.
 
@@ -817,7 +818,7 @@ their development and support was discontinued.
 
 On top of the \llvm interpreter and a data store it is easy to implement an
 algorithm for state space exploration. The algorithm is usually the only thing
-user interacts with. Taken all inputs from the user (\llvm bit-code, property,
+user interacts with. Taken all inputs from the user (\llvm bitcode, property,
 exploration strategy etc.), it usually instantiates an interpreter, asks for an
 initial state and, using the `advance` function of the interpreter, it builds a
 set of known multi-states or even the full multi-state space graph.
@@ -869,16 +870,16 @@ following combinations were performed:
   of known multi-states yields in a symbolic execution.
 
 * Empty store in combination with reachability can be used to convert \llvm
-  bit-code to an artificial modelling language. Thus, tool like nuXmv
+  bitcode to an artificial modelling language. Thus, tool like nuXmv
   \cite{nuxmv}, that does not support \llvm as an input formalism, can be
-  used to verify properties of an \llvm bit-code. When running the reachability,
+  used to verify properties of an \llvm bitcode. When running the reachability,
   the empty store produces one state per each reachable control flow location
   and collects sequence of transformations applied to the state and transition
   guard -- constructs a non-deterministic guarded transition system. After
   exploration, this transition system is translated to desired modelling
   language. This usage of \symdivine was introduced in \cite{BHB14}.
 
-\begin{figure}[!ht]
+\begin{figure}[!t]
 \begin{center}
 \resizebox{\textwidth}{!}{
     \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=1.5cm
@@ -1003,8 +1004,8 @@ generation).
     \neg \operatorname{notsubseteq}(\texttt{A}, \texttt{B}) \wedge
         \neg\operatorname{notsubseteq}(\texttt{B}, \texttt{A}) \nonumber
   \end{equation}
-  is satisfiable. $\operatorname{notsubseteq}(\texttt{A}, \texttt{B})$ is a
-  short-cut for:
+  is satisfiable, where $\operatorname{notsubseteq}(\texttt{B}, \texttt{A})$ is
+  a short-cut for:
   \begin{equation}
     \exists b_0,\dots,b_n\ldotp \psi \wedge \forall a_0,\dots,a_n\ldotp \varphi
     \implies
@@ -1018,7 +1019,7 @@ generation).
 
 Given the implementation of the operations, we can now easily illustrate the
 need for different variable generations. Consider the following example of an
-\llvm bit-code:
+\llvm bitcode:
 
 \begin{minted}[xleftmargin=1.5em,linenos=true]{llvm}
 store i32 5, i32* %a, align 4
@@ -1027,7 +1028,7 @@ store i32 %2, i32* %b, align 4
 store i32 42, i32* %a, align 4
 \end{minted}
 
-\noindent This piece of bit-code stores constant 5 to `%a`, then assigns the
+\noindent This piece of bitcode stores constant 5 to `%a`, then assigns the
 value of `%a` to `%b`. The last operation stores constant 42 to `%a`. With no
 generations, the last store operation would change both values of `%a` and `%b`,
 so it is necessary to keep track of each variable's history.
@@ -1050,7 +1051,7 @@ To correctly and effectively build a path condition, preservation of the set of
 program variables, their mapping to formula variables and their generations is
 needed. Also, as we described in section \autoref{sec:arch:inter}, the
 interpreter requires that data store provides MML -- thus a mapping among
-variables in \llvm bit-code and program variables (where multiple calls of the
+variables in \llvm bitcode and program variables (where multiple calls of the
 same function are allowed) needs to be established. We remind that program
 variables are required to be identified by a segment and an offset.
 
@@ -1074,7 +1075,7 @@ segments mapping is not canonical and we cannot directly compare variables from
 the same segment number in different states.
 
 This naive implementation does not scale well, as path condition grows quickly
-(\llvm bit-code uses a considerable number of registers, because \llvm is a
+(\llvm bitcode uses a considerable number of registers, because \llvm is a
 static single assignment language) and an enormous number of expensive
 quantified \smt queries is performed. Thus, \smt store uses the following
 optimizations:
@@ -1108,7 +1109,7 @@ optimizations:
   condition. Simplification is applied when a new formula with a large number of
   variables is produced.
 
-\begin{figure}[!ht]
+\begin{figure}[!t]
 \begin{center}
 \resizebox{0.8\textwidth}{!}{
     \begin{tikzpicture}[ ->, >=stealth', shorten >=1pt, auto, node distance=1.5cm

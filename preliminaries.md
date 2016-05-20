@@ -19,10 +19,11 @@ tools are CBMC \cite{CBMC} or \divine, that can take a C or C++ code and verify
 it against the given property.
 
 Explicit-state model checking considers all possible memory configurations of
-the system. This puts a restriction to verified programs -- they cannot read
-non-deterministic input values from the outside world. There are, however,
-methods like the control-explicit data-symbolic approach \cite{BBH14}, on top of
-which is \symdivine build, that can help to solve this issue.
+the system. This puts a restriction to verified programs -- they can hardly read
+non-deterministic input values from the outside world (all possible valuations
+has to be enumerated). There are, however, methods like the control-explicit
+data-symbolic approach \cite{BBH14}, on top of which is \symdivine build, that
+can help to solve this issue.
 
 The limiting scalability factor of model checking is the so-called state-space
 explosion. With non-determinism in the system (the possibility of resource
@@ -59,13 +60,17 @@ synthesis of tests for software \cite{Kingsymexec}.
 \llvm \cite{llvmweb} is a compiler infrastructure. This infrastructure
 features tools for optimization and code generation that are independent of
 programming language and platform. This is achieved by definition of a custom
-intermediate representation -- \llvm IR (also called \llvm bit-code). So-called
-compiler front-ends translate the input programming language (C/C++, Haskell,
-etc.) in the simplest possible way to \llvm IR. All further optimizations are
-performed on top of \llvm IR -- each optimization is written as \llvm to \llvm
-transformation and thus optimization may be applied in arbitrary order, even
-multiple times. So-called back-ends performs the last step of compilation -- the
-translation of \llvm IR to native code for a given platform.
+intermediate representation -- \llvm IR (also called \llvm bit-code). This
+representation is suitable for software verification tools as it can be easily
+interpreted and precisely reflects semantics of input value.
+
+So-called compiler front-ends translate the input programming language (C/C++,
+Haskell, etc.) in the simplest possible way to \llvm IR. All further
+optimizations are performed on top of \llvm IR -- each optimization is written
+as \llvm to \llvm transformation and thus optimization may be applied in
+arbitrary order, even multiple times. So-called back-ends performs the last step
+of compilation -- the translation of \llvm IR to native code for a given
+platform.
 
 \llvm IR is a static-single-assignment-based low level language similar to
 common assembly. It can be represented in three ways: a human-readable form
@@ -107,7 +112,7 @@ preform a cast, a special instruction is required.
 
 # Satisfiability Modulo Theories
 
-There many applications in computer science that can benefit from decision
+There are many applications in computer science that can benefit from decision
 procedure for first-order logic formula satisfiability. Even though there are
 solvers for first-order logic \cite{Spass}, many applications do not require
 general first-order logic, but rather need satisfiability with respect to a
@@ -119,7 +124,7 @@ The research field concerned with satisfiability of formulae with respect to
 these theories is called *Satisfiability Modulo Theories* (\smt)
 \cite{Biere2009}. There are many solvers for various theories: e.g. Z3
 \cite{ZZZ}, CVC4 \cite{CVC4} or OpenSMT \cite{opensmt}. Much effort has been put
-into standardisation of input to these solvers. This effort resulted in the
+into standardization of input to these solvers. This effort resulted in the
 SMTLib format \cite{BarFT-SMTLIB} which specifies input language and theories.
 In our work, we are mainly interested in \smt for quantified and quantifier-free
 version of the FixedSizeBitVectors theory.

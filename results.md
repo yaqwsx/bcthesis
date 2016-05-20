@@ -54,10 +54,10 @@ occurred.
 
 We examined the results of each category independently, to see the effects of
 caching on different types of input programs. For summary results of our
-measurements\footnote{Full measurements can be found in the electronic archive
-submitted with this thesis.}, follow \autoref{tab:summary}. We looked at the
-verification time and number of queries to an \smt solver. A short evaluation of
-results for each category is provided below:
+measurements\footnote{Full measurements can be found in \ref{chap:appendix_b}},
+follow \autoref{tab:summary}. We looked at the verification time and number of
+queries to an \smt solver. A short evaluation of results for each category is
+provided below:
 
 \paragraph{bitvector} There are many simple benchmarks in this set that contain
 only the necessary constructions to produce a bug in bit-vector manipulation.
@@ -150,7 +150,8 @@ factors:
   split into sub-states.
 
 \noindent In our test case, dependency-based caching issued 5 times less queries
-compared to \symdivine with no caching.
+compared to \symdivine with no caching. We also managed to solve 48 more
+benchmarks with Partial store compared to \smt store within timeout 4 minutes.
 
 \input{summary_table.tex}
 

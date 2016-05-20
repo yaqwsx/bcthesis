@@ -2,8 +2,8 @@ set style line 2 lc rgb '#003999' lt 2 lw 3
 set style line 1 lc rgb '#FF9933' lt 2 lw 3
 set format y "%.0f"
 set format y "%.0f"
-set xlabel "Time without cache"
-set ylabel "Time with cache [s]"
+set xlabel "Time with SMT store [s]"
+set ylabel "Time with Partial store [s]"
 set yrange [0.01:400]
 set xrange [0.01:400]
 unset key

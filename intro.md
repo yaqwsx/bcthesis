@@ -1,8 +1,9 @@
 Validation and verification are one of the essential parts of the software
-development, as software bugs in a released product may become costly and degrade
-the overall rating of the vendor, or even cause harm to the users. Therefore, a lot
-of effort is usually put into this part of the development process even though it is
-one of the most time-consuming and most expensive part.
+development, as software bugs in a released product may become costly and
+degrade the overall rating of the vendor, or even cause harm to the users.
+Therefore, a lot of effort is usually put into this part of the development
+process even though it is one of the most time-consuming and most expensive
+part.
 
 Testing is a widely adopted method in the industry, as it is quite simple and
 does not require any complex tools. Usually only a simple testing framework and
@@ -62,7 +63,7 @@ to scale better. Our optimizations are based on caching of \smt queries.
 
 The thesis is organised as follows: first, we a make an short overview of
 related topics in \autoref{chap:preliminaries}. Then we provide a detailed
-description of \symdivine's internal that are essential for our thesis in
+description of \symdivine's internals that are essential for our thesis in
 \autoref{chap:symdivine}. In \autoref{chap:caching} we make an overview of the
 existing \smt caching solutions and propose a new one. The results of the
 experimental evaluation of our optimization are presented in

@@ -8,9 +8,9 @@ no_cache = []
 cache = []
 
 table = "\\begin{table}\n"
-table += "\t\\caption{Summary results showing effects of caching for each benchmark category.}\\label{tab:summary}\n"
+table += "\t\\caption{Summary results showing effects of Partial \smt store and caching for each benchmark category. Equal queries denote number of state comparisons, solver queries denote number of state comparisons that used \smt solver.}\\label{tab:summary}\n"
 table += "\t\\begin{tabular}{l@{\hskip 0.1cm}rrrrrrrR{1.7cm}}\n"
-table += "\t\t\\mcrot{1}{l}{60}{\\pbox{20cm}{Category  \\\\ name}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Time without \\\\ caching [s]}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Time with \\\\ caching [s]}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Percentage \\\\ difference}} & \\mcrot{1}{l}{60}{Equal queries} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Solver queries \\\\ without cache}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Solver queries \\\\ with cache}} \\\\ \\toprule\n"
+table += "\t\t\\mcrot{1}{l}{60}{\\pbox{20cm}{Category  \\\\ name}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Time with \\\\ \\smt Store [s]}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Time with \\\\ Partial Store [s]}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Percentage \\\\ difference}} & \\mcrot{1}{l}{60}{Equal queries} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Solver queries \\\\ \\smt store}} & \\mcrot{1}{l}{60}{\\pbox{20cm}{Solver queries \\\\ Partial store}} \\\\ \\toprule\n"
 
 
 tt_nc = 0
