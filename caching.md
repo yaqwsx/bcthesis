@@ -131,7 +131,7 @@ query is constructed, executed and the result is inserted into the cache.
 We have evaluated naive approach using a subset of SV-COMP benchmarks (mainly
 concurrency and bit-vector tasks) and a set of \ltl benchmarks, that have been
 used in evaluation of \symdivine in \cite{BHB14}. Naive caching saved only about
-6\ %  in the reachability tasks, however up to 65\ % of the queries were cached
+2\ %  in the reachability tasks, however up to 65\ % of the queries were cached
 in the \ltl benchmarks.
 
 This result made us revisit the implementation of the \ltl algorithm in

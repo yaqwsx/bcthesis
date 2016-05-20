@@ -83,55 +83,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "thesis.tex",
-			"settings":
-			{
-				"buffer_size": 8633,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gnuplot-summary.gnu",
-			"settings":
-			{
-				"buffer_size": 480,
-				"line_ending": "Unix",
-				"name": "set style line 2 lc rgb '#003999' lt 2 lw 3"
-			}
-		},
-		{
-			"file": "process_summary_results.py",
-			"settings":
-			{
-				"buffer_size": 3143,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "intro.tex",
-			"settings":
-			{
-				"buffer_size": 4590,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "symdivine.md",
-			"settings":
-			{
-				"buffer_size": 59702,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "results.md",
-			"settings":
-			{
-				"buffer_size": 6813,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "Packages/User/bcthesis.sublime-build",
 	"command_palette":
@@ -197,27 +148,55 @@
 	},
 	"file_history":
 	[
+		"/D/tmp/bc/caching.md",
+		"/D/Users/email/Documents/bcthesis/preliminaries.tex",
+		"/D/Users/email/Documents/bcthesis/results/test_conc/table.tex",
+		"/D/tmp/bc/intro.md",
+		"/D/Users/email/Documents/bcthesis/intro.md",
+		"/D/Users/email/AppData/Local/Temp/7zOC1477A77/tree_msg.h",
+		"/D/Users/email/AppData/Local/Temp/7zOC14B4D99/tree_msg.cpp",
+		"/D/Users/email/Documents/bcthesis/results/ltl/table.tex",
+		"/D/Users/email/Documents/bcthesis/results/test_conc/cache_partial_dontsimplify.csv",
+		"/D/Users/email/Documents/presentations/concur_club_2016/pres.md",
+		"/D/Users/email/AppData/Local/Temp/7zOC1478D1B/tree_msg.h",
+		"/D/Users/email/AppData/Local/Temp/7zOC1457BCB/tree_msg.cpp",
+		"/D/Users/email/Documents/bcthesis/bibliography.bib",
+		"/D/Users/email/Documents/bcthesis/symdivine.tex",
+		"/D/Users/email/Documents/bcthesis/appendix.md",
+		"/D/Users/email/Documents/bcthesis/conclusion.tex",
+		"/D/Users/email/Documents/bcthesis/conclusion.md",
+		"/D/Users/email/Documents/bcthesis/preliminaries.md",
+		"/D/Users/email/Documents/bcthesis/caching.md",
+		"/D/Users/email/Documents/bcthesis/gnuplot.gnu",
+		"/D/Users/email/Documents/bcthesis/Makefile",
+		"/D/Users/email/Documents/Vyuka/xbenes3_naval/cviceni/Makefile",
+		"/D/Users/email/Documents/bcthesis/gnuplot-summary.gnu",
+		"/D/Users/email/Documents/bcthesis/process_summary_results.py",
+		"/D/Users/email/Documents/bcthesis/intro.tex",
+		"/D/Users/email/Documents/bcthesis/symdivine.md",
+		"/D/Users/email/Documents/bcthesis/appendix.tex",
 		"/D/Users/email/Documents/bcthesis/experiments.tex",
+		"/D/Users/email/Documents/bcthesis/thesis.run.xml",
+		"/D/Users/email/Documents/bcthesis/thesis.tex",
+		"/D/Users/email/Documents/bcthesis/template.latex",
+		"/D/Users/email/Documents/bcthesis/results.md",
+		"/D/Users/email/Documents/bcthesis/experiments.md",
+		"/D/tmp/archive/readme.md",
+		"/D/Users/email/Documents/bcthesis/results/ltl2/table.tex",
+		"/D/Users/email/AppData/Local/Temp/7zOC14FE4A6/tree_msg.cpp",
+		"/D/tmp/bc/cachingO.md",
 		"/D/Users/email/Documents/CppLink/src/cpplink_lib/modules.h",
 		"/D/Users/email/Documents/CppLink/examples/basic_generators.cpplink",
-		"/D/Users/email/Documents/bcthesis/gnuplot.gnu",
 		"/D/Users/email/Documents/CppLink/examples/more_generators.cpplink",
 		"/D/Users/email/Documents/CppLink/tmp/basic.cpp",
 		"/D/Users/email/Documents/presentations/cpplink2016/pres.md",
 		"/D/Users/email/Documents/presentations/spin2016/pres.md",
 		"/D/Users/email/Documents/presentations/cpplink2016/Makefile",
-		"/D/Users/email/Documents/Vyuka/xbenes3_naval/cviceni/Makefile",
-		"/D/Users/email/Documents/bcthesis/results.md",
-		"/D/Users/email/Documents/bcthesis/Makefile",
 		"/D/Users/email/Documents/bcthesis/summary_table.tex",
-		"/D/Users/email/Documents/bcthesis/experiments.md",
 		"/D/Users/email/Documents/bcthesis/summary.txt",
-		"/D/Users/email/Documents/bcthesis/symdivine.md",
-		"/D/Users/email/Documents/bcthesis/caching.md",
 		"/D/Users/email/Documents/bcthesis/benchmarks/vojta/locks/test_locks_9_true_o0.ll",
 		"/D/Users/email/Documents/bcthesis/benchmarks/vojta/locks/test_locks_9_true_o2.ll",
 		"/D/Users/email/Documents/bcthesis/process_results_common.py",
-		"/D/Users/email/Documents/bcthesis/results/ltl/table.tex",
 		"/D/Users/email/Documents/bcthesis/process_results.py",
 		"/D/Users/email/Documents/bcthesis/results/vojta/systemc/no_cache_no_flags.csv",
 		"/D/Users/email/Documents/Paradise/benchmarks/vojta/systemc/kundu2_false.cil.ll",
@@ -234,7 +213,6 @@
 		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/chart.tex",
 		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/table.tex",
 		"/D/Users/email/Documents/bcthesis/results/no_cache_no_flags.csv",
-		"/D/Users/email/Documents/bcthesis/appendix.md",
 		"/D/Users/email/Documents/bcthesis/latexwrap",
 		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/no_cache_no_flags.csv",
 		"/D/Users/email/Documents/bcthesis/results/vojta/ssh-simplified/_res.csv",
@@ -243,7 +221,6 @@
 		"/D/Users/email/Documents/bcthesis/results/no_cache_no_flags2.csv",
 		"/D/Users/email/Documents/bcthesis/_cache_plot.txt",
 		"/D/Users/email/Documents/bcthesis/results/vojta/bitvector/additional.txt",
-		"/D/Users/email/Documents/bcthesis/intro.md",
 		"/D/Users/email/Documents/bcthesis/jaina/caching.md",
 		"/D/tmp/is_export/cpp/tree_msg.h",
 		"/D/tmp/is_export/cpp/tree_msg.cpp",
@@ -260,10 +237,7 @@
 		"/D/Users/email/Documents/CppLink/README.md",
 		"/D/Users/email/Documents/CppLink/LICENSE",
 		"/D/Users/email/Documents/CppLink/Debug/cpplink_const_lib.cpp",
-		"/D/Users/email/Documents/bcthesis/preliminaries.md",
-		"/D/Users/email/Documents/bcthesis/preliminaries.tex",
 		"/D/Users/email/Documents/bcthesis/jaina/intro.md",
-		"/D/Users/email/Documents/bcthesis/bibliography.bib",
 		"/D/Users/email/AppData/Local/Temp/memics14.bib",
 		"/D/Users/email/Documents/bcthesis/jaina/preliminaries.md",
 		"/D/Users/email/Documents/CppLink/src/parser.y",
@@ -287,8 +261,6 @@
 		"/D/Users/email/AppData/Local/Temp/Temp1_excel2latex.zip/excel2latex/README",
 		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-319-32582-8_14.bib",
 		"/D/xampp/htdocs/akce.txt",
-		"/D/Users/email/Documents/bcthesis/thesis.tex",
-		"/D/Users/email/Documents/bcthesis/conclusion.md",
 		"/C/cygwin64/usr/share/texmf-dist/web2c/texmf.cnf",
 		"/D/Users/email/Documents/bcthesis/bibliography.bib.bak",
 		"/D/Users/email/Documents/bcthesis/sublime_project.sublime-project",
@@ -296,7 +268,6 @@
 		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-642-12002-2_12.bib",
 		"/D/Users/email/AppData/Local/Temp/10.1007%2F978-3-642-22110-1_14.bib",
 		"/D/Users/email/AppData/Local/Temp/BIBTEX_output.txt",
-		"/D/Users/email/Documents/bcthesis/symdivine.tex",
 		"/D/Users/email/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/D/Users/email/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Event.cpp",
@@ -304,27 +275,7 @@
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Scanner.cpp",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/app.cpp",
 		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Tower.hpp",
-		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Tower.cpp",
-		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Scanner.hpp",
-		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Event.hpp",
-		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Position.hpp",
-		"/D/Users/email/Documents/bcthesis/thesis.pdf",
-		"/D/Users/email.HONZA-NTB/Documents/presentations/spin2016/pres.md",
-		"/D/Users/email.HONZA-NTB/AppData/Local/Temp/Temp1_spin2016.zip/main.tex",
-		"/D/Users/email/Documents/bcthesis/build_sublime.sh",
-		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
-		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/bcthesis.sublime-build",
-		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
-		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Walker.cpp",
-		"/D/Users/email.HONZA-NTB/Documents/bcthesis/preliminaries.md",
-		"/D/xampp/htdocs/vyveska.txt",
-		"/D/xampp/htdocs/aakce.txt",
-		"/D/Users/email.HONZA-NTB/AppData/Roaming/Sublime Text 2/Packages/User/Markdown.sublime-settings",
-		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Walker.hpp",
-		"/D/Users/email.HONZA-NTB/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/app.cfg",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/include/svc_call.h",
-		"/D/tmp/ev3rt-beta6-2-release/hrp2/include/kernel.h",
-		"/D/Users/email.HONZA-NTB/Documents/bcthesis/thesis.tex"
+		"/D/Users/email/Documents/IA158-patrol-robot/sdk/workspace/patrol-robot/Tower.cpp"
 	],
 	"find":
 	{
@@ -343,6 +294,29 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"lan",
+			"caption",
+			"table",
+			"where $",
+			"\\smt",
+			"dve",
+			"llvm",
+			"smt",
+			"Queries",
+			"\\\\FloatBarrier",
+			"# ",
+			"Klee",
+			"mathplus",
+			"math",
+			"Springer Science $\\mathplus$ Business Media",
+			"\\llvm inter",
+			"delete",
+			"work flow",
+			"\\divine",
+			", ",
+			"appending",
+			"dependency-",
+			"data store",
 			"%",
 			"category",
 			"$",
@@ -447,30 +421,7 @@
 			"\\llvm int",
 			"zzz",
 			"z3",
-			"&",
-			"program variables",
-			"minted",
-			"\\phi",
-			"X",
-			"alt",
-			"2^{32}",
-			"32",
-			"tikz",
-			"graphicx",
-			"smt",
-			"email",
-			"yylex",
-			"error",
-			"lualatex",
-			"lua",
-			"seg10_off0",
-			"=,\n",
-			"seg1_off0",
-			" seg_10_off_0",
-			"seg_1_off_0",
-			"seg_9_off_0",
-			"seg_7_off_20",
-			"seg_6_off_20"
+			"&"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -478,6 +429,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"",
+			"\\\\FloatBarrier\\n",
+			"\\FloatBarrier\\n",
+			"Springer",
+			"workflow",
 			"nc_r",
 			"\\\\",
 			"Solver queries",
@@ -549,172 +505,8 @@
 	"groups":
 	[
 		{
-			"selected": 5,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "thesis.tex",
-					"settings":
-					{
-						"buffer_size": 8633,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8430,
-								8430
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3046.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "gnuplot-summary.gnu",
-					"settings":
-					{
-						"buffer_size": 480,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								480,
-								480
-							]
-						],
-						"settings":
-						{
-							"auto_name": "set style line 2 lc rgb '#003999' lt 2 lw 3",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "process_summary_results.py",
-					"settings":
-					{
-						"buffer_size": 3143,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1807,
-								1807
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 221.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "intro.tex",
-					"settings":
-					{
-						"buffer_size": 4590,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "symdivine.md",
-					"settings":
-					{
-						"buffer_size": 59702,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4702,
-								2863
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 208.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "results.md",
-					"settings":
-					{
-						"buffer_size": 6813,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3318,
-								3318
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 506.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -787,6 +579,90 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"exp",
+				"experiments.md"
+			],
+			[
+				"re",
+				"results.md"
+			],
+			[
+				"reu",
+				"results.md"
+			],
+			[
+				"reul",
+				"results.md"
+			],
+			[
+				"result",
+				"results.md"
+			],
+			[
+				"",
+				"template.latex"
+			],
+			[
+				"the",
+				"thesis.tex"
+			],
+			[
+				"ther",
+				"thesis.run.xml"
+			],
+			[
+				"t",
+				"template.latex"
+			],
+			[
+				"exper",
+				"experiments.md"
+			],
+			[
+				"e",
+				"experiments.md"
+			],
+			[
+				"thes",
+				"thesis.tex"
+			],
+			[
+				"mak",
+				"Makefile"
+			],
+			[
+				"resul",
+				"results.md"
+			],
+			[
+				"gnu",
+				"gnuplot.gnu"
+			],
+			[
+				"caching",
+				"caching.md"
+			],
+			[
+				"thesis",
+				"thesis.tex"
+			],
+			[
+				"bi",
+				"bibliography.bib"
+			],
+			[
+				"symdi",
+				"symdivine.md"
+			],
+			[
+				"preli",
+				"preliminaries.md"
+			],
+			[
+				"make",
+				"Makefile"
+			],
 			[
 				"results",
 				"bcthesis/results.md"

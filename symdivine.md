@@ -673,8 +673,8 @@ define i32 @main() #0 {
     }
     \caption{Multi-state space corresponding to the code from
     \autoref{fig:codegeneration}. As there are no nested function calls, we used
-    simple naming according to variable and register names in the \llvm bit-
-    code. Program counter (PC) is expressed as a line number of instructions
+    simple naming according to variable and register names in the \llvm
+    bit-code. Program counter (PC) is expressed as a line number of instructions
     that is going to be interpreted next to make the scheme easier to read. Note
     the $\tau$-reduction in action, where multiple globally invisible actions
     are squashed together. To make the schematic even more easy to read, we
